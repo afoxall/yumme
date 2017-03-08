@@ -1,0 +1,1 @@
+This project is a recipe-focused social network being undertaken for two classes at Queen's Univeristy, ELEC390 and CMPE332. 
