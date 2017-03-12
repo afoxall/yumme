@@ -23,27 +23,30 @@ class FollowManager{
 	
 	/*
 	* Adds a new follow to the current user
-	* POST can contain either the uid or uname of the desired followee 
+	* POST contains the uid desired followee 
 	*/
 	public function addFollow(){ 
-	
+		
 		if(isset($_POST['uid'])){
 			$uid = $_POST['uid'];	
 		}
+		/*
 		else if(isset($_POST['uname'])){
 			$sql = "select uid FROM user WHERE uname = :uname";
 		
 			if($stmt = $this->_db->prepare($sql)){
-				$stmt->bindParam(':uname', $_SESSION['uname']);
+				$stmt->bindParam(':uname', $_POST['uname']);
 				$stmt->execute();
+				
+				$uid = $stmt->fetch()['uid'];
 			}
 			else
 			{
 				return "tttt<li> Something went wrong getting the uid. ", $db->errorInfo, "</li>n";
 			}
-		}
+		}*/
 		else{
-			return "tttt<li> I need either the uid or uname. ", $db->errorInfo, "</li>n";
+			return "tttt<li> I need the uid. ", $db->errorInfo, "</li>n";
 			
 		}
 		
@@ -65,7 +68,7 @@ class FollowManager{
 		if(isset($_POST['uid'])){
 			$uid = $_POST['uid'];	
 		}
-		else if(isset($_POST['uname'])){
+		/*else if(isset($_POST['uname'])){
 			$sql = "select uid FROM user WHERE uname = :uname";
 		
 			if($stmt = $this->_db->prepare($sql)){
@@ -76,7 +79,7 @@ class FollowManager{
 			{
 				return "tttt<li> Something went wrong getting the uid. ", $db->errorInfo, "</li>n";
 			}
-		}
+		}*/
 		else{
 			return "tttt<li> I need either the uid or uname. ", $db->errorInfo, "</li>n";
 			return;
@@ -99,7 +102,7 @@ class FollowManager{
 		if(isset($_POST['uid'])){
 			$uid = $_POST['uid'];	
 		}
-		else if(isset($_POST['uname'])){
+		/*else if(isset($_POST['uname'])){
 			$sql = "select uid FROM user WHERE uname = :uname";
 		
 			if($stmt = $this->_db->prepare($sql)){
@@ -110,9 +113,9 @@ class FollowManager{
 			{
 				return "tttt<li> Something went wrong getting the uid. ", $db->errorInfo, "</li>n";
 			}
-		}
+		}*/
 		else{
-			return "tttt<li> I need either the uid or uname. ", $db->errorInfo, "</li>n";
+			return "tttt<li> I need the uid. ", $db->errorInfo, "</li>n";
 			return;
 		}
 		

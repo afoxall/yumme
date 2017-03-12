@@ -23,6 +23,10 @@ if(!empty($_POST['action'])
         case 'deleteaccount':
             $userObj->deleteAccount();
             break;
+			
+		case 'deleteuser':
+			$userObj->deleteUser();
+			break;
         default:
             header("Location: /");
             break;

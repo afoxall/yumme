@@ -304,5 +304,68 @@ class RecipeManager{
 		//this will be hard
 	
 	}
+	
+	/*
+	* These are the admin functions, they need to check that the current user is ad administrator before doing its thing 
+	*
+	*
+	*/
+	
+	//expects a field 'rid' in the POST
+	public function deleteRecipe(){
+		
+		$sql = "SELECT COUNT(aid) AS theCount FROM adminstrator where uid=:uid";
+
+		if($stmt = $this->_db->prepare($sql)){
+			$stmt->bindParam(":uid", $_SESSION['UID'], PDO::PARAM_INT);
+			$stmt->execute();
+			$row = $stmt->fetch();
+			if($row['theCount']==0){
+				return "<h2> Error </h2>" . 
+					"<p> Only administrators can do this. </p>";
+			}
+			$stmt ->closeCursor();
+		}
+		else{
+			return "Something went wrong checking the admin table.";
+		}
+		
+		$sql = "DELETE FROM recipe WHERE rid=:rid";
+		if($stmt = $this->_db->prepare($sql)){
+			$stmt->bindParam(":rid", $_POST['rid'], PDO::PARAM_INT);
+			$stmt->execute();
+		}
+		else{
+			return "Something went wrong deleting a recipe.";
+		}
+	}
+	//expects post field revid
+	public function deleteReview(){
+		$sql = "SELECT COUNT(aid) AS theCount FROM adminstrator where uid=:uid";
+
+		if($stmt = $this->_db->prepare($sql)){
+			$stmt->bindParam(":uid", $_SESSION['UID'], PDO::PARAM_INT);
+			$stmt->execute();
+			$row = $stmt->fetch();
+			if($row['theCount']==0){
+				return "<h2> Error </h2>" . 
+					"<p> Only administrators can do this. </p>";
+			}
+			$stmt ->closeCursor();
+		}
+		else{
+			return "Something went wrong checking the admin table.";
+		}
+		
+		$sql = "DELETE FROM review WHERE revid=:revid";
+		if($stmt = $this->_db->prepare($sql)){
+			$stmt->bindParam(":revid", $_POST['revid'], PDO::PARAM_INT);
+			$stmt->execute();
+		}
+		else{
+			return "Something went wrong deleting the review.";
+		}
+		
+	}
 }
 	?php>

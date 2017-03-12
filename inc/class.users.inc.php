@@ -12,8 +12,7 @@
 		update account info
 		delete account
 		update password
-		reset forgotten password
-		
+		reset forgotten password	
 
 	*/
 class UserManager{
@@ -215,10 +214,44 @@ http://localhost/resetpassword.php?v=$ver&e=$e
 	
 Thanks!
 EMAIL
+
+	}
+	
 	return mail($to, $subject, $msg, $headers);
 	}
 	
+		
+	/*
+	* Admin functoin to remove bad users. expects uid in post
+	*/
+	public function deleteUser(){
+		$sql = "SELECT COUNT(aid) AS theCount FROM adminstrator where uid=:uid";
 
+		if($stmt = $this->_db->prepare($sql)){
+			$stmt->bindParam(":uid", $_SESSION['UID'], PDO::PARAM_INT);
+			$stmt->execute();
+			$row = $stmt->fetch();
+			if($row['theCount']==0){
+				return "<h2> Error </h2>" . 
+					"<p> Only administrators can do this. </p>";
+			}
+			$stmt ->closeCursor();
+		}
+		else{
+			return "Something went wrong checking the admin table.";
+		}
+		
+		//TODO: send the deleted user an email telling them they have been deleted
+		
+		$sql = "DELETE FROM user WHERE uid=:uid";
+		if($stmt = $this->_db->prepare($sql)){
+			$stmt->bindParam(":uid", $_POST['uid'], PDO::PARAM_INT);
+			$stmt->execute();
+		}
+		else{
+			return "Something went wrong deleting the user.";
+		}
+	}
 	
 }
 	?>

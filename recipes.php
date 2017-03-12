@@ -27,6 +27,11 @@ if(!empty($_POST['action'])
         case 'search':
             echo $recObj->recipeSearch();
             break;
+		case 'deleteRecipe':
+			echo $recObj->deleteRecipe();
+			break;
+		case 'deleteReview':
+			echo $recObj->deleteReview();
         default:
             header("Location: /");
             break;
