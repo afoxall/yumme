@@ -15,6 +15,9 @@ if(!empty($_POST['action'])
     {
         case 'addRec':
             echo $recObj->addRecipe();
+
+            header("Location: /yumme/index.php"); //change this to take you to the apge for that recipe if successful
+
             break;
         case 'getFull':
             $recObj->getFullRecipe();

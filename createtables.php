@@ -17,6 +17,7 @@ $sql = "CREATE TABLE Administrator(
 	UID int NOT NULL,
 	PRIMARY KEY (AID),
 	FOREIGN KEY (UID) REFERENCES User(UID)
+	ON DELETE CASCADE
 	)";
 
 if ($conn->query($sql) === TRUE) {
@@ -57,8 +58,9 @@ CREATE TABLE Recipe(
 	prepTime int,
 	cookTime int,
 	difficulty varchar(15),
-	FOREIGN KEY (authorID) REFERENCES User(UID),
-	PRIMARY KEY (RID)
+	PRIMARY KEY (RID),
+	FOREIGN KEY (authorID) REFERENCES User(UID)
+	ON DELETE CASCADE
 	)";
 
 if ($conn->query($sql) === TRUE) {
@@ -94,6 +96,7 @@ CREATE TABLE Instruction(
 	StepNum int,
 	Text varchar(200),
 	FOREIGN KEY (RID) REFERENCES Recipe(RID)
+	ON DELETE CASCADE
 	)";
 
 if ($conn->query($sql) === TRUE) {
@@ -107,6 +110,7 @@ $sql = "CREATE TABLE Utensil(
 	RID int,
 	name varchar(20),
 	FOREIGN KEY (RID) REFERENCES Recipe(RID)
+	ON DELETE CASCADE
 	)";
 
 if ($conn->query($sql) === TRUE) {
@@ -124,8 +128,10 @@ $sql = "CREATE TABLE Review(
 	text varchar(5000),
 	rating int,
 	PRIMARY KEY (RevID),
-	FOREIGN KEY (RecID) REFERENCES Recipe(RID),
+	FOREIGN KEY (RecID) REFERENCES Recipe(RID)
+	ON DELETE CASCADE,
 	FOREIGN KEY (AuthorID) REFERENCES User(UID)
+	ON DELETE CASCADE
 	)";
 	
 
@@ -160,7 +166,7 @@ CREATE TABLE Ingredient(
 	name varchar(50),
 	state varchar(30),
 	quantity varchar(30),
-	FOREIGN KEY (RID) REFERENCES Recipe(RID)
+	FOREIGN KEY (RID) REFERENCES Recipe(RID) ON DELETE CASCADE
 	)";
 
 if ($conn->query($sql) === TRUE) {
@@ -175,8 +181,8 @@ CREATE TABLE Reblog(
 	RID int,
 	UID int,
 	Date DATETIME,
-	FOREIGN KEY (RID) REFERENCES Recipe(RID),
-	FOREIGN KEY (UID) REFERENCES User(UID)
+	FOREIGN KEY (RID) REFERENCES Recipe(RID) ON DELETE CASCADE,
+	FOREIGN KEY (UID) REFERENCES User(UID) ON DELETE CASCADE
 	)";
 
 if ($conn->query($sql) === TRUE) {
@@ -187,9 +193,9 @@ if ($conn->query($sql) === TRUE) {
 $sql = "
 CREATE TABLE Follow(
 	follower int,
-	FOREIGN KEY (follower) REFERENCES User(UID),
+	FOREIGN KEY (follower) REFERENCES User(UID) ON DELETE CASCADE,
 	followee int,
-	FOREIGN KEY (followee) REFERENCES User(UID)
+	FOREIGN KEY (followee) REFERENCES User(UID) ON DELETE CASCADE
 	)";
 
 if ($conn->query($sql) === TRUE) {

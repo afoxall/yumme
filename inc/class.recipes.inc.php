@@ -196,87 +196,75 @@ class RecipeManager{
 	/*
 	* Adds a new recipe 
 	*/
-	public function addRecipe(){ 
-		
-		$xml=simplexml_load_string($_POST['rec']) or die("Error: Cannot create object");
-		
-		$sql = "INSERT INTO recipe (title, prepTime, cookTime, Difficulty, date) VALUES
-				(:name, :prep, :cook, :diff, now())";
-				
-		if($stmt = $this->_db->prepare($sql)){
-		    $name = $xml->name;
-		    $prep = $xml->prep;
-		    $cook = $xml->cook;
-		    $difficulty = $xml->difficulty;
+	public function addRecipe(){
+        $sql = "INSERT INTO recipe (authorID, title, prepTime, cookTime, Difficulty, date) VALUES
+				(:uid, :n, :prep, :cook, :diff, now())";
 
-			$stmt->bindParam(':name', $name, PDO::PARAM_STR);
-			$stmt->bindParam(':prep', $prep, PDO::PARAM_INT);
-			$stmt->bindParam(':cook', $cook, PDO::PARAM_INT);
-			$stmt->bindParam(':diff', $difficulty, PDO::PARAM_STR);
-			$stmt->execute();
-		}
-		else
-		{
-			return "tttt<li> Something went wrong.368 ". $this->_db->errorInfo. "</li>n";
-		}	
-		$rid = $this->_db->lastInsertIDd();
-		
-		//now add instructoins
-		$sql = "INSERT INTO instructions (rid, stepNum, instructionText) VALUES";
-		
-		foreach($xml->instructions as $in){
-			$sql .= "($rid, :num, :text)";
-		}
-		
-		if($stmt = $this->_db->prepare($sql)){
-		    $num = $in->num;
-		    $text = $in->text;
-			$stmt->bindParam(':num', $in, PDO::PARAM_INT);
-			$stmt->bindParam(':text', $in, PDO::PARAM_INT);
-			$stmt->execute();
-		}
-		else
-		{
-			return "tttt<li> Something went wrong.364 " . $this->_db->errorInfo . "</li>n";
-		}
-		
-		//and ingredients 
-		$sql = "INSERT INTO ingredient (rid, quantity, state, name) VALUES";
-		
-		foreach($xml->ingredients as $ing){
-			$sql .= "($rid, :quant, :state, :name)";
-		}
-		
-		if($stmt = $this->_db->prepare($sql)){
-		    $num = $ing->name;
-		    $state = $ing->state;
-		    $name = $ing->name;
-			$stmt->bindParam(':quant', $num, PDO::PARAM_STR);
-			$stmt->bindParam(':state', $state, PDO::PARAM_STR);
-			$stmt->bindParam(':name', $name, PDO::PARAM_STR);
-			$stmt->execute();
-		}
-		else
-		{
-			return "tttt<li> Something went wrong.369 ". $this->_db->errorInfo. "</li>n";
-		}
-		
-		//and utensils 
-		$sql = "INSERT INTO utensil (rid, name) VALUES";
-		
-		foreach($xml->ingredients as $ute){
-			$sql .= "($rid, :name)";
-		}
-		
-		if($stmt = $this->_db->prepare($sql)){
-		    $name = $ute->name;
-			$stmt->bindParam(':name', $name, PDO::PARAM_STR);
-			$stmt->execute();
-		}
-		else
-		{
-			return "tttt<li> Something went wrong.363 ". $this->_db->errorInfo. "</li>n";
-		}
+        if($stmt = $this->_db->prepare($sql)){
+            $name = $_POST['name'];
+            $prep = $_POST['prep'];
+            $cook = $_POST['cook'];
+            $difficulty = $_POST['diff'];
+
+            $stmt->bindParam(':uid', $_SESSION['UID'], PDO::PARAM_INT);
+            $stmt->bindParam(':n', $name, PDO::PARAM_STR);
+            $stmt->bindParam(':prep', $prep, PDO::PARAM_INT);
+            $stmt->bindParam(':cook', $cook, PDO::PARAM_INT);
+            $stmt->bindParam(':diff', $difficulty, PDO::PARAM_STR);
+            $stmt->execute();
+        }
+        else
+        {
+            return "tttt<li> Something went wrong.368 ". $this->_db->errorInfo. "</li>n";
+        }
+        $rid = $this->_db->lastInsertID();
+
+        //now add instructoins
+
+        //wonder if this can be done in one statement to go faster, but not sure how to bind a variable number of things
+        $i = 1;
+        foreach($_POST['instructions'] as $key => $n) {
+            $sql = "INSERT INTO instruction (rid, stepNum, Text) VALUES ($rid, $i, :text) ";
+            $i += 1;
+            if ($stmt = $this->_db->prepare($sql)) {
+                $stmt->bindParam(':text', $n, PDO::PARAM_STR);
+                $stmt->execute();
+            } else {
+                return "tttt<li> Something went wrong.364 " . $this->_db->errorInfo . "</li>n";
+            }
+        }
+
+        foreach($_POST['utensils'] as $key => $n) {
+            $sql = "INSERT INTO utensil (rid,  name) VALUES ($rid, :name) ";
+
+            if ($stmt = $this->_db->prepare($sql)) {
+                $stmt->bindParam(':name', $n, PDO::PARAM_STR);
+                $stmt->execute();
+            } else {
+                return "tttt<li> Something went wrong.364 " . $this->_db->errorInfo . "</li>n";
+            }
+        }
+
+        $tmp = "";
+
+        for($j = 0; $j < sizeof($_POST['ingredients']['state']); $j++){
+            $sql = "INSERT INTO ingredient (rid, name, state, quantity) VALUES ($rid, :n, :state, :quantity) ";
+
+            //$tmp .= $_POST['ingredients']['name'][$j] . "  ";
+
+            if ($stmt = $this->_db->prepare($sql)) {
+                $stmt->bindParam(':n', $_POST['ingredients']['name'][$j], PDO::PARAM_STR);
+                $stmt->bindParam(':state', $_POST['ingredients']['state'][$j], PDO::PARAM_STR);
+                $stmt->bindParam(':quantity', $_POST['ingredients']['quant'][$j], PDO::PARAM_STR);
+
+                $stmt->execute();
+            } else {
+                return "tttt<li> Something went wrong.364 " . $this->_db->errorInfo . "</li>n";
+            }
+        }
+
+        return $tmp;
+
 	}
 	/*
 	* Adds a new recipe 
