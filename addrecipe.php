@@ -12,10 +12,11 @@
 ?>
  
         <h2>New Recipe</h2>
-        <form method="post" action="addrecipe.php" id="recform">
+        <form method="post" action="recipes.php" id="recform">
             <div>
                 <label for="name">Recipe Name:</label>
                 <input type="text" name="name" id="name" /><br />
+                <input type="hidden" name="action" id="action" value="addRec"/>
                 <input type="submit" name="save" id="save" value="save" />
             </div>
         </form>

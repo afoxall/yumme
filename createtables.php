@@ -35,7 +35,7 @@ CREATE TABLE User(
 	FName varchar(50),
 	LName varchar(50),
 	UName varchar(50),
-	password varchar(20),
+	password varchar(32),
 	ver_code varchar(150),
 	verified TINYINT DEFAULT 0,
 	PRIMARY KEY (UID)

@@ -46,7 +46,8 @@ class FollowManager{
 			}
 		}*/
 		else{
-			return "tttt<li> I need the uid. ", $db->errorInfo, "</li>n";
+		    $err = $this->_db->errorInfo;
+		    return "tttt<li> I need the uid. " . $err . "</li>n";
 			
 		}
 		
@@ -59,7 +60,7 @@ class FollowManager{
 		}
 		else
 		{
-			return "tttt<li> Something went wrong. ", $db->errorInfo, "</li>n";
+			return "tttt<li> Something went wrong. " . $this->_db->errorInfo+"</li>n";
 		}	
 	
 	}
@@ -81,7 +82,7 @@ class FollowManager{
 			}
 		}*/
 		else{
-			return "tttt<li> I need either the uid or uname. ", $db->errorInfo, "</li>n";
+			return "tttt<li> I need either the uid or uname. " . $this->_db->errorInfo . "</li>n";
 			return;
 		}
 		
@@ -94,7 +95,7 @@ class FollowManager{
 		}
 		else
 		{
-			return "tttt<li> Something went wrong. ", $db->errorInfo, "</li>n";
+			return "tttt<li> Something went wrong. " . $this->_db->errorInfo . "</li>n";
 		}	
 	}
 	//allows someone to block one of their followers (not permanent, that would need a new table)
@@ -115,7 +116,7 @@ class FollowManager{
 			}
 		}*/
 		else{
-			return "tttt<li> I need the uid. ", $db->errorInfo, "</li>n";
+			return "tttt<li> I need the uid. " . $this->_db->errorInfo . "</li>n";
 			return;
 		}
 		
@@ -128,7 +129,7 @@ class FollowManager{
 		}
 		else
 		{
-			return "tttt<li> Something went wrong. ", $db->errorInfo, "</li>n";
+			return "tttt<li> Something went wrong. ". $this->_db->errorInfo. "</li>n";
 		}	
 		
 	}
@@ -155,7 +156,7 @@ class FollowManager{
 		}
 		else
         {
-            return "tttt<li> Something went wrong. ", $db->errorInfo, "</li>n";
+            return "tttt<li> Something went wrong. " . $this->_db->errorInfo. "</li>n";
         }
 		return $res;
 	}
@@ -183,9 +184,9 @@ class FollowManager{
 		}
 		else
         {
-            return "tttt<li> Something went wrong. ", $db->errorInfo, "</li>n";
+            return "tttt<li> Something went wrong. ". $this->_db->errorInfo. "</li>n";
         }
 		return $res;
 	}
 	}
-	?php>
+	?>

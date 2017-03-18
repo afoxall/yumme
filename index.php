@@ -1,19 +1,37 @@
-<?php include_once "common/header.php"; ?>
+<?php
+/**
+ * Created by PhpStorm.
+ * User: foxal
+ * Date: 2017-03-18
+ * Time: 10:31 AM
+ */
+
+include_once "common/base.php";
+$pageTitle = "Welcome to Yumme";
+include_once "common/header.php";
+?>
 
 <div id="main">
+            <noscript>This site just doesn't work, period, without JavaScript</noscript>
+<?php
+if(isset($_SESSION['LoggedIn']) && isset($_SESSION['UID'])):
 
-   <noscript>This site just doesn't work, period, without JavaScript</noscript>
+ 
+    include_once 'inc/class.recipes.inc.php';
+    $recipes = new RecipeManager($db);
+    $res = $recipes->getUsersRecipes(array($_SESSION['UID']), 20);
+ 
 
-   <!-- IF LOGGED IN -->
+?>
+ 
+    <p><a href="/yumme/addrecipe.php" class="button">New Recipe</a>
+ 
 
-          <!-- Content here -->
 
-   <!-- IF LOGGED OUT -->
+ 
+<?php else: header("Location: /yumme/login.php");
 
-          <!-- Alternate content here -->
 
-</div>
-
-<?php include_once "common/sidebar.php"; ?>
-
-<?php include_once "common/footer.php"; ?>
+endif; ?>
+ 
+        </div>

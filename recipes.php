@@ -2,9 +2,10 @@
  
 session_start();
  
-include_once "../inc/constants.inc.php";
-include_once "../inc/class.recipes.inc.php";
- 
+include_once "inc/constants.inc.php";
+include_once "inc/class.recipes.inc.php";
+
+
 if(!empty($_POST['action'])
 && isset($_SESSION['LoggedIn'])
 && $_SESSION['LoggedIn']==1)
@@ -33,13 +34,13 @@ if(!empty($_POST['action'])
 		case 'deleteReview':
 			echo $recObj->deleteReview();
         default:
-            header("Location: /");
+            header("Location: /yumme/index.php");
             break;
     }
 }
-else
-{
-    header("Location: /");
+else{
+
+    header("Location: /yumme/index.php");
     exit;
 }
  
