@@ -156,12 +156,13 @@ class RecipeManager{
 		Can be used to populate a newsfeed(pass in all follows) or a usr page(pass in only that user's uid. 
 	*/
 	public function getUsersRecipes($ar, $n){
-		
+
+
 		$ids = join("','",$ar); //this is at risk of injection but ids are never seen or enterd by users so fine
 		$sql = "SELECT title, prepTime + cookTime as time, difficulty FROM recipe WHERE authorID IN ('$ids') ORDER BY date LIMIT :n";
 		$sql = "SELECT recipe.title, recipe.prepTime + recipe.cookTime as time, recipe.difficulty, 
               IFNULL(review.rating, -1) as rating FROM recipe left join review on recipe.rid = review.RecID 
-              WHERE recipe.authorID IN ('$ids') or exists(select * from reblog where uid = 2 and rid = 2)
+              WHERE recipe.authorID IN ('$ids') or exists(select * from reblog where rid = recipe.rid )
               ORDER BY recipe.date LIMIT :n";
 		$res = "";
 
