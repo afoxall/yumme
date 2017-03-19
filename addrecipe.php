@@ -109,6 +109,8 @@
                         alert('You Reached the limits')
                     }
                 });
+
+                //TODO this deletes all of the things, fix that
                 $(instWrapper).on("click",".delete", function(e){
                     e.preventDefault(); $(this).parent('div').remove(); x--;
                 })

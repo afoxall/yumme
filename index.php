@@ -9,6 +9,7 @@
 include_once "common/base.php";
 $pageTitle = "Welcome to Yumme";
 include_once "common/header.php";
+
 ?>
 
 <div id="main">
@@ -18,9 +19,17 @@ if(isset($_SESSION['LoggedIn']) && isset($_SESSION['UID'])):
 
  
     include_once 'inc/class.recipes.inc.php';
+    include_once "inc/class.users.inc.php";
+    include_once 'inc/class.follows.inc.php';
+
     $recipes = new RecipeManager($db);
-    $res = $recipes->getUsersRecipes(array($_SESSION['UID']), 20);
- 
+    $user = new UserManager($db);
+    $follows = new FollowManager($db);
+
+    $followArray = $follows->getFollows();
+    array_push($followArray, $_SESSION["UID"]);
+    $res = $recipes->getUsersRecipes($followArray, 20);
+    echo $res;
 
 ?>
  

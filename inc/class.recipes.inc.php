@@ -158,31 +158,37 @@ class RecipeManager{
 	public function getUsersRecipes($ar, $n){
 		
 		$ids = join("','",$ar); //this is at risk of injection but ids are never seen or enterd by users so fine
-		$sql = "SELECT name, prepTime, cookTime as time, difficulty FROM recipe WHERE uid IN ('%ids') ORDER BY date LIMIT :n"; 
+		$sql = "SELECT title, prepTime + cookTime as time, difficulty FROM recipe WHERE authorID IN ('$ids') ORDER BY date LIMIT :n";
+		$sql = "SELECT recipe.title, recipe.prepTime + recipe.cookTime as time, recipe.difficulty, 
+              IFNULL(review.rating, -1) as rating FROM recipe left join review on recipe.rid = review.RecID 
+              WHERE recipe.authorID IN ('$ids') or exists(select * from reblog where uid = 2 and rid = 2)
+              ORDER BY recipe.date LIMIT :n";
 		$res = "";
-		
+
 		if($stmt = $this->_db->prepare($sql)) {
-            $stmt->bindParam(':n', $n);
+            $stmt->bindParam(':n', $n, PDO::PARAM_INT);
             $stmt->execute();
 
-            while ($row = $stmt->fetch()) {
-                //try a nested statement
-                $ratingsql = "SELECT avg(rating) as a_rating FROM review where rid = :rid";
-                if ($stmt = $this->_db->prepare($sql)) {
-                    $stmt->bindParam(':rid', $row['rid']);
-                    $stmt->execute();
-                    $rating = $stmt->fetch()['a_rating'];
-                } else {
-                    return "tttt<li> Something went wrong 523. " . $this->_db->errorInfo . "</li>n";
-                }
+            $count = $stmt->rowCount();
 
-                $res .= "<recipe>
-							<name>" . $row['name'] . "<\name>
-							<ptime>" . $row['prepTime'] . "</ptime>
-							<ctime>" . $row['cookTime'] . "</ctime>
-							<diff>" . $row['difficulty'] . "</diff>
-							<rating>" . $rating . "</rating>
-						<\recipe>";
+            while ($count > 0) {
+                $count -= 1;
+                $row = $stmt->fetch();
+
+                $n = $row['title'];
+                $t = $row['time'];
+                $d = $row['difficulty'];
+                $r = $row['rating'];
+
+                $res .= "
+                        <div class='mini_recipe'>
+                            <label>Name : $n </label>
+                            <label>Total time: $t </label>
+                            <label>Difficulty: $t </label>
+                            <label>Rating: $r </label>
+
+</div>
+";
             }
 
 		}
@@ -190,6 +196,7 @@ class RecipeManager{
         {
             return "tttt<li> Something went wrong 623. ". $this->_db->errorInfo. "</li>n";
         }
+
 		return $res;
 	}
 	

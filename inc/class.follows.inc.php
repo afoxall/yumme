@@ -165,20 +165,23 @@ class FollowManager{
 	*/
 	public function getFollows(){
 		//get current user's uid
-		$sql = "SELECT uid, uname FROM  user, follows 
-		where follows.follower = :uid and follows.followee = user.uid"; // TODO sketchy, defs test
-		
-		$res = "";
+		//$sql = "SELECT uid, uname FROM  user, follows
+		//where follows.follower = :uid and follows.followee = user.uid"; // TODO sketchy, defs test
+
+        $sql = "SELECT followee from follow where follower=:uid";
+		$res = array();
 		if($stmt = $this->_db->prepare($sql)){
 			$stmt->bindParam(':uid', $_SESSION['UID']);
 			$stmt->execute();
 			
 			$count = 0;
 			while($row = $stmt->fetch()){
-				$res.= "<user>
+				/*$res.= "<user>
 							<uname>".$row['uname']."</uname>
 							<uid>".$row['uid']."</uid>
-						</user>";
+						</user>";*/
+                array_push($res, $row['followee']);
+
 			}
 			$stmt->closeCursor();
 		}
