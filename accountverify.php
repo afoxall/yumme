@@ -13,7 +13,7 @@
     {
         include_once "inc/class.users.inc.php";
         $users = new ColoredListsUsers($db);
-        $ret = $users->updatePassword();
+        $ret = $users->updateUser();
     }
     else
     {

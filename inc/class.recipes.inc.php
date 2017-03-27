@@ -167,6 +167,7 @@ class RecipeManager{
 	*/
 	public function getUsersRecipes($ar, $n){
 		
+		//TODO: this needs to also search follows, right now it will only get original posts		
 		$ids = join("','",$ar); //this is at risk of injection but ids are never seen or enterd by users so fine
 		$sql = "SELECT name, prepTime, cookTime as time, difficulty FROM recipe WHERE uid IN ('%ids') ORDER BY date LIMIT :n"; 
 		$res = "";
@@ -187,6 +188,7 @@ class RecipeManager{
 					return "tttt<li> Something went wrong 523. ", $db->errorInfo, "</li>n";
 				}
 				
+				//TODO change prep and cook to total
 				$res .= "<recipe>
 							<name>".$row['name']."<\name>
 							<ptime>".$row['prepTime']."</ptime>
@@ -267,7 +269,7 @@ class RecipeManager{
 		//and utensils 
 		$sql = "INSERT INTO utensil (rid, name) VALUES";
 		
-		foreach($xml->ingredients as $ute){
+		foreach($xml->utensils as $ute){
 			$sql .= "($rid, :name)";
 		}
 		
