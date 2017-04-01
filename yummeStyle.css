@@ -25,6 +25,7 @@ body.recipe { background: url(recipe-background.jpeg)no-repeat center center fix
 background-size: cover;
 color: white;}
 h2 { font-size: 30px; line-height:38px; font-weight:normal; }
+
 .loginbox { background: #FBFCFD; padding: 10px; width: 490px; margin: 4% auto 0 auto; position: relative; }
 .loginboxinner {
     background: #FBFCFD; padding: 5px; position: relative; border: 1px solid #FBFCFD;

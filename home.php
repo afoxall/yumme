@@ -66,14 +66,14 @@ endif;
 
     <?php
         if(!empty($_POST['signupemail'])):
-            echo $s;
+
             include_once "inc/class.users.inc.php";
             $users = new UserManager($db);
-            echo $users->createAccount();
+            echo "<div style=\"color:black; text-align:center;\">". $users->createAccount()."</div>";
         else:
     ?>
 
-    <h2 style="color:#141823; text-align:center;">Welcome to Yumme!</h2>
+    <h5 style="color:#141823; text-align:center;">Welcome to Yumme!</h5>
     <div class="loginboxinner radius">
         <div class="loginheader">
             <h4 class="title">Connect with the community to find fresh, free recipes!</h4>

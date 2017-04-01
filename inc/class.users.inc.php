@@ -33,7 +33,7 @@ class UserManager{
 	*/
 	public function createAccount(){
 		
-		$email = trim($_POST['signup_email']);
+		$email = trim($_POST['signupemail']);
 		$uname = trim($_POST['uname']);
 		
 		$v = sha1(time());
@@ -45,8 +45,7 @@ class UserManager{
 			$stmt->execute();
 			$row = $stmt->fetch();
 			if($row['theCount']!=0){
-				return "<h2> Error </h2>" . 
-					"<p> Sorry, that username is already on the system. </p>";
+				return "Sorry, that username is already on the system.";
 			}
 		}
 		
@@ -57,11 +56,10 @@ class UserManager{
 			$stmt->execute();
 			$row = $stmt->fetch();
 			if($row['theCount']!=0){
-				return "<h2> Error </h2>" . 
-					"<p> Sorry, that email is already on the system. </p>";
+				return "Sorry, that email is already on the system. ";
 			}
 			if(!$this->sendVerificationEmail($email, $v)){
-				return "<h2><p>There was an error sending the verification email. </p></h2>";
+				return "There was an error sending the verification email.";
 			}
 			$stmt ->closeCursor();
 		}
@@ -75,7 +73,7 @@ class UserManager{
 			$stmt->closeCursor();
 		}
 		else{
-			return "<h2> Error</h2> <p>Could not create the user</p>"; 
+			return "Could not create the user";
 		}
 	}
 
@@ -92,7 +90,7 @@ MESSAGE;
 		$msg = <<<EMAIL
 You have created an account at Yumlee. Please click the activation ink below to finalize your account.
 
-http://localhost:8080/yumme/accountverify.php?v=$ver&e=$e
+http://localhost:8080/yumme/register.php?v=$ver&e=$e
 	
 Thanks!
 EMAIL;
@@ -128,7 +126,7 @@ EMAIL;
 			return array(0, null);
 		}
 		else{
-			return array(2, "<h2>Database error</h2>");
+			return array(2, "Database error");
 		}
 	}
 
