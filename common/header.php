@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  
 
-    <title>Colored Lists | <!-- Do Something Smart Here --></title>
+    <title>Yumme </title>
 
     <link rel="stylesheet" href="style.css" type="text/css" />
     <link rel="shortcut icon" type="image/x-icon" href="https://cdn.css-tricks.com/favicon.ico" />
@@ -20,17 +20,19 @@
         <div id="header">
 
 
-            <h1><a href="/">Yumme</a></h1>
+            <h1><a href="/yumme/">Yumme</a></h1>
 
 
             <div id="control">
 
-<!-- IF LOGGED IN -->
-                <p><a href="/logout.php" class="button">Log out</a> <a href="/account.php" class="button">Your Account</a></p>
-
-<!-- IF LOGGED OUT -->
-                <p><a class="button" href="/signup.php">Sign up</a> &nbsp; <a class="button" href="/login.php">Log in</a></p>
-<!-- END OF IF STATEMENT -->
+        <?php
+            if(isset($_SESSION['LoggedIn']) && isset($_SESSION['UID']) && $_SESSION['LoggedIn']==1){
+                echo "<p><a href=\"/yumme/logout.php\" class=\"button\">Log out</a></p>";
+            }
+            else{
+                echo "<p><a class=\"button\" href=\"/yumme/signup.php\">Sign up</a> &nbsp; <a class=\"button\" href=\"/yumme/login.php\">Log in</a></p>";
+            }
+        ?>
 
             </div>
 

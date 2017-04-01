@@ -12,7 +12,7 @@ class RecipeManager{
 	
 	private $_db;
 
-	public function __construct($db=null){
+	public function __construct($db = null){
 		if(is_object($db)){
 			$this->_db = $db;
 		}
@@ -43,12 +43,11 @@ class RecipeManager{
 						<title>".$recipe['title']."</title>";						
 			}
 			else{
-				return "tttt<li> Something went wrong.126 ", $db->errorInfo, "</li>n";
+				return "tttt<li> Something went wrong.126 ". $this->_db->errorInfo. "</li>n";
 			}
 		}
-		else
-        {
-            return "tttt<li> Something went wrong. 47", $db->errorInfo, "</li>n";
+		else{
+            return "tttt<li> Something went wrong. 47". $this->_db->errorInfo. "</li>n";
         }
 		//time to get author username
 		$sql = "SELECT uname FROM user WHERE uid=:uid";	
@@ -62,35 +61,33 @@ class RecipeManager{
 				$res .= "<author>".$row['uname']."<\author>";						
 			}
 			else{
-				return "tttt<li> Something went wrong 5. ", $db->errorInfo, "</li>n";
+				return "tttt<li> Something went wrong 5. ". $this->_db->errorInfo. "</li>n";
 			}
 		}
 		else
         {
-            return "tttt<li> Something went wrong 6. ", $db->errorInfo, "</li>n";
+            return "tttt<li> Something went wrong 6. ". $this->_db->errorInfo. "</li>n";
         }
 		
 		//now get ingredients
 		$sql = "SELECT * FROM ingredient WHERE rid=:rid";	
 		
-		if($stmt = $this->_db->prepare($sql)){
-			$stmt->bindParam(':rid', $_POST['RID']);
-			$stmt->execute();
-			
-			while($row = $stmt->fetch()){
-				$res .= "<ingredient>
-							<quantity>".$row['quantity']."<\quantity>
-							<state>".$row['state']."</state>
-							<name>".$row['name']."</name>
-						<\ingredient>";						
-			}
-			else{
-				return "tttt<li> Something went wrong 7. ", $db->errorInfo, "</li>n";
-			}
-		}
+		if($stmt = $this->_db->prepare($sql)) {
+            $stmt->bindParam(':rid', $_POST['RID']);
+            $stmt->execute();
+
+            while ($row = $stmt->fetch()) {
+                $res .= "<ingredient>
+							<quantity>" . $row['quantity'] . "<\quantity>
+							<state>" . $row['state'] . "</state>
+							<name>" . $row['name'] . "</name>
+						<\ingredient>";
+            }
+        }
+
 		else
         {
-            return "tttt<li> Something went wrong 8. ", $db->errorInfo, "</li>n";
+            return "tttt<li> Something went wrong 8. ". $this->_db->errorInfo. "</li>n";
         }
 		
 		//now get instructions
@@ -106,13 +103,10 @@ class RecipeManager{
 							<text>".$row['instructionText']."</text>					
 						<\instruction>";						
 			}
-			else{
-				return "tttt<li> Something went wrong 9. ", $db->errorInfo, "</li>n";
-			}
 		}
 		else
         {
-            return "tttt<li> Something went wrong 10. ", $db->errorInfo, "</li>n";
+            return "tttt<li> Something went wrong 10. ". $this->_db->errorInfo. "</li>n";
         }
 		
 		//now get utensils
@@ -127,13 +121,11 @@ class RecipeManager{
 							<name>".$row['name']."<\name>
 						<\utensil>";						
 			}
-			else{
-				return "tttt<li> Something went wrong 11. ", $db->errorInfo, "</li>n";
-			}
+
 		}
 		else
         {
-            return "tttt<li> Something went wrong 12. ", $db->errorInfo, "</li>n";
+            return "tttt<li> Something went wrong 12. ". $this->_db->errorInfo. "</li>n";
         }
 		
 		//now get reviews
@@ -145,18 +137,16 @@ class RecipeManager{
 			
 			while($row = $stmt->fetch()){
 				$res .= "<review>
-							<rating>".$row['rating']."<\ratinfg>
+							<rating>".$row['rating']."<\rating>
 							<text>".$row['text']."</text>
 							<date>".$row['date']."</date>
 						<\ingredient>";						
 			}
-			else{
-				return "tttt<li> Something went wrong 5. ", $db->errorInfo, "</li>n";
-			}
+
 		}
 		else
         {
-            return "tttt<li> Something went wrong 6. ", $db->errorInfo, "</li>n";
+            return "tttt<li> Something went wrong 6. ". $this->_db->errorInfo. "</li>n";
         }
 		return $res . "</recipe>";
 	}
@@ -166,136 +156,138 @@ class RecipeManager{
 		Can be used to populate a newsfeed(pass in all follows) or a usr page(pass in only that user's uid. 
 	*/
 	public function getUsersRecipes($ar, $n){
-		
-		//TODO: this needs to also search follows, right now it will only get original posts		
+
 		$ids = join("','",$ar); //this is at risk of injection but ids are never seen or enterd by users so fine
-		$sql = "SELECT name, prepTime, cookTime as time, difficulty FROM recipe WHERE uid IN ('%ids') ORDER BY date LIMIT :n"; 
+		//$sql = "SELECT title, prepTime + cookTime as time, difficulty FROM recipe WHERE authorID IN ('$ids') ORDER BY date LIMIT :n";
+		$sql = "SELECT recipe.title, recipe.prepTime + recipe.cookTime as time, recipe.difficulty, 
+              IFNULL(review.rating, -1) as rating FROM recipe left join review on recipe.rid = review.RecID 
+              WHERE recipe.authorID IN ('$ids') or exists(select * from reblog where rid = recipe.rid and uid in ('$ids'))
+              ORDER BY recipe.date LIMIT :n";
 		$res = "";
-		
-		if($stmt = $this->_db->prepare($sql)){
-			$stmt->bindParam(':n', $n);
-			$stmt->execute();
-			
-			while($row = $stmt->fetch()){
-				//try a nested statement
-				$ratingsql = "SELECT avg(rating) as a_rating FROM review where rid = :rid";
-				if($stmt = $this->_db->prepare($sql)){
-					$stmt->bindParam(':rid', $row['rid']);
-					$stmt->execute();
-					$rating = $stmt->fetch()['a_rating'];
-				}
-				else{
-					return "tttt<li> Something went wrong 523. ", $db->errorInfo, "</li>n";
-				}
-				
-				//TODO change prep and cook to total
-				$res .= "<recipe>
-							<name>".$row['name']."<\name>
-							<ptime>".$row['prepTime']."</ptime>
-							<ctime>".$row['cookTime']."</ctime>
-							<diff>".$row['difficulty']."</diff>
-							<rating>".$rating."</rating>
-						<\recipe>";						
-			}
-			else{
-				return "tttt<li> Something went wrong 544. ", $db->errorInfo, "</li>n";
-			}
+
+
+		if($stmt = $this->_db->prepare($sql)) {
+            $stmt->bindParam(':n', $n, PDO::PARAM_INT);
+            $stmt->execute();
+
+            $count = $stmt->rowCount();
+
+            while ($count > 0) {
+                $count -= 1;
+                $row = $stmt->fetch();
+
+                $n = $row['title'];
+                $t = $row['time'];
+                $d = $row['difficulty'];
+                $r = $row['rating'];
+
+                $res .= "<div class='mini_recipe'>
+                            <label>Name : $n </label>
+                            <label>Total time: $t </label>
+                            <label>Difficulty: $t </label>
+                            <label>Rating: $r </label>
+                        </div>
+";
+            }
+
 		}
 		else
         {
-            return "tttt<li> Something went wrong 623. ", $db->errorInfo, "</li>n";
+            return "tttt<li> Something went wrong 623. ". $this->_db->errorInfo. "</li>n";
         }
+
 		return $res;
 	}
 	
 	/*
 	* Adds a new recipe 
 	*/
-	public function addRecipe(){ 
-		
-		$xml=simplexml_load_string($_POST['rec']) or die("Error: Cannot create object");
-		
-		$sql = "INSERT INTO recipe (title, prepTime, cookTime, Difficulty, date) VALUES
-				(:name, :prep, :cook, :diff, now())";
-				
-		if($stmt = $this->_db->prepare($sql)){
-			$stmt->bindParam(':name', (string)$xml->name, PDO::PARAM_STR);
-			$stmt->bindParam(':prep', (int)$xml->prep, PDO::PARAM_INT);
-			$stmt->bindParam(':cook', (int)$xml->cook, PDO::PARAM_INT);
-			$stmt->bindParam(':diff', (string)$xml->difficulty, PDO::PARAM_STR);
-			$stmt->execute();
-		}
-		else
-		{
-			return "tttt<li> Something went wrong.368 ", $db->errorInfo, "</li>n";
-		}	
-		$rid = $_db->lastInsertIDd();
-		
-		//now add instructoins
-		$sql = "INSERT INTO instructions (rid, stepNum, instructionText) VALUES";
-		
-		foreach($xml->instructions as $in){
-			$sql .= "($rid, :num, :text)";
-		}
-		
-		if($stmt = $this->_db->prepare($sql)){
-			$stmt->bindParam(':num', (int)$in->num, PDO::PARAM_INT);
-			$stmt->bindParam(':text', (int)$in->text, PDO::PARAM_INT);
-			$stmt->execute();
-		}
-		else
-		{
-			return "tttt<li> Something went wrong.364 ", $db->errorInfo, "</li>n";
-		}
-		
-		//and ingredients 
-		$sql = "INSERT INTO ingredient (rid, quantity, state, name) VALUES";
-		
-		foreach($xml->ingredients as $ing){
-			$sql .= "($rid, :quant, :state, :name)";
-		}
-		
-		if($stmt = $this->_db->prepare($sql)){
-			$stmt->bindParam(':quant', (string)$ing->num, PDO::PARAM_STR);
-			$stmt->bindParam(':state', (string)$ing->state, PDO::PARAM_STR);
-			$stmt->bindParam(':name', (string)$ing->name, PDO::PARAM_STR);
-			$stmt->execute();
-		}
-		else
-		{
-			return "tttt<li> Something went wrong.369 ", $db->errorInfo, "</li>n";
-		}
-		
-		//and utensils 
-		$sql = "INSERT INTO utensil (rid, name) VALUES";
-		
-		foreach($xml->utensils as $ute){
-			$sql .= "($rid, :name)";
-		}
-		
-		if($stmt = $this->_db->prepare($sql)){
-			$stmt->bindParam(':name', (string)$ute->name, PDO::PARAM_STR);
-			$stmt->execute();
-		}
-		else
-		{
-			return "tttt<li> Something went wrong.363 ", $db->errorInfo, "</li>n";
-		}
+
+	public function addRecipe(){
+        $sql = "INSERT INTO recipe (authorID, title, prepTime, cookTime, Difficulty, date) VALUES
+				(:uid, :n, :prep, :cook, :diff, now())";
+
+        if($stmt = $this->_db->prepare($sql)){
+            $name = $_POST['name'];
+            $prep = $_POST['prep'];
+            $cook = $_POST['cook'];
+            $difficulty = $_POST['diff'];
+
+            $stmt->bindParam(':uid', $_SESSION['UID'], PDO::PARAM_INT);
+            $stmt->bindParam(':n', $name, PDO::PARAM_STR);
+            $stmt->bindParam(':prep', $prep, PDO::PARAM_INT);
+            $stmt->bindParam(':cook', $cook, PDO::PARAM_INT);
+            $stmt->bindParam(':diff', $difficulty, PDO::PARAM_STR);
+            $stmt->execute();
+        }
+        else
+        {
+            return "tttt<li> Something went wrong.368 ". $this->_db->errorInfo. "</li>n";
+        }
+        $rid = $this->_db->lastInsertID();
+
+        //now add instructoins
+
+        //wonder if this can be done in one statement to go faster, but not sure how to bind a variable number of things
+        $i = 1;
+        foreach($_POST['instructions'] as $key => $n) {
+            $sql = "INSERT INTO instruction (rid, stepNum, Text) VALUES ($rid, $i, :text) ";
+            $i += 1;
+            if ($stmt = $this->_db->prepare($sql)) {
+                $stmt->bindParam(':text', $n, PDO::PARAM_STR);
+                $stmt->execute();
+            } else {
+                return "tttt<li> Something went wrong.364 " . $this->_db->errorInfo . "</li>n";
+            }
+        }
+
+        foreach($_POST['utensils'] as $key => $n) {
+            $sql = "INSERT INTO utensil (rid,  name) VALUES ($rid, :name) ";
+
+            if ($stmt = $this->_db->prepare($sql)) {
+                $stmt->bindParam(':name', $n, PDO::PARAM_STR);
+                $stmt->execute();
+            } else {
+                return "tttt<li> Something went wrong.364 " . $this->_db->errorInfo . "</li>n";
+            }
+        }
+
+        $tmp = "";
+
+        for($j = 0; $j < sizeof($_POST['ingredients']['state']); $j++){
+            $sql = "INSERT INTO ingredient (rid, name, state, quantity) VALUES ($rid, :n, :state, :quantity) ";
+
+            //$tmp .= $_POST['ingredients']['name'][$j] . "  ";
+
+            if ($stmt = $this->_db->prepare($sql)) {
+                $stmt->bindParam(':n', $_POST['ingredients']['name'][$j], PDO::PARAM_STR);
+                $stmt->bindParam(':state', $_POST['ingredients']['state'][$j], PDO::PARAM_STR);
+                $stmt->bindParam(':quantity', $_POST['ingredients']['quant'][$j], PDO::PARAM_STR);
+
+                $stmt->execute();
+            } else {
+                return "tttt<li> Something went wrong.364 " . $this->_db->errorInfo . "</li>n";
+            }
+        }
+
+        return $tmp;
+
 	}
 	/*
 	* Adds a new recipe 
 	*/
 	public function addReview(){ 
-		$sql = "INSERT INTO review (rid, rating, text, date) VALUES ($rid, :rating, :text, now())";
+		$sql = "INSERT INTO review (rid, rating, text, date) VALUES (:rid, :rating, :text, now())";
 		
 		if($stmt = $this->_db->prepare($sql)){
+		    $stmt->bindParam(':rid', $_POST['rid'], PDO::PARAM_INT);
 			$stmt->bindParam(':rating', $_POST['r'], PDO::PARAM_INT);
 			$stmt->bindParam(':text', $_POST['t'], PDO::PARAM_STR);
 			$stmt->execute();
 		}
 		else
 		{
-			return "tttt<li> Something went wrong.563 ", $db->errorInfo, "</li>n";
+			return "tttt<li> Something went wrong.563 ". $this->_db->errorInfo. "</li>n";
 		}
 	}
 	
@@ -370,4 +362,3 @@ class RecipeManager{
 		
 	}
 }
-	?php>
