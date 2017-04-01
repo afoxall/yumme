@@ -136,4 +136,16 @@ h2 { font-size: 30px; line-height:38px; font-weight:normal; }
     text-align: left;
     vertical-align: middle;
 }
+
+#label a {
+    color: #fff;
+    cursor: pointer;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    padding-left: 1px;
+    text-align: left;
+    vertical-align: middle;
+}
+
 .fbbutton { border:1px solid #14713d; width:94px; background-image:-webkit-linear-gradient(top, #44a446, #44a446); font-size:14px; line-height:25px; font-weight:normal; color:#fff; }  e, a, b, u, i, center, dl, dt, u, i, center, dl, dt, dd, ol, ul, li

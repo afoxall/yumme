@@ -51,7 +51,7 @@ endif;
 
                             <?php
                             $url = "/yumme/password.php";
-                            echo "<td><label><a href='$url' style=\"color:#ccc; text-decoration:none\">forgot your password?</a></label></td>";?>
+                            echo "<td><label><a href='$url' style=\"color:#ccc; text-decoration:none\">Forgot your password?</a></label></td>";?>
                             <!--<td><label><a href=$url style="color:#ccc; text-decoration:none">forgot your password?</a></label></td>-->
 
                         </tr>
