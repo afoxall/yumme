@@ -3,11 +3,10 @@
     $pageTitle = "Reset Your Password";
     include_once "common/header.php";
 ?>
- 
+    <link rel="stylesheet" href="yummeStyle.css" type="text/css" />
         <h2>Reset Your Password</h2>
         <p>Enter the email address you signed up with and we'll send
         you a link to reset your password.</p>
- 
         <form action="db-interaction/users.php" method="post">
             <div>
                 <input type="hidden" name="action"
