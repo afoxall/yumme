@@ -46,7 +46,8 @@ class FollowManager{
 			}
 		}*/
 		else{
-			return "tttt<li> I need the uid. ", $db->errorInfo, "</li>n";
+		    $err = $this->_db->errorInfo;
+		    return "tttt<li> I need the uid. " . $err . "</li>n";
 			
 		}
 		
@@ -59,7 +60,7 @@ class FollowManager{
 		}
 		else
 		{
-			return "tttt<li> Something went wrong. ", $db->errorInfo, "</li>n";
+			return "tttt<li> Something went wrong. " . $this->_db->errorInfo+"</li>n";
 		}	
 	
 	}
@@ -81,7 +82,7 @@ class FollowManager{
 			}
 		}*/
 		else{
-			return "tttt<li> I need either the uid or uname. ", $db->errorInfo, "</li>n";
+			return "tttt<li> I need either the uid or uname. " . $this->_db->errorInfo . "</li>n";
 			return;
 		}
 		
@@ -94,7 +95,7 @@ class FollowManager{
 		}
 		else
 		{
-			return "tttt<li> Something went wrong. ", $db->errorInfo, "</li>n";
+			return "tttt<li> Something went wrong. " . $this->_db->errorInfo . "</li>n";
 		}	
 	}
 	//allows someone to block one of their followers (not permanent, that would need a new table)
@@ -115,7 +116,7 @@ class FollowManager{
 			}
 		}*/
 		else{
-			return "tttt<li> I need the uid. ", $db->errorInfo, "</li>n";
+			return "tttt<li> I need the uid. " . $this->_db->errorInfo . "</li>n";
 			return;
 		}
 		
@@ -128,7 +129,7 @@ class FollowManager{
 		}
 		else
 		{
-			return "tttt<li> Something went wrong. ", $db->errorInfo, "</li>n";
+			return "tttt<li> Something went wrong. ". $this->_db->errorInfo. "</li>n";
 		}	
 		
 	}
@@ -155,7 +156,7 @@ class FollowManager{
 		}
 		else
         {
-            return "tttt<li> Something went wrong. ", $db->errorInfo, "</li>n";
+            return "tttt<li> Something went wrong. " . $this->_db->errorInfo. "</li>n";
         }
 		return $res;
 	}
@@ -164,28 +165,31 @@ class FollowManager{
 	*/
 	public function getFollows(){
 		//get current user's uid
-		$sql = "SELECT uid, uname FROM  user, follows 
-		where follows.follower = :uid and follows.followee = user.uid"; // TODO sketchy, defs test
-		
-		$res = "";
+		//$sql = "SELECT uid, uname FROM  user, follows
+		//where follows.follower = :uid and follows.followee = user.uid"; // TODO sketchy, defs test
+
+        $sql = "SELECT followee from follow where follower=:uid";
+		$res = array();
 		if($stmt = $this->_db->prepare($sql)){
 			$stmt->bindParam(':uid', $_SESSION['UID']);
 			$stmt->execute();
 			
 			$count = 0;
 			while($row = $stmt->fetch()){
-				$res.= "<user>
+				/*$res.= "<user>
 							<uname>".$row['uname']."</uname>
 							<uid>".$row['uid']."</uid>
-						</user>";
+						</user>";*/
+                array_push($res, $row['followee']);
+
 			}
 			$stmt->closeCursor();
 		}
 		else
         {
-            return "tttt<li> Something went wrong. ", $db->errorInfo, "</li>n";
+            return "tttt<li> Something went wrong. ". $this->_db->errorInfo. "</li>n";
         }
 		return $res;
 	}
 	}
-	?php>
+	?>
