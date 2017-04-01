@@ -25,7 +25,7 @@ body.recipe { background: url(recipe-background.jpeg)no-repeat center center fix
 background-size: cover;
 color: white;}
 h2 { font-size: 30px; line-height:38px; font-weight:normal; }
-.loginbox { background: #FBFCFD; padding: 10px; width: 490px; margin: 4% auto 0 auto; position: relative; }
+.loginbox { background: #FBFCFD; padding: 10px; width: 490px; margin: 4% auto 4% auto; position: relative; }
 .loginboxinner {
     background: #FBFCFD; padding: 5px; position: relative; border: 1px solid #FBFCFD;
     -moz-box-shadow: inset 0 1px 0 #FBFCFD; -webkit-box-shadow: inset 0 1px 0 #FBFCFD; box-shadow: inset 0 1px 0 #FBFCFD;
@@ -37,14 +37,21 @@ h2 { font-size: 30px; line-height:38px; font-weight:normal; }
 .loginbox p { margin: 7px 0 5px 0; }
 .loginbox label { display: block; color: #666; letter-spacing: 1px; font-size: 18px; }
 .loginbox input.mini { width:195px; }
+.loginbox input.third { width:122px;}
 .loginbox input {
     padding: 12px 10px; color: #ccc;
     font-family: Arial, Helvetica, sans-serif; margin-top: 8px; font-size: 15px; border: 1px solid #ccc; width: 420px;  outline: none;
 }
+
+.loginbox button.mini { background: #44a446; background-image:-webkit-linear-gradient(top, #4bad64, #44a446); padding: 10px 20px; font-size: 10px; border: 1px solid #44a446; letter-spacing: 1px; color: #fff; width: 155px; line-height:14px; font-family:    'Helvetica Neue', Helvetica, Arial, sans-serif;
+    -moz-box-shadow: 1px 1px 3px #710100; -webkit-box-shadow: 1px 1px 3px #44a446; box-shadow: 1px 1px 3px #44a446; cursor: pointer;
+}
+
 .loginbox button {
     background: #44a446; background-image:-webkit-linear-gradient(top, #4bad64, #44a446); padding: 10px 20px; font-size: 18px; border: 1px solid #44a446; letter-spacing: 1px; color: #fff; width: 440px; line-height:30px; font-family:    'Helvetica Neue', Helvetica, Arial, sans-serif;
     -moz-box-shadow: 1px 1px 3px #710100; -webkit-box-shadow: 1px 1px 3px #44a446; box-shadow: 1px 1px 3px #44a446; cursor: pointer;
 }
+
 
 .radius { -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; }
 .radius1 { -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; }
@@ -135,4 +142,5 @@ h2 { font-size: 30px; line-height:38px; font-weight:normal; }
     text-align: left;
     vertical-align: middle;
 }
+
 .fbbutton { border:1px solid #14713d; width:94px; background-image:-webkit-linear-gradient(top, #44a446, #44a446); font-size:14px; line-height:25px; font-weight:normal; color:#fff; }  e, a, b, u, i, center, dl, dt, u, i, center, dl, dt, dd, ol, ul, li

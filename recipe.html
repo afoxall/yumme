@@ -21,8 +21,7 @@
                             <td ><input type="submit" class="fbbutton" name="login" value="Login" /></td>
                         </tr>
                         <tr>
-                            <td><label>
-                            <td><label><a href="" style="color:#ccc; text-decoration:none">forgot your password?</a></label></td>
+                            <td><label><a href=$url style="color:#ccc; text-decoration:none">forgot your password?</a></label></td>
                         </tr>
                     </table>
                 </form>
@@ -35,26 +34,56 @@
     <h2 style="color:#141823; text-align:center;">Enter a recipe!</h2>
     <div class="loginboxinner radius">
         <div class="loginheader">
-            <h4 class="title">Connect with the community to find fresh, free recipes!</h4>
+            <h4 class="title">Enter a recipe and let's get cooking!</h4>
         </div>
         <!--loginheader-->
         <div class="loginform">
             <form id="login" action="" method="post">
                 <p>
-                    <input type="text" id="firstname" name="firstname" placeholder="First Name" value="" class="radius mini" />
-                    <input type="text" id="lastname" name="lastname" placeholder="Last Name" value="" class="radius mini" />
+                    <input type="text" id="rName" name="rName" placeholder="Recipe Name" value="" class="radius" />
                 </p>
                 <p>
-                    <input type="text" id="userEmail" name="email" placeholder="Your Email" value="" class="radius" />
+                    <input type="text" id="prepTime" name="prepTime" placeholder="Preparation Time" value="" class="radius mini" />
+                    <input type="text" id="cookTime" name="cookTime" placeholder="Cooking Time" value="" class="radius mini" />
                 </p>
                 <p>
-                    <input type="text" id="remail" name="remail" placeholder="Re-enter Email" class="radius" />
+                    <select>
+                        <option value="easy">Easy</option>
+                        <option value="intermediate">Intermediate</option>
+                        <option value="hard">Hard</option>
+                    </select>
                 </p>
                 <p>
-                    <input type="password" id="password" name="password" placeholder="New Password" class="radius" />
+                <h4 class="title">Enter your ingredients below: </h4>
                 </p>
+                <div>
+                    <p>
+                        <input type="text" id="ingName" name="ingName" placeholder="Name" value="" class="radius third" />
+                        <input type="text" id="ingState" name="ingState" placeholder="State" value="" class="radius third" />
+                        <input type="text" id="ingAmount" name="ingAmount" placeholder="Amount" value="" class="radius third" />
+                    </p>
+                    <button class="radius mini" name="addIng">Add an Ingredient +</button>
+                </div>
                 <p>
-                    <button class="radius title" name="signup">Sign Up!</button>
+                <h4 class="title">Enter your utensils below: </h4>
+                </p>
+                <div>
+                <p>
+                    <input type="text" id="utensil" name="utensil" placeholder="Utensils (separated by commas)" value="" class="radius" />
+                </p>
+                    <button class="radius mini" name="addUt">Add a Utensil +</button>
+                </div>
+                <p>
+                <h4 class="title">Enter the recipe steps below: </h4>
+                </p>
+                <div>
+                <p>
+                    <input type="text" id="instruction" name="instruction" placeholder="Enter an Instruction" class="radius" />
+                </p>
+                    <button class="radius mini" name="addInst">Add a step +</button>
+                </div>
+                <p>
+                    <button class="radius title" name="signup">Submit!</button>
                 </p>
             </form>
         </div>
