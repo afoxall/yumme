@@ -92,7 +92,7 @@ MESSAGE;
 		$msg = <<<EMAIL
 You have created an account at Yumlee. Please click the activation ink below to finalize your account.
 
-http://localhost/yumme/accountverify.php?v=$ver&e=$e
+http://localhost:8080/yumme/accountverify.php?v=$ver&e=$e
 	
 Thanks!
 EMAIL;
@@ -221,7 +221,7 @@ MESSAGE;
 		$msg = <<<EMAIL
 You have have requested to rest your account password. Click the link below to do so.
 
-http://localhost/yumme/resetpassword.php?v=$ver&e=$e
+http://localhost:8080/yumme/resetpassword.php?v=$ver&e=$e
 	
 Thanks!
 EMAIL;

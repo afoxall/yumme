@@ -54,7 +54,7 @@
             </div>
         </form><br /><br />
 <?php
-        $url = BASE_URL . "/password.php";
+        $url = "/yumme/password.php";
         echo "<p><a href='$url'>Did you forget your password?</a></p>";
 
     endif;
