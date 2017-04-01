@@ -184,7 +184,7 @@ class RecipeManager{
                 $res .= "<div class='mini_recipe'>
                             <label>Name : $n </label>
                             <label>Total time: $t </label>
-                            <label>Difficulty: $t </label>
+                            <label>Difficulty: $d </label>
                             <label>Rating: $r </label>
                         </div>
 ";

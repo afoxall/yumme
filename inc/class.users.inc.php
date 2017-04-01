@@ -33,7 +33,7 @@ class UserManager{
 	*/
 	public function createAccount(){
 		
-		$email = trim($_POST['email']);
+		$email = trim($_POST['signup_email']);
 		$uname = trim($_POST['uname']);
 		
 		$v = sha1(time());
@@ -97,7 +97,7 @@ http://localhost:8080/yumme/accountverify.php?v=$ver&e=$e
 Thanks!
 EMAIL;
         $res = mail($to, $subject, $msg, $headers);
-        echo "Email sent";
+        echo "Email Sent";
 		return $res;
 	}
 	

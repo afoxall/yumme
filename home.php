@@ -1,10 +1,9 @@
 <?php
 include_once "common/base.php";
 $pageTitle = "Home";
-include_once "common/header.php";
 include_once "inc/constants.inc.php";
 
-if(!empty($_SESSION['LoggedIn']) && !empty($_SESSION['Email'])):
+if(!empty($_SESSION['LoggedIn']) && !empty($_SESSION['UID'])):
     header("Location: /".BASE_URL . "/index.php");
 
 
@@ -20,6 +19,8 @@ elseif(!empty($_POST['email']) && !empty($_POST['password'])):
     endif;
 
 endif;
+
+
 ?>
 
 <!DOCTYPE html>
@@ -40,8 +41,8 @@ endif;
                 <form method="post" action="" id="login_form" name="login_form">
                     <table border="0" style="border:none">
                         <tr>
-                            <td ><input type="text" tabindex="1"  id="email" placeholder="Email or Phone" name="email" class="inputtext radius1" value=""></td>
-                            <td ><input type="password" tabindex="2" id="pass" placeholder="Password" name="pass" class="inputtext radius1" ></td>
+                            <td ><input type="text" tabindex="1"  id="email" placeholder="Email" name="email" class="inputtext radius1" value=""></td>
+                            <td ><input type="password" tabindex="2" id="password" placeholder="Password" name="password" class="inputtext radius1" ></td>
                             <td ><input type="submit" class="fbbutton" name="login" value="Login" /></td>
                         </tr>
 
@@ -62,6 +63,16 @@ endif;
 </div>
 <!-- header ends here -->
 <div class="loginbox radius">
+
+    <?php
+        if(!empty($_POST['signupemail'])):
+            echo $s;
+            include_once "inc/class.users.inc.php";
+            $users = new UserManager($db);
+            echo $users->createAccount();
+        else:
+    ?>
+
     <h2 style="color:#141823; text-align:center;">Welcome to Yumme!</h2>
     <div class="loginboxinner radius">
         <div class="loginheader">
@@ -71,26 +82,21 @@ endif;
         <div class="loginform">
             <form id="login" action="" method="post">
                 <p>
-                    <input type="text" id="firstname" name="firstname" placeholder="First Name" value="" class="radius mini" />
-                    <input type="text" id="lastname" name="lastname" placeholder="Last Name" value="" class="radius mini" />
+                    <input type="text" id="signupemail" name="signupemail" placeholder="Your Email" value="" class="radius" />
+                </p>
+
+                <p>
+                    <input type="text" id="uname" name="uname" placeholder="Username" class="radius" />
                 </p>
                 <p>
-                    <input type="text" id="userEmail" name="email" placeholder="Your Email" value="" class="radius" />
-                </p>
-                <p>
-                    <input type="text" id="remail" name="remail" placeholder="Re-enter Email" class="radius" />
-                </p>
-                <p>
-                    <input type="password" id="password" name="password" placeholder="New Password" class="radius" />
-                </p>
-                <p>
-                    <button class="radius title" name="signup">Sign Up!</button>
+                    <button type="submit" class="radius title" name="signup">Sign Up!</button>
                 </p>
             </form>
         </div>
         <!--loginform-->
 
     </div>
+        <?php endif;?>
     <!--loginboxinner-->
 </div>
 <!--loginbox-->
