@@ -10,6 +10,14 @@ fieldset, form, label, legend {
     vertical-align: baseline;
     font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
+
+body.recipe { background: url(recipe-background.jpeg)no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    color: white;}
+
 /* Need to get a new file for the background */body.login { background: url(food-kitchen-cutting-board-cooking.jpg)no-repeat center center fixed;
 -webkit-background-size: cover;
 -moz-background-size: cover;
