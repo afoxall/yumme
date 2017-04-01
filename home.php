@@ -34,7 +34,7 @@ endif;
 <!-- header starts here -->
 <div id="facebook-Bar">
     <div id="facebook-Frame">
-        <div id="logo"> <a href="http://w3lessons.info">W3lessons.info</a> </div>
+        <div id="logo"> <img src="logo.png" style="margin:auto; width:140px; height:70px; display:block" /> </div>
         <div id="header-main-right">
             <div id="header-main-right-nav">
                 <form method="post" action="" id="login_form" name="login_form">
@@ -47,10 +47,12 @@ endif;
 
 
                         <tr>
+
                             <?php
                             $url = "/yumme/password.php";
                             echo "<td><label><a href='$url' style=\"color:#ccc; text-decoration:none\">forgot your password?</a></label></td>";?>
                             <!--<td><label><a href=$url style="color:#ccc; text-decoration:none">forgot your password?</a></label></td>-->
+
                         </tr>
                     </table>
                 </form>
@@ -82,7 +84,7 @@ endif;
                     <input type="password" id="password" name="password" placeholder="New Password" class="radius" />
                 </p>
                 <p>
-                    <button class="radius title" name="signup">Sign Up for Yumme!</button>
+                    <button class="radius title" name="signup">Sign Up!</button>
                 </p>
             </form>
         </div>
