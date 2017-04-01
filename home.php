@@ -1,3 +1,27 @@
+<?php
+include_once "common/base.php";
+$pageTitle = "Home";
+include_once "common/header.php";
+include_once "inc/constants.inc.php";
+
+if(!empty($_SESSION['LoggedIn']) && !empty($_SESSION['Email'])):
+    header("Location: /".BASE_URL . "/index.php");
+
+
+elseif(!empty($_POST['email']) && !empty($_POST['password'])):
+    include_once 'inc/class.users.inc.php';
+    $users = new UserManager($db);
+    if($users->accountLogin()==TRUE):
+        header("Location: /".BASE_URL . "/index.php");
+        exit;
+
+    else:
+        echo("Login Failed");
+    endif;
+
+endif;
+?>
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -20,11 +44,13 @@
                             <td ><input type="password" tabindex="2" id="pass" placeholder="Password" name="pass" class="inputtext radius1" ></td>
                             <td ><input type="submit" class="fbbutton" name="login" value="Login" /></td>
                         </tr>
+
+
                         <tr>
-                            <td><label>
-                                <input id="persist_box" type="checkbox" name="persistent" value="1" checked="1"/>
-                                <span style="color:#ccc;">Keep me logged in</span></label></td>
-                            <td><label><a href="" style="color:#ccc; text-decoration:none">forgot your password?</a></label></td>
+                            <?php
+                            $url = "/yumme/password.php";
+                            echo "<td><label><a href='$url' style=\"color:#ccc; text-decoration:none\">forgot your password?</a></label></td>";?>
+                            <!--<td><label><a href=$url style="color:#ccc; text-decoration:none">forgot your password?</a></label></td>-->
                         </tr>
                     </table>
                 </form>
@@ -61,6 +87,7 @@
             </form>
         </div>
         <!--loginform-->
+
     </div>
     <!--loginboxinner-->
 </div>
