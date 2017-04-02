@@ -9,7 +9,7 @@
 include_once "common/base.php";
 $pageTitle = "Welcome to Yumme";
 include_once "common/header.php";
-
+include_once "common/sidebar.php";
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
