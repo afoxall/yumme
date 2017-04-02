@@ -15,15 +15,11 @@
         <div id="logo"> <img src="logo.png" style="margin:auto; width:140px; height:70px; display:block" /> </div>
         <div id="header-main-right">
         </div>
+        <div><label><a href ="/yumme/logout.php" >Logout</a></label></div>
+        <div><label><a href ="/yumme/newrecipe.php" >New Recipe</a></label></div>
+        <div><label><a href ="/yumme/index.php" > <?php echo $_SESSION['UNAME'] ?></a></label></div>
     </div>
 </div>
 </div>
 </body>
-        <?php
-            if(isset($_SESSION['LoggedIn']) && isset($_SESSION['UID']) && $_SESSION['LoggedIn']==1){
-                echo "<p><a href=\"/yumme/logout.php\" class=\"button\">Log out</a></p>";
-            }
-            else{
-                echo "<p><a class=\"button\" href=\"/yumme/signup.php\">Sign up</a> &nbsp; <a class=\"button\" href=\"/yumme/login.php\">Log in</a></p>";
-            }
-        ?>
+
