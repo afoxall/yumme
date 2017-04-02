@@ -42,8 +42,7 @@ else:
                     </select>
                 </p>
                 <p>
-                <label for="cook">Description</label>
-                <input type="text" name="description" id="description" /><br />
+                    <input type="text" id="description" name="description" placeholder="Description" value="" class="radius" />
                 </p>
 
                 <p>
