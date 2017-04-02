@@ -26,6 +26,9 @@
                     <option value="Hard">Hard</option>
                 </select>
 
+                <label for="cook">Description</label>
+                <input type="text" name="description" id="description" /><br />
+
                 <div class = "ingInput">
                     <label>Ingredients</label><br/>
                     <label for="ingredients[name][]">Name </label>
