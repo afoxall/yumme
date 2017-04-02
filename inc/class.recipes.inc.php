@@ -26,129 +26,112 @@ class RecipeManager{
 	*/
 	public function getFullRecipe(){
 		//first get the recipe (we will get the author reviews, ingredients and utensils later)
-		$sql = "SELECT * FROM recipe WHERE rid=:rid";	
-		
+		$sql = "SELECT recipe.prepTime, recipe.cookTime, recipe.difficulty, recipe.date, recipe.title, user.uname
+              FROM recipe join user on recipe.authorID = user.UID WHERE recipe.rid=:rid";
+
 		if($stmt = $this->_db->prepare($sql)){
-			$stmt->bindParam(':rid', $_POST['RID']);
+			$stmt->bindParam(':rid', $_POST['rid']);
 			$stmt->execute();
 			
 			if($stmt->rowCount()==1){
 				$recipe = $stmt->fetch();
-				$res = "<recipe>
-						<author>".$recipe['']."<\author>
+				echo $recipe['title'];
+				$res = "<div>
+						<author>".$recipe['uname']."</author>
 						<prep>".$recipe['prepTime']."</prep>
 						<cook>".$recipe['cookTime']."</cook>
 						<diff>".$recipe['difficulty']."</diff>
-						<date>".$recipe['date']."</date>
-						<title>".$recipe['title']."</title>";						
+						<date>".$recipe['date']."</date>";
 			}
 			else{
-				return "tttt<li> Something went wrong.126 ". $this->_db->errorInfo. "</li>n";
+				return "<li> Something went wrong.126 ". $this->_db->errorInfo()[0] . $this->_db->errorInfo()[1] .$this->_db->errorInfo()[2] . "</li>";
 			}
 		}
 		else{
-            return "tttt<li> Something went wrong. 47". $this->_db->errorInfo. "</li>n";
+            return "tttt<li> Something went wrong. 47". $this->_db->errorInfo()[0]. "</li>n";
         }
-		//time to get author username
-		$sql = "SELECT uname FROM user WHERE uid=:uid";	
-		
-		if($stmt = $this->_db->prepare($sql)){
-			$stmt->bindParam(':uid', $recipe['uid']);
-			$stmt->execute();
-			
-			if($stmt->rowCount()==1){
-				$row = $stmt->fetch();
-				$res .= "<author>".$row['uname']."<\author>";						
-			}
-			else{
-				return "tttt<li> Something went wrong 5. ". $this->_db->errorInfo. "</li>n";
-			}
-		}
-		else
-        {
-            return "tttt<li> Something went wrong 6. ". $this->_db->errorInfo. "</li>n";
-        }
-		
+
+
 		//now get ingredients
 		$sql = "SELECT * FROM ingredient WHERE rid=:rid";	
 		
 		if($stmt = $this->_db->prepare($sql)) {
-            $stmt->bindParam(':rid', $_POST['RID']);
+            $stmt->bindParam(':rid', $_POST['rid']);
             $stmt->execute();
 
             while ($row = $stmt->fetch()) {
-                $res .= "<ingredient>
-							<quantity>" . $row['quantity'] . "<\quantity>
+                $res .= "<div>
+							<quantity>" . $row['quantity'] . "</quantity>
 							<state>" . $row['state'] . "</state>
 							<name>" . $row['name'] . "</name>
-						<\ingredient>";
+						</div>";
             }
         }
 
 		else
         {
-            return "tttt<li> Something went wrong 8. ". $this->_db->errorInfo. "</li>n";
+            return "tttt<li> Something went wrong 8. ". $this->_db->errorInfo()[0]. "</li>n";
         }
-		
+
+        //now get utensils
+        $sql = "SELECT * FROM utensil WHERE rid=:rid";
+
+        if($stmt = $this->_db->prepare($sql)){
+            $stmt->bindParam(':rid', $_POST['rid']);
+            $stmt->execute();
+
+            while($row = $stmt->fetch()){
+                $res .= "<div>
+							<name>".$row['name']."</name>
+						</div>";
+            }
+
+        }
+        else
+        {
+            return "tttt<li> Something went wrong 12. ". $this->_db->errorInfo(). "</li>n";
+        }
 		//now get instructions
 		$sql = "SELECT * FROM instruction WHERE rid=:rid";	
 		
 		if($stmt = $this->_db->prepare($sql)){
-			$stmt->bindParam(':rid', $_POST['RID']);
+			$stmt->bindParam(':rid', $_POST['rid']);
 			$stmt->execute();
 			
 			while($row = $stmt->fetch()){
-				$res .= "<instruction>
-							<num>".$row['stepNum']."<\num>
-							<text>".$row['instructionText']."</text>					
-						<\instruction>";						
+				$res .= "<div>
+							<num>".$row['StepNum']."</num>
+							<text>".$row['Text']."</text>					
+						</div>";
 			}
 		}
 		else
         {
-            return "tttt<li> Something went wrong 10. ". $this->_db->errorInfo. "</li>n";
+            return "tttt<li> Something went wrong 10. ". $this->_db->errorInfo(). "</li>n";
         }
-		
-		//now get utensils
-		$sql = "SELECT * FROM utensil WHERE rid=:rid";	
-		
-		if($stmt = $this->_db->prepare($sql)){
-			$stmt->bindParam(':rid', $_POST['RID']);
-			$stmt->execute();
-			
-			while($row = $stmt->fetch()){
-				$res .= "<utensil>
-							<name>".$row['name']."<\name>
-						<\utensil>";						
-			}
 
-		}
-		else
-        {
-            return "tttt<li> Something went wrong 12. ". $this->_db->errorInfo. "</li>n";
-        }
 		
 		//now get reviews
-		$sql = "SELECT * FROM review WHERE rid=:rid ORDER BY date LIMIT 10"; //10 is arbitrary for now	
+		$sql = "SELECT * FROM review WHERE recId=:rid ORDER BY date LIMIT 10"; //10 is arbitrary for now
 		
 		if($stmt = $this->_db->prepare($sql)){
-			$stmt->bindParam(':rid', $_POST['RID']);
+			$stmt->bindParam(':rid', $_POST['rid']);
 			$stmt->execute();
 			
 			while($row = $stmt->fetch()){
-				$res .= "<review>
-							<rating>".$row['rating']."<\rating>
+				$res .= "<div>
+							<rating>".$row['rating']."</rating>
 							<text>".$row['text']."</text>
-							<date>".$row['date']."</date>
-						<\ingredient>";						
+							<date>".$row['Date']."</date>
+						</div>";
 			}
 
 		}
 		else
         {
-            return "tttt<li> Something went wrong 6. ". $this->_db->errorInfo. "</li>n";
+            return "tttt<li> Something went wrong 6. ". $this->_db->errorInfo(). "</li>n";
         }
-		return $res . "</recipe>";
+		return $res . "</div>";
 	}
 	
 	/*
@@ -159,7 +142,7 @@ class RecipeManager{
 
 		$ids = join("','",$ar); //this is at risk of injection but ids are never seen or enterd by users so fine
 		//$sql = "SELECT title, prepTime + cookTime as time, difficulty FROM recipe WHERE authorID IN ('$ids') ORDER BY date LIMIT :n";
-		$sql = "SELECT recipe.title, recipe.prepTime + recipe.cookTime as time, recipe.difficulty, 
+		$sql = "SELECT recipe.rid, recipe.title, recipe.prepTime + recipe.cookTime as time, recipe.difficulty, 
               IFNULL(review.rating, NULL) as rating FROM recipe left join review on recipe.rid = review.RecID 
               WHERE recipe.authorID IN ('$ids') or exists(select * from reblog where rid = recipe.rid and uid in ('$ids'))
               ORDER BY recipe.date LIMIT :n";
@@ -180,12 +163,20 @@ class RecipeManager{
                 $t = $row['time'];
                 $d = $row['difficulty'];
                 $r = $row['rating'];
+                $rid = $row['rid'];
 
                 $res .= "<div class='mini_recipe'>
-                            <label>Name : $n </label>
-                            <label>Total time: $t </label>
-                            <label>Difficulty: $d </label>
-                            <label>Rating: $r </label>
+                        <form id=\"recipe\" action=\"viewrecipe.php\" method=\"post\">
+                                <label>Name: $n</label>
+                                
+                                <label>Total time: $t </label>
+                                <label>Difficulty: $d </label>
+                                <label>Rating: $r </label>
+                                <input name=\"rid\" type=\"hidden\" id=\"rid\" value=\"$rid\"  />
+                                
+                                <button type=\"submit\" class=\"radius mini\">View</button>
+                        </form>
+
                         </div>
 ";
             }
@@ -193,7 +184,7 @@ class RecipeManager{
 		}
 		else
         {
-            return "tttt<li> Something went wrong 623. ". $this->_db->errorInfo. "</li>n";
+            return "tttt<li> Something went wrong 623. ". $this->_db->errorInfo(). "</li>n";
         }
 
 		return $res;
@@ -222,7 +213,7 @@ class RecipeManager{
         }
         else
         {
-            return "tttt<li> Something went wrong.368 ". $this->_db->errorInfo. "</li>n";
+            return "tttt<li> Something went wrong.368 ". $this->_db->errorInfo(). "</li>n";
         }
         $rid = $this->_db->lastInsertID();
 
@@ -237,7 +228,7 @@ class RecipeManager{
                 $stmt->bindParam(':text', $n, PDO::PARAM_STR);
                 $stmt->execute();
             } else {
-                return "tttt<li> Something went wrong.364 " . $this->_db->errorInfo . "</li>n";
+                return "tttt<li> Something went wrong.364 " . $this->_db->errorInfo() . "</li>n";
             }
         }
 
@@ -248,7 +239,7 @@ class RecipeManager{
                 $stmt->bindParam(':name', $n, PDO::PARAM_STR);
                 $stmt->execute();
             } else {
-                return "tttt<li> Something went wrong.364 " . $this->_db->errorInfo . "</li>n";
+                return "tttt<li> Something went wrong.364 " . $this->_db->errorInfo() . "</li>n";
             }
         }
 
@@ -266,7 +257,7 @@ class RecipeManager{
 
                 $stmt->execute();
             } else {
-                return "tttt<li> Something went wrong.364 " . $this->_db->errorInfo . "</li>n";
+                return "tttt<li> Something went wrong.364 " . $this->_db->errorInfo() . "</li>n";
             }
         }
 
@@ -287,7 +278,7 @@ class RecipeManager{
 		}
 		else
 		{
-			return "tttt<li> Something went wrong.563 ". $this->_db->errorInfo. "</li>n";
+			return "tttt<li> Something went wrong.563 ". $this->_db->errorInfo(). "</li>n";
 		}
 	}
 	
