@@ -160,7 +160,7 @@ class RecipeManager{
 		$ids = join("','",$ar); //this is at risk of injection but ids are never seen or enterd by users so fine
 		//$sql = "SELECT title, prepTime + cookTime as time, difficulty FROM recipe WHERE authorID IN ('$ids') ORDER BY date LIMIT :n";
 		$sql = "SELECT recipe.title, recipe.prepTime + recipe.cookTime as time, recipe.difficulty, 
-              IFNULL(review.rating, -1) as rating FROM recipe left join review on recipe.rid = review.RecID 
+              IFNULL(review.rating, NULL) as rating FROM recipe left join review on recipe.rid = review.RecID 
               WHERE recipe.authorID IN ('$ids') or exists(select * from reblog where rid = recipe.rid and uid in ('$ids'))
               ORDER BY recipe.date LIMIT :n";
 		$res = "";

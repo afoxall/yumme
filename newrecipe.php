@@ -1,6 +1,13 @@
 <?php
-session_start();
-include_once "common/header.php";?>
+include_once "common/base.php";
+$pageTitle = "New Recipe";
+include_once "common/header.php";
+
+if($_SESSION['LoggedIn'] == 0):
+    header("Location: /yumme/login.php");
+else:
+//need to figure out how to structure the form (or maybe use something other than a form?) and generate the xml the recipe class expects
+?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -19,16 +26,16 @@ include_once "common/header.php";?>
         </div>
         <!--loginheader-->
         <div class="loginform">
-            <form id="login" action="" method="post">
+            <form id="login" action="recipes.php" method="post">
                 <p>
-                    <input type="text" id="rName" name="rName" placeholder="Recipe Name" value="" class="radius" />
+                    <input type="text" id="name" name="name" placeholder="Recipe Name" value="" class="radius" />
                 </p>
                 <p>
-                    <input type="text" id="prepTime" name="prepTime" placeholder="Preparation Time" value="" class="radius mini" />
-                    <input type="text" id="cookTime" name="cookTime" placeholder="Cooking Time" value="" class="radius mini" />
+                    <input type="text" id="prep" name="prep" placeholder="Preparation Time" value="" class="radius mini" />
+                    <input type="text" id="cook" name="cook" placeholder="Cooking Time" value="" class="radius mini" />
                 </p>
                 <p>
-                    <select>
+                    <select id="diff" name="diff">
                         <option value="easy">Easy</option>
                         <option value="intermediate">Intermediate</option>
                         <option value="hard">Hard</option>
@@ -39,9 +46,9 @@ include_once "common/header.php";?>
                     </p>
                     <div class = "ingInput">
                         <p>
-                            <input type="text" id="ingName" name="ingName" placeholder="Name" value="" class="radius third" />
-                            <input type="text" id="ingState" name="ingState" placeholder="State" value="" class="radius third" />
-                            <input type="text" id="ingAmount" name="ingAmount" placeholder="Amount" value="" class="radius third" />
+                            <input type="text" id="ingName" name="ingredients[name][]" placeholder="Name" value="" class="radius third" />
+                            <input type="text" id="ingState" name="ingredients[state][]" placeholder="State" value="" class="radius third" />
+                            <input type="text" id="ingAmount" name="ingredients[quant][]" placeholder="Amount" value="" class="radius third" />
                         </p>
 
                     </div>
@@ -51,21 +58,25 @@ include_once "common/header.php";?>
                 </p>
                 <div class="utensilInput">
                 <p>
-                    <input type="text" id="utensil" name="utensil" placeholder="Utensils (separated by commas)" value="" class="radius" />
+                    <input type="text" id="utensil" name="utensils[]" placeholder="Utensils (separated by commas)" value="" class="radius" />
                 </p>
-                    <button class="radius mini" name="addUt">Add a Utensil +</button>
+
                 </div>
+                <button class="radius mini" name="addUt">Add a Utensil +</button>
                 <p>
                 <h4 class="title">Enter the recipe steps below: </h4>
                 </p>
                 <div class="instInput">
                 <p>
-                    <input type="text" id="instruction" name="instruction" placeholder="Enter an Instruction" class="radius" />
+                    <input type="text" id="instruction" name="instructions[]" placeholder="Enter an Instruction" class="radius" />
                 </p>
-                    <button class="radius mini" name="addInst">Add a step +</button>
+
                 </div>
+                <button class="radius mini" name="addInst">Add a step +</button>
                 <p>
-                    <button class="radius title" name="signup">Submit!</button>
+                    <button type="submit" name="save" id="save" class="radius title" name="signup">Submit!</button>
+                    <input type="hidden" name="action" id="action" value="addRec"/>
+
                 </p>
             </form>
         </div>
@@ -76,7 +87,7 @@ include_once "common/header.php";?>
 <!--loginbox-->
 </body>
 </html>
-
+<!--
 <h2>New Recipe</h2>
 <form method="post" action="recipes.php" id="recform">
     <div class="recipeInput">
@@ -126,7 +137,7 @@ include_once "common/header.php";?>
     </div>
 
 </form>
-
+-->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script>
@@ -144,7 +155,7 @@ include_once "common/header.php";?>
             e.preventDefault();
             if(x < max_fields){
                 x++;
-                $(ingWrapper).append('<p><input type="text" id="ingName" name="ingName" placeholder="Name" value="" class="radius third" /><input type="text" id="ingState" name="ingState" placeholder="State" value="" class="radius third" /><input type="text" id="ingAmount" name="ingAmount" placeholder="Amount" value="" class="radius third" /></p>'); //add input box
+                $(ingWrapper).append('<p><input type="text" id="ingName" name="ingredients[name][]" placeholder="Name" value="" class="radius third" /><input type="text" id="ingState" name="ingredients[state][]" placeholder="State" value="" class="radius third" /><input type="text" id="ingAmount" name="ingredients[quant][]" placeholder="Amount" value="" class="radius third" /></p>'); //add input box
             }
             else
             {
@@ -157,7 +168,7 @@ include_once "common/header.php";?>
             e.preventDefault();
             if(x < max_fields){
                 x++;
-                $(uteWrapper).append(' <div> <p><input type="text" id="utensil" name="utensil" placeholder="Utensils (separated by commas)" value="" class="radius" /> </p> <button class="radius mini" name="addUt">Add a Utensil +</button> </div>'); //add input box
+                $(uteWrapper).append('<p><input type="text" id="utensil" name="utensils[]" placeholder="Utensils (separated by commas)" value="" class="radius" /> </p> '); //add input box
             }
             else
             {
@@ -170,7 +181,7 @@ include_once "common/header.php";?>
             e.preventDefault();
             if(x < max_fields){
                 x++;
-                $(instWrapper).append('<p><input type="text" id="instruction" name="instruction" placeholder="Enter an Instruction" class="radius" /> </p>'); //add input box
+                $(instWrapper).append('<p><input type="text" id="instruction" name="instructions[]" placeholder="Enter an Instruction" class="radius" /> </p>'); //add input box
             }
             else
             {
@@ -190,3 +201,8 @@ include_once "common/header.php";?>
         })
     });
 </script>
+
+    <?php
+endif;
+include_once 'common/close.php';
+?>

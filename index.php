@@ -33,7 +33,7 @@ if(isset($_SESSION['LoggedIn']) && isset($_SESSION['UID'])):
 
 ?>
  
-    <p><a href="/yumme/addrecipe.php" class="button">New Recipe</a>
+
  
 
 
