@@ -14,7 +14,7 @@ include_once "common/base.php";
 
 
 
-<div id="sidebar"></div>
+<div id="viewsidebar"></div>
 <body class="viewRecipe">
 <!-- header starts here -->
 <div class="loginbox radius">

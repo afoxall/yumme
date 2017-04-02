@@ -103,7 +103,7 @@ EMAIL;
 	* takes an email and verification code from the verification email and verifies the account
 	*/
 	public function verifyAccount(){
-		$sql = "SELECT * from user WHERE ver_code = :ver AND SHA1(email) = :email AND verified = 0";
+		$sql = "SELECT UID, UName, email from user WHERE ver_code = :ver AND SHA1(email) = :email AND verified = 0";
 
 
 		if($stmt = $this->_db->prepare($sql)){
@@ -116,7 +116,7 @@ EMAIL;
 
 			if(isset($row['email'])){
 				$_SESSION['UID'] = $row['UID'];
-                $_SESSION['UNAME'] = $row['Uname'];
+                $_SESSION['UNAME'] = $row['UName'];
 				$_SESSION['LoggedIn'] = 1;
 			}
 			else{
@@ -177,7 +177,7 @@ EMAIL;
 					$row = $stmt->fetch();
 					$_SESSION['UID'] = $row['uid'];
 					$_SESSION['LoggedIn'] = 1;
-					$_SESSION['UNAME'] = $row['Uname'];
+					$_SESSION['UNAME'] = $row['uname'];
 
 					return TRUE;
 			}
