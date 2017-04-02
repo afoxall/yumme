@@ -32,8 +32,8 @@ if(!empty($_POST['action'])
 
 
     $sql = "INSERT INTO reblog (rid, uid, date) VALUES (:rid, :uid, now())";
-
-
+    echo  $_GET['r'];
+    sleep(50);
     if($stmt = $this->_db->prepare($sql)){
         $stmt->bindParam(':rid', $_GET['r'], PDO::PARAM_INT);
         $stmt->bindParam(':uid', $_SESSION['UID'], PDO::PARAM_INT);

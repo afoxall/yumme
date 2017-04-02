@@ -40,7 +40,9 @@ include_once "common/header.php";
 
         $recipes = new RecipeManager($db);
         $u = $_GET['u'];
-        $res = "<br><p><a href=\"/yumme/addfollows.php?r=$u\">Follow</a></p>";
+        $name=$_GET['uname'];
+        $res = "<p align=\"center\"><label align=\"center\" class=\"title\">$name</label></p>";
+        $res .= "<br><p align='center'><a href=\"/yumme/addfollows.php?r=$u\">Follow</a></p>";
         $res .= $recipes->getUsersRecipes(array($_GET['u']), 20);
         echo $res;
 

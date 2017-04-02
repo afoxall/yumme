@@ -219,7 +219,7 @@ class RecipeManager{
                                                     </p>
                                                     <p>
                                                         <h4 class=\"title\">Total Time: $t    Difficulty: $d</h4>
-                                                        <h4 class=\"title\">Author: <a href='/yumme/userprofile.php?u=$u'>$a</a></h4>
+                                                        <h4 class=\"title\">Author: <a href='/yumme/userprofile.php?u=$u&uname=$a'>$a</a></h4>
                                                     </p>
                                                     
                                                     <input name=\"rid\" type=\"hidden\" id=\"rid\" value=\"$rid\"  />
