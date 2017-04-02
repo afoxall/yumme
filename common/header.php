@@ -16,27 +16,29 @@ include_once "common/base.php";
 <div id="facebook-Bar">
     <div id="facebook-Frame">
         <div id="logo"> <img src="logo.png" style="margin:auto; width:140px; height:70px; display:block" /> </div>
+        <div id="header-main-centre">
+            <form>
+            <a class="smallbutton" href="/yumme/newrecipe.php">Add a Recipe!</>
+            </form>
+            <form>
+                <a class="smallbutton" href="/yumme/logout.php">Logout</a>
+            </form>
+        </div>
         <div id="header-main-right">
             <div id="header-main-right-nav">
 
                 <table border="0" style="border:none">
                     <tr>
                         <td >
-                            <?php
-                                echo "<label><a href=\"/yumme/logout.php\" class=\"button\">Log out</a></label>";
-                            ?>
+                            <form action="/yumme/index.php">
+                        <td ><label><?php echo $_SESSION['UNAME']?></label></td>
+                        <!--<label> Username</label>-->
+                        </form>
                         </td>
-                        <td ><label><?php echo $_SESSION['UNAME']?><label></td>
-                        <td ></td>
                     </tr>
-
                 </table>
             </div>
         </div>
-        <td ><input type="submit" class="fbbutton" name="login" value="Login" /></td>
-        <div><label><a href ="/yumme/logout.php" >Logout</a></label></div>
-        <div><label><a href ="/yumme/newrecipe.php" >New Recipe</a></label></div>
-        <div><label><a href ="/yumme/index.php" > <?php echo $_SESSION['UNAME'] ?></a></label></div>
     </div>
 </div>
 </body>

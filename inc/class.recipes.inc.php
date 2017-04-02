@@ -184,19 +184,42 @@ class RecipeManager{
                 $r = $row['rating'];
                 $rid = $row['rid'];
 
-                $res .= "<div class='mini_recipe'>
-                        <form id=\"recipe\" action=\"viewrecipe.php\" method=\"post\">
-                                <label>Name: $n</label>
-                                
-                                <label>Total time: $t </label>
-                                <label>Difficulty: $d </label>
-                                <label>Rating: $r </label>
-                                <input name=\"rid\" type=\"hidden\" id=\"rid\" value=\"$rid\"  />
-                                
-                                <button type=\"submit\" class=\"radius mini\">View</button>
-                        </form>
+                $res .= "<div class=\"loginbox radius\">
+                            <div class=\"loginboxinner radius\">
+                            <!--loginheader-->
+                            <div class=\"loginform\">
+                                <form id=\"login\" action=\"\" method=\"post\">
+            
+                                <div class='mini_recipe'>
+                                            <form id=\"recipe\" action=\"viewrecipe.php\" method=\"post\">
+                                                    <p>
+                                                        <h4 class=\"title\">Name: $n</h4>
+                                                    </p>
+                                                    <p>
+                                                        <h4 class=\"title\">Total Time: $t</h4>
+                                                    </p>
+                                                    <p>
+                                                        <h4 class=\"title\">Difficutly: $d</h4>
+                                                    </p>
+                                                    <p>
+                                                        <h4 class=\"title\">Rating: $r</h4>
+                                                    </p>
+                                                    
+                                                    <input name=\"rid\" type=\"hidden\" id=\"rid\" value=\"$rid\"  />
+                                                    
+                                                    <button type=\"submit\" class=\"radius mini\">View</button>
+                                            </form>
+                    
+                                            </div>
+        </form>
+    </div>
+    <!--loginform-->
 
-                        </div>
+</div>
+<?php endif;?>
+<!--loginboxinner-->
+
+                        
 ";
             }
 

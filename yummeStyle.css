@@ -25,6 +25,13 @@ body.viewRecipe { background: url(recipe-view-background.jpeg)no-repeat center c
     background-size: cover;
     color: white;}
 
+body.index { background: url(index-background.jpg)no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    color: white;}
+
 /* Need to get a new file for the background */body.login { background: url(food-kitchen-cutting-board-cooking.jpg)no-repeat center center fixed;
 -webkit-background-size: cover;
 -moz-background-size: cover;
@@ -121,7 +128,7 @@ h2 { font-size: 30px; line-height:38px; font-weight:normal; }
 #header-main-centre {
     padding: 4px 6px 4px 4px;
     position: absolute;
-    right: 15%;
+    right: 20%;
 }
 #header-main-right-nav {
     padding: 4px 0px 4px 4px;
@@ -170,6 +177,7 @@ h2 { font-size: 30px; line-height:38px; font-weight:normal; }
     bottom: 0px;
     right: 20%;
     width: 200px;
+    margin-top: 71px;
     padding-top: 100%;
 }
 
