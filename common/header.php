@@ -30,6 +30,9 @@
                 </table>
             </div>
         </div>
+        <div><label><a href ="/yumme/logout.php" >Logout</a></label></div>
+        <div><label><a href ="/yumme/newrecipe.php" >New Recipe</a></label></div>
+        <div><label><a href ="/yumme/index.php" > <?php echo $_SESSION['UNAME'] ?></a></label></div>
     </div>
 </div>
 </div>

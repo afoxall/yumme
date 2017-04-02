@@ -178,6 +178,7 @@ EMAIL;
 					$_SESSION['UID'] = $row['uid'];
 					$_SESSION['LoggedIn'] = 1;
 					$_SESSION['UNAME'] = $row['Uname'];
+
 					return TRUE;
 			}
 			else{
