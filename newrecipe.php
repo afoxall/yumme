@@ -42,6 +42,11 @@ else:
                     </select>
                 </p>
                 <p>
+                <label for="cook">Description</label>
+                <input type="text" name="description" id="description" /><br />
+                </p>
+
+                <p>
                     <h4 class="title">Enter your ingredients below: </h4>
                     </p>
                     <div class = "ingInput">
