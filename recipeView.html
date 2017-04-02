@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yumme!</title>
+    <link rel="stylesheet" href="yummeStyle.css" type="text/css" />
+</head>
+<body class="viewRecipe">
+<!-- header starts here -->
+<div id="facebook-Bar">
+    <div id="facebook-Frame">
+        <div id="logo"> <img src="logo.png" style="margin:auto; width:140px; height:70px; display:block" /> </div>
+        <div id="header-main-centre">
+            <form action="/yumme/newrecipe.php">
+                <a class="button">Add a Recipe!</a>
+            </form>
+            <form action="/yumme/logout.php">
+                <a class="fbbutton">Logout</a>
+            </form>
+        </div>
+        <div id="header-main-right">
+            <div id="header-main-right-nav">
+
+                <table border="0" style="border:none">
+                    <tr>
+                        <td >
+                            <form action="/yumme/index.php">
+                                <td ><label><?php echo $_SESSION['UNAME']?><label></td>
+                            <div><label> Please</label></div>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="loginbox radius">
+<h2 style="color:#141823; text-align:center;">Insert Recipe Title Here</h2>
+<div class="loginboxinner radius">
+    <div class="loginheader">
+        <h4 class="title">Connect with the community to find fresh, free recipes!</h4>
+    </div>
+    <!--loginheader-->
+    <div class="loginform">
+        <form id="login" action="" method="post">
+            <p>
+                <h4 style="color:#141823; text-align:center;">Prep Time: **    Cook Time: **</h4>
+            </p>
+            <p>
+            <h3 style="color:#141823; text-align:center;">Ingredients:</h3>
+            </p>
+
+            <p>
+                <input type="text" id="uname" name="uname" placeholder="Username" class="radius" />
+            </p>
+            <p>
+                <button type="submit" class="radius title" name="signup">Sign Up!</button>
+            </p>
+        </form>
+    </div>
+    <!--loginform-->
+
+</div>
+<?php endif;?>
+<!--loginboxinner-->
+</div>
+<!--loginbox-->
+</body>
