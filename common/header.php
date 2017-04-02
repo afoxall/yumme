@@ -14,16 +14,24 @@
     <div id="facebook-Frame">
         <div id="logo"> <img src="logo.png" style="margin:auto; width:140px; height:70px; display:block" /> </div>
         <div id="header-main-right">
+            <div id="header-main-right-nav">
+
+                <table border="0" style="border:none">
+                    <tr>
+                        <td >
+                            <?php
+                                echo "<label><a href=\"/yumme/logout.php\" class=\"button\">Log out</a></label>";
+                            ?>
+                        </td>
+                        <td ><label><?php echo $_SESSION['UNAME']?><label></td>
+                        <td ></td>
+                    </tr>
+
+                </table>
+            </div>
         </div>
     </div>
 </div>
 </div>
 </body>
-        <?php
-            if(isset($_SESSION['LoggedIn']) && isset($_SESSION['UID']) && $_SESSION['LoggedIn']==1){
-                echo "<p><a href=\"/yumme/logout.php\" class=\"button\">Log out</a></p>";
-            }
-            else{
-                echo "<p><a class=\"button\" href=\"/yumme/signup.php\">Sign up</a> &nbsp; <a class=\"button\" href=\"/yumme/login.php\">Log in</a></p>";
-            }
-        ?>
+
