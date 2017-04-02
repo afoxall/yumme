@@ -26,7 +26,7 @@ class RecipeManager{
 	*/
 	public function getFullRecipe(){
 		//first get the recipe (we will get the author reviews, ingredients and utensils later)
-		$sql = "SELECT recipe.prepTime, recipe.cookTime, recipe.difficulty, recipe.date, recipe.title, user.uname
+		$sql = "SELECT recipe.description, recipe.imagename, recipe.prepTime, recipe.cookTime, recipe.difficulty, recipe.date, recipe.title, user.uname
               FROM recipe join user on recipe.authorID = user.UID WHERE recipe.rid=:rid";
 
 		if($stmt = $this->_db->prepare($sql)){
@@ -35,8 +35,12 @@ class RecipeManager{
 			
 			if($stmt->rowCount()==1){
 				$recipe = $stmt->fetch();
-				echo $recipe['title'];
-				$res = "<div>
+				//echo $recipe['title'];
+				$res = "
+                    <p>
+                        <h2 style=\"color:#141823; text-align:center;\">". $recipe['title']."</h2>
+                        </p>
+                    <div>
 						<author>".$recipe['uname']."</author>
 						<prep>".$recipe['prepTime']."</prep>
 						<cook>".$recipe['cookTime']."</cook>
@@ -51,7 +55,7 @@ class RecipeManager{
             return "tttt<li> Something went wrong. 47". $this->_db->errorInfo()[0]. "</li>n";
         }
 
-
+        $res .= "<p><h3 style=\"color:#141823; text-align:center;\">Ingredients:</h3></p>";
 		//now get ingredients
 		$sql = "SELECT * FROM ingredient WHERE rid=:rid";	
 		
@@ -72,7 +76,7 @@ class RecipeManager{
         {
             return "tttt<li> Something went wrong 8. ". $this->_db->errorInfo()[0]. "</li>n";
         }
-
+        $res .= "<p><h3 style=\"color:#141823; text-align:center;\">Utensils:</h3></p>";
         //now get utensils
         $sql = "SELECT * FROM utensil WHERE rid=:rid";
 
@@ -91,6 +95,8 @@ class RecipeManager{
         {
             return "tttt<li> Something went wrong 12. ". $this->_db->errorInfo(). "</li>n";
         }
+
+        $res .= "<p> <h3 style=\"color:#141823; text-align:center;\">Steps:</h3> </p>";
 		//now get instructions
 		$sql = "SELECT * FROM instruction WHERE rid=:rid";	
 		

@@ -53,6 +53,8 @@ $sql = "
 CREATE TABLE Recipe(
 	RID int NOT NULL AUTO_INCREMENT,
 	authorID int,
+	description varchar(300),
+	imagename varchar(100),
 	Date DATETIME,
 	title varchar(100),
 	prepTime int,
