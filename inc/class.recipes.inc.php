@@ -25,8 +25,12 @@ class RecipeManager{
 		Returns XML containing the entire recipe and its reviews (maybe limit reviews # to n most recent)?
 	*/
 	public function getFullRecipe(){
+
+	    if(!isset($_POST['rid'])){
+	        header("Location: /yumme/home.php");
+        }
 		//first get the recipe (we will get the author reviews, ingredients and utensils later)
-		$sql = "SELECT recipe.prepTime, recipe.cookTime, recipe.difficulty, recipe.date, recipe.title, user.uname
+		$sql = "SELECT recipe.description, recipe.imagename, recipe.prepTime, recipe.cookTime, recipe.difficulty, recipe.date, recipe.title, user.uname
               FROM recipe join user on recipe.authorID = user.UID WHERE recipe.rid=:rid";
 
 		if($stmt = $this->_db->prepare($sql)){
@@ -35,44 +39,55 @@ class RecipeManager{
 			
 			if($stmt->rowCount()==1){
 				$recipe = $stmt->fetch();
-				echo $recipe['title'];
-				$res = "<div>
-						<author>".$recipe['uname']."</author>
-						<prep>".$recipe['prepTime']."</prep>
-						<cook>".$recipe['cookTime']."</cook>
-						<diff>".$recipe['difficulty']."</diff>
-						<date>".$recipe['date']."</date>";
+				//echo $recipe['title'];
+				$res = "
+                    <p>
+                        <h2 style=\"color:#141823; text-align:center;\">". $recipe['title']."</h2>
+                    </p>
+                    <p>
+                        <h4 style=\"color:#141823; text-align:center;\"> Created by ". $recipe['uname']." on " . $recipe['date']."</h4>
+                    </p><br>
+                    <p>
+                        <h4 class=\"title\">".$recipe['description']."</h4>
+                    </p><br>
+                    <p>
+                        <h4 style=\"color:#141823; text-align:center;\">Prep Time: ". $recipe['prepTime']."    
+                        Cook Time: ". $recipe['cookTime']."    Difficulty: " . $recipe['difficulty']."</h4>
+                    </p><br>";
+
 			}
 			else{
-				return "<li> Something went wrong.126 ". $this->_db->errorInfo()[0] . $this->_db->errorInfo()[1] .$this->_db->errorInfo()[2] . "</li>";
+				return "<li> Something went wrong.126 RID:". $_POST['rid'] .$this->_db->errorInfo()[0] . $this->_db->errorInfo()[1] .$this->_db->errorInfo()[2] . "</li>";
 			}
 		}
 		else{
             return "tttt<li> Something went wrong. 47". $this->_db->errorInfo()[0]. "</li>n";
         }
 
-
+        $res .= "<p><h3 style=\"color:#141823; text-align:center;\">Ingredients:</h3></p>";
 		//now get ingredients
 		$sql = "SELECT * FROM ingredient WHERE rid=:rid";	
 		
 		if($stmt = $this->_db->prepare($sql)) {
             $stmt->bindParam(':rid', $_POST['rid']);
             $stmt->execute();
+            $res .= "<p><table align=\"center\"> <tr><th>Name</th><th>State</th><th>Quantity</th></tr>";
 
             while ($row = $stmt->fetch()) {
-                $res .= "<div>
-							<quantity>" . $row['quantity'] . "</quantity>
-							<state>" . $row['state'] . "</state>
-							<name>" . $row['name'] . "</name>
-						</div>";
+                $res .= "<tr>
+							<td>" . $row['name'] . "</td>
+							<td>" . $row['state'] . "</td>
+							<td>" . $row['quantity'] . "</td>
+						</tr>";
             }
+            $res .= "</table></p> ";
         }
 
 		else
         {
             return "tttt<li> Something went wrong 8. ". $this->_db->errorInfo()[0]. "</li>n";
         }
-
+        $res .= "<p><h3 style=\"color:#141823; text-align:center;\">Utensils:</h3></p><p>";
         //now get utensils
         $sql = "SELECT * FROM utensil WHERE rid=:rid";
 
@@ -81,16 +96,17 @@ class RecipeManager{
             $stmt->execute();
 
             while($row = $stmt->fetch()){
-                $res .= "<div>
-							<name>".$row['name']."</name>
-						</div>";
-            }
+                $res .= $row['name'].", ";
 
+            }
+            $res = substr($res, 0, -2);
         }
         else
         {
             return "tttt<li> Something went wrong 12. ". $this->_db->errorInfo(). "</li>n";
         }
+
+        $res .= "</p><p> <h3 style=\"color:#141823; text-align:center;\">Steps:</h3> </p><p>";
 		//now get instructions
 		$sql = "SELECT * FROM instruction WHERE rid=:rid";	
 		
@@ -100,8 +116,7 @@ class RecipeManager{
 			
 			while($row = $stmt->fetch()){
 				$res .= "<div>
-							<num>".$row['StepNum']."</num>
-							<text>".$row['Text']."</text>					
+							<h4>".$row['StepNum'].": ".$row['Text']."</h4>					
 						</div>";
 			}
 		}
@@ -109,8 +124,12 @@ class RecipeManager{
         {
             return "tttt<li> Something went wrong 10. ". $this->_db->errorInfo(). "</li>n";
         }
+        $res .= "</p><p> <h3 style=\"color:#141823; text-align:center;\">Reviews:</h3> </p><p>";
 
-		
+        $res .= "</p><p><input type=\"text\" id=\"review\" name=\"review\" placeholder=\"Review this Recipe!\" class=\"radius\" /></p>";
+        $res .= "<p>
+                <button type=\"submit\" class=\"radius title\" name=\"signup\">Submit</button>
+            </p>";
 		//now get reviews
 		$sql = "SELECT * FROM review WHERE recId=:rid ORDER BY date LIMIT 10"; //10 is arbitrary for now
 		
@@ -120,9 +139,9 @@ class RecipeManager{
 			
 			while($row = $stmt->fetch()){
 				$res .= "<div>
-							<rating>".$row['rating']."</rating>
-							<text>".$row['text']."</text>
-							<date>".$row['Date']."</date>
+							<h4> Rating:".$row['rating']."
+							Date: ".$row['Date']."</text>
+							</h4><p>".$row['text']."</p>
 						</div>";
 			}
 
@@ -218,20 +237,22 @@ class RecipeManager{
 	*/
 
 	public function addRecipe(){
-        $sql = "INSERT INTO recipe (authorID, title, prepTime, cookTime, Difficulty, date) VALUES
-				(:uid, :n, :prep, :cook, :diff, now())";
+        $sql = "INSERT INTO recipe (authorID, title, prepTime, cookTime, Difficulty, description, date) VALUES
+				(:uid, :n, :prep, :cook, :diff, :description, now())";
 
         if($stmt = $this->_db->prepare($sql)){
             $name = $_POST['name'];
             $prep = $_POST['prep'];
             $cook = $_POST['cook'];
             $difficulty = $_POST['diff'];
+            $description = $_POST['description'];
 
             $stmt->bindParam(':uid', $_SESSION['UID'], PDO::PARAM_INT);
             $stmt->bindParam(':n', $name, PDO::PARAM_STR);
             $stmt->bindParam(':prep', $prep, PDO::PARAM_INT);
             $stmt->bindParam(':cook', $cook, PDO::PARAM_INT);
             $stmt->bindParam(':diff', $difficulty, PDO::PARAM_STR);
+            $stmt->bindParam(':description', $description, PDO::PARAM_STR);
             $stmt->execute();
         }
         else
