@@ -116,6 +116,7 @@ EMAIL;
 
 			if(isset($row['email'])){
 				$_SESSION['UID'] = $row['UID'];
+                $_SESSION['UNAME'] = $row['Uname'];
 				$_SESSION['LoggedIn'] = 1;
 			}
 			else{
@@ -176,7 +177,8 @@ EMAIL;
 					$row = $stmt->fetch();
 					$_SESSION['UID'] = $row['uid'];
 					$_SESSION['LoggedIn'] = 1;
-                	$_SESSION['UNAME'] = $row['uname'];
+					$_SESSION['UNAME'] = $row['Uname'];
+
 					return TRUE;
 			}
 			else{

@@ -20,7 +20,8 @@ if(!empty($_POST['action'])
 
             break;
         case 'getFull':
-            $recObj->getFullRecipe();
+
+            header("Location: /yumme/viewrecipe.php");
             break;
         case 'getUsers':
             $recObj->getUsersRecipes();
