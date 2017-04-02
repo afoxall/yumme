@@ -179,8 +179,9 @@ class RecipeManager{
 
 		$ids = join("','",$ar); //this is at risk of injection but ids are never seen or enterd by users so fine
 		//$sql = "SELECT title, prepTime + cookTime as time, difficulty FROM recipe WHERE authorID IN ('$ids') ORDER BY date LIMIT :n";
-		$sql = "SELECT recipe.rid, recipe.authorID, recipe.title, recipe.prepTime + recipe.cookTime as time, recipe.description, user.uname, 
-      recipe.difficulty from recipe join user on recipe.authorID=user.uid where recipe.authorID in ('$ids') ORDER BY date LIMIT :n ";
+
+        $sql = "SELECT recipe.rid, recipe.authorID, recipe.title, recipe.prepTime + recipe.cookTime as time, recipe.description, user.uname,
+      recipe.difficulty from (recipe join reblog) join user on recipe.authorID=user.uid where recipe.authorID in ('$ids') or (reblog.rid = recipe.rid and reblog.UID in  ('$ids'))";
 		$res = "";
 
 
@@ -417,4 +418,52 @@ class RecipeManager{
 		}
 		
 	}
+
+	public function reblog(){
+        if(isset($_SESSION['LoggedIn'])
+            && $_SESSION['LoggedIn']==1)
+        {
+
+            $sql = "SELECT * from recipe where RID=:rid and authorID = :uid";
+
+
+            if($stmt = $this->_db->prepare($sql)){
+                $stmt->bindParam(':rid', $_GET['r'], PDO::PARAM_INT);
+                $stmt->bindParam(':uid', $_SESSION['UID'], PDO::PARAM_INT);
+
+                $stmt->execute();
+
+                if($stmt->rowCount > 0){
+                    sleep(50);
+                    return;
+                }
+            }
+            else
+            {
+                return "tttt<li> Something went wrong.563 ". $this->_db->errorInfo(). "</li>n";
+            }
+
+
+
+            $sql = "INSERT INTO reblog (rid, uid, date) VALUES (:rid, :uid, now())";
+            echo  $_GET['r'];
+
+            if($stmt = $this->_db->prepare($sql)){
+                $stmt->bindParam(':rid', $_GET['r'], PDO::PARAM_INT);
+                $stmt->bindParam(':uid', $_SESSION['UID'], PDO::PARAM_INT);
+
+                $stmt->execute();
+            }
+            else
+            {
+                return "tttt<li> Something went wrong.563 ". $this->_db->errorInfo(). "</li>n";
+            }
+
+        }
+        else{
+
+            header("Location: /yumme/index.php");
+            exit;
+        }
+    }
 }

@@ -11,15 +11,15 @@ class FollowManager{
 	
 	private $_db;
 
-	public function __construct($db=null){
-		if(is_object($db)){
-			$this->_db = $db;
-		}
-		else{
-			$dsn = "mysql:host=".DB_HOST.";dbname=".DB_NAME;
-			$this->_db = new PDO($dsn, DB_USER, DB_PASS);
-		}
-	}
+	public function __construct($db=null)
+    {
+        if (is_object($db)) {
+            $this->_db = $db;
+        } else {
+            $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME;
+            $this->_db = new PDO($dsn, DB_USER, DB_PASS);
+        }
+    }
 	
 	/*
 	* Adds a new follow to the current user
@@ -27,31 +27,15 @@ class FollowManager{
 	*/
 	public function addFollow(){ 
 		
-		if(isset($_POST['uid'])){
-			$uid = $_POST['uid'];	
+		if(isset($_GET['u'])){
+			$uid = $_GET['u'];
 		}
-		/*
-		else if(isset($_POST['uname'])){
-			$sql = "select uid FROM user WHERE uname = :uname";
-		
-			if($stmt = $this->_db->prepare($sql)){
-				$stmt->bindParam(':uname', $_POST['uname']);
-				$stmt->execute();
-				
-				$uid = $stmt->fetch()['uid'];
-			}
-			else
-			{
-				return "tttt<li> Something went wrong getting the uid. ", $db->errorInfo, "</li>n";
-			}
-		}*/
 		else{
-		    $err = $this->_db->errorInfo;
-		    return "tttt<li> I need the uid. " . $err . "</li>n";
-			
-		}
+		    header("Location: /yumme/index.php");
+        }
+
 		
-		$sql = "INSERT IGNORE INTO follows SET follower = :follower, followee = :followee";
+		$sql = "INSERT IGNORE INTO follow SET follower = :follower, followee = :followee";
 		
 		if($stmt = $this->_db->prepare($sql)){
 			$stmt->bindParam(':follower', $_SESSION['UID']);

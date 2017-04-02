@@ -31,7 +31,7 @@ include_once "common/header.php";
 <div id="main">
     <noscript>This site just doesn't work, period, without JavaScript</noscript>
     <?php
-    if(isset($_SESSION['LoggedIn']) && isset($_SESSION['UID'])):
+    if(isset($_SESSION['LoggedIn']) && isset($_SESSION['UID']) &&isset($_GET['u'])):
 
 
         include_once 'inc/class.recipes.inc.php';
@@ -42,7 +42,7 @@ include_once "common/header.php";
         $u = $_GET['u'];
         $name=$_GET['uname'];
         $res = "<p align=\"center\"><label align=\"center\" class=\"title\">$name</label></p>";
-        $res .= "<br><p align='center'><a href=\"/yumme/addfollows.php?r=$u\">Follow</a></p>";
+        $res .= "<br><p align='center'><a href=\"/yumme/addfollows.php?u=$u\">Follow</a></p>";
         $res .= $recipes->getUsersRecipes(array($_GET['u']), 20);
         echo $res;
 
