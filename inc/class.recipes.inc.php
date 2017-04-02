@@ -202,13 +202,14 @@ class RecipeManager{
                 $u = $row['authorID'];
                 $rid = $row['rid'];
 
-                $res .= "<div class=\"loginbox radius\">
+                $res .= "<div class=\"login_form\">
+                            <div class=\"loginbox radius\">
                             <div class=\"loginboxinner radius\">
                             <!--loginheader-->
                             <div class=\"loginform\">
                                
             
-                                <div class='mini_recipe'>
+                                <div class=\"mini_recipe\">
                                             <form id=\"recipe\" action=\"viewrecipe.php\" method=\"post\">
                                                     <p>
                                                         <h4 class=\"title\" style=\"font-size:150%\">$n</h4>
@@ -231,6 +232,7 @@ class RecipeManager{
     </div>
     <!--loginform-->
 
+</div>
 </div>
 <?php endif;?>
 <!--loginboxinner-->
