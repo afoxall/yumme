@@ -1,19 +1,3 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Yumme!</title>
-    <link rel="stylesheet" href="yummeStyle.css" type="text/css" />
-</head>
-
-<div id="sidebar"></div>
-<body class="index">
-<!-- header starts here -->
-
-<!--loginbox-->
-</body>
-
 <?php
 /**
  * Created by PhpStorm.
@@ -27,6 +11,21 @@ $pageTitle = "Welcome to Yumme";
 include_once "common/header.php";
 
 ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yumme!</title>
+    <link rel="stylesheet" href="yummeStyle.css" type="text/css" />
+</head>
+
+<div id="viewsidebar"></div>
+<body class="index">
+<!-- header starts here -->
+
+<!--loginbox-->
+</body>
 
 <div id="main">
     <noscript>This site just doesn't work, period, without JavaScript</noscript>
@@ -39,7 +38,7 @@ include_once "common/header.php";
         include_once 'inc/class.follows.inc.php';
 
         $recipes = new RecipeManager($db);
-        $u = $_GET['u'];
+        $u = 1;//$_GET['u'];
         $name=$_GET['uname'];
         $res = "<p align=\"center\"><label align=\"center\" class=\"title\">$name</label></p>";
         $res .= "<br><p align='center'><a href=\"/yumme/addfollows.php?r=$u\">Follow</a></p>";
