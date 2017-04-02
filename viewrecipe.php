@@ -21,7 +21,9 @@ include_once "common/base.php";
 <div class="loginboxinner radius">
     <!--loginheader-->
     <div class="loginform">
-        <form id="login" action="" method="post">
+        <form id="login" action="recipes.php" method="post">
+            <input type="hidden" name="action" id="action" value="addReview"/>
+            <input type="hidden" name="rid" id="rid" value="<?php echo $_POST['rid']?>"/>
 
             <?php
             include_once "common/base.php";

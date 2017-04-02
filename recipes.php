@@ -1,6 +1,6 @@
 <?php
  
-session_start();
+include_once "common/base.php";
  
 include_once "inc/constants.inc.php";
 include_once "inc/class.recipes.inc.php";
@@ -26,8 +26,10 @@ if(!empty($_POST['action'])
         case 'getUsers':
             $recObj->getUsersRecipes();
             break;
-        case 'addRev':
+        case 'addReview':
+
             echo $recObj->addReview();
+            header("Location: /yumme/viewrecipe.php?rid=".$_POST['rid']);
             break;
         case 'search':
             echo $recObj->recipeSearch();

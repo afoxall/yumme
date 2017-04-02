@@ -46,7 +46,7 @@ class RecipeManager{
                     </p>
                     <p>
                         <h4 style=\"color:#141823; text-align:center;\"> Created by ". $recipe['uname']." on " . $recipe['date']."</h4>
-                    </p><br>
+                    </p>
                     <p>
                         <h4 class=\"title\">".$recipe['description']."</h4>
                     </p><br>
@@ -71,7 +71,7 @@ class RecipeManager{
 		if($stmt = $this->_db->prepare($sql)) {
             $stmt->bindParam(':rid', $_POST['rid']);
             $stmt->execute();
-            $res .= "<p><table align=\"center\"> <tr><th>Name</th><th>State</th><th>Quantity</th></tr>";
+            $res .= "<p><table  style=\"color:#141823; text-align:center;\" align=\"center\"> <tr><th>Name</th><th>State</th><th>Quantity</th></tr>";
 
             while ($row = $stmt->fetch()) {
                 $res .= "<tr>
@@ -87,7 +87,7 @@ class RecipeManager{
         {
             return "tttt<li> Something went wrong 8. ". $this->_db->errorInfo()[0]. "</li>n";
         }
-        $res .= "<p><h3 style=\"color:#141823; text-align:center;\">Utensils:</h3></p><p>";
+        $res .= "<p><h3 style=\"color:#141823; text-align:center;\">Utensils:</h3></p><p  style=\"color:#141823; text-align:center;\">";
         //now get utensils
         $sql = "SELECT * FROM utensil WHERE rid=:rid";
 
@@ -116,7 +116,7 @@ class RecipeManager{
 			
 			while($row = $stmt->fetch()){
 				$res .= "<div>
-							<h4>".$row['StepNum'].": ".$row['Text']."</h4>					
+							<h5  style=\"color:#141823; text-align:center;\">".$row['StepNum'].": ".$row['Text']."</h5>					
 						</div>";
 			}
 		}
@@ -126,22 +126,20 @@ class RecipeManager{
         }
         $res .= "</p><p> <h3 style=\"color:#141823; text-align:center;\">Reviews:</h3> </p><p>";
 
-        $res .= "</p><p><input type=\"text\" id=\"review\" name=\"review\" placeholder=\"Review this Recipe!\" class=\"radius\" /></p>";
-        $res .= "<p>
-                <button type=\"submit\" class=\"radius title\" name=\"signup\">Submit</button>
-            </p>";
+
+
 		//now get reviews
 		$sql = "SELECT * FROM review WHERE recId=:rid ORDER BY date LIMIT 10"; //10 is arbitrary for now
 		
 		if($stmt = $this->_db->prepare($sql)){
 			$stmt->bindParam(':rid', $_POST['rid']);
 			$stmt->execute();
-			
+
 			while($row = $stmt->fetch()){
 				$res .= "<div>
-							<h4> Rating:".$row['rating']."
+							<h4  style=\"color:#141823; text-align:center;\"> Rating:".$row['rating']."
 							Date: ".$row['Date']."</text>
-							</h4><p>".$row['text']."</p>
+							</h4><p style=\"color:#141823; text-align:center;\">".$row['text']."</p>
 						</div>";
 			}
 
@@ -150,6 +148,26 @@ class RecipeManager{
         {
             return "tttt<li> Something went wrong 6. ". $this->_db->errorInfo(). "</li>n";
         }
+        $rid=$_POST['rid'];
+        $res .= "
+                <table align='center'>
+                <tr>
+                <td><label>Rating (1-5):</label> </td>
+                   <td> <select id=\"rating\" name=\"rating\">
+                        <option value=\"1\">1</option>
+                        <option value=\"2\">2</option>
+                        <option value=\"3\">3</option>
+                        <option value=\"4\">4</option>
+                        <option value=\"5\">5</option>
+                    </select>
+                    </td>
+                    <td><a href=\"/yumme/reblog.php?r=$rid\"> Reblog</a></a></td>
+                </tr>
+                </table>
+            ";
+
+        $res .= "<p><input type=\"text\" id=\"review\" name=\"review\" placeholder=\"Review this Recipe!\" class=\"radius\" />
+             <button type=\"submit\" class=\"radius title\" name=\"signup\">Submit</button></p>";
 		return $res . "</div>";
 	}
 	
@@ -161,10 +179,8 @@ class RecipeManager{
 
 		$ids = join("','",$ar); //this is at risk of injection but ids are never seen or enterd by users so fine
 		//$sql = "SELECT title, prepTime + cookTime as time, difficulty FROM recipe WHERE authorID IN ('$ids') ORDER BY date LIMIT :n";
-		$sql = "SELECT recipe.rid, recipe.title, recipe.prepTime + recipe.cookTime as time, recipe.difficulty, 
-              IFNULL(review.rating, NULL) as rating FROM recipe left join review on recipe.rid = review.RecID 
-              WHERE recipe.authorID IN ('$ids') or exists(select * from reblog where rid = recipe.rid and uid in ('$ids'))
-              ORDER BY recipe.date LIMIT :n";
+		$sql = "SELECT recipe.rid, recipe.authorID, recipe.title, recipe.prepTime + recipe.cookTime as time, recipe.description, user.uname, 
+      recipe.difficulty from recipe join user on recipe.authorID=user.uid where recipe.authorID in ('$ids') ORDER BY date LIMIT :n ";
 		$res = "";
 
 
@@ -181,7 +197,9 @@ class RecipeManager{
                 $n = $row['title'];
                 $t = $row['time'];
                 $d = $row['difficulty'];
-                $r = $row['rating'];
+                $desc = $row['description'];
+                $a = $row['uname'];
+                $u = $row['authorID'];
                 $rid = $row['rid'];
 
                 $res .= "<div class=\"loginbox radius\">
@@ -193,16 +211,14 @@ class RecipeManager{
                                 <div class='mini_recipe'>
                                             <form id=\"recipe\" action=\"viewrecipe.php\" method=\"post\">
                                                     <p>
-                                                        <h4 class=\"title\">Name: $n</h4>
+                                                        <h4 class=\"title\" style=\"font-size:150%\">$n</h4>
                                                     </p>
                                                     <p>
-                                                        <h4 class=\"title\">Total Time: $t</h4>
+                                                        <h4 class=\"title\">$desc</h4>
                                                     </p>
                                                     <p>
-                                                        <h4 class=\"title\">Difficutly: $d</h4>
-                                                    </p>
-                                                    <p>
-                                                        <h4 class=\"title\">Rating: $r</h4>
+                                                        <h4 class=\"title\">Total Time: $t    Difficulty: $d</h4>
+                                                        <h4 class=\"title\">Author: <a href='/yumme/userprofile.php?u=$u'>$a</a></h4>
                                                     </p>
                                                     
                                                     <input name=\"rid\" type=\"hidden\" id=\"rid\" value=\"$rid\"  />
@@ -226,7 +242,7 @@ class RecipeManager{
 		}
 		else
         {
-            return "tttt<li> Something went wrong 623. ". $this->_db->errorInfo(). "</li>n";
+            return "<li> Something went wrong 623. ". $this->_db->errorInfo(). "</li>n";
         }
 
 		return $res;
@@ -312,18 +328,21 @@ class RecipeManager{
 	* Adds a new recipe 
 	*/
 	public function addReview(){ 
-		$sql = "INSERT INTO review (rid, rating, text, date) VALUES (:rid, :rating, :text, now())";
-		
+		$sql = "INSERT INTO review (recId, authorID, rating, text, date) VALUES (:rid, :author, :rating, :text, now())";
+
+
 		if($stmt = $this->_db->prepare($sql)){
 		    $stmt->bindParam(':rid', $_POST['rid'], PDO::PARAM_INT);
-			$stmt->bindParam(':rating', $_POST['r'], PDO::PARAM_INT);
-			$stmt->bindParam(':text', $_POST['t'], PDO::PARAM_STR);
+			$stmt->bindParam(':rating', $_POST['rating'], PDO::PARAM_INT);
+			$stmt->bindParam(':text', $_POST['review'], PDO::PARAM_STR);
+            $stmt->bindParam(':author', $_SESSION['UID'], PDO::PARAM_INT);
 			$stmt->execute();
 		}
 		else
 		{
 			return "tttt<li> Something went wrong.563 ". $this->_db->errorInfo(). "</li>n";
 		}
+
 	}
 	
 	/*
