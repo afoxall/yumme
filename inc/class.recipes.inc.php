@@ -188,7 +188,7 @@ class RecipeManager{
                             <div class=\"loginboxinner radius\">
                             <!--loginheader-->
                             <div class=\"loginform\">
-                                <form id=\"login\" action=\"\" method=\"post\">
+                               
             
                                 <div class='mini_recipe'>
                                             <form id=\"recipe\" action=\"viewrecipe.php\" method=\"post\">
@@ -211,7 +211,7 @@ class RecipeManager{
                                             </form>
                     
                                             </div>
-        </form>
+      
     </div>
     <!--loginform-->
 

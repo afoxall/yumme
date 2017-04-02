@@ -15,7 +15,7 @@ include_once "common/base.php";
 
 <div id="facebook-Bar">
     <div id="facebook-Frame">
-        <div id="logo"> <img src="logo.png" style="margin:auto; width:140px; height:70px; display:block" /> </div>
+        <div id="logo"> <a href="/yumme/home.php"><img src="logo.png" style="margin:auto; width:140px; height:70px; display:block" ></a> </div>
         <div id="header-main-centre">
             <form>
             <a class="smallbutton" href="/yumme/newrecipe.php">Add a Recipe!</>
