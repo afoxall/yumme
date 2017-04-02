@@ -9,7 +9,7 @@
 include_once "common/base.php";
 $pageTitle = "Welcome to Yumme";
 include_once "common/header.php";
-
+include_once "common/sidebar.php";
 ?>
 
 <!DOCTYPE html>
@@ -21,7 +21,7 @@ include_once "common/header.php";
     <link rel="stylesheet" href="yummeStyle.css" type="text/css" />
 </head>
 
-<div id="viewsidebar"></div>
+
 <body class="index">
 <!-- header starts here -->
 
