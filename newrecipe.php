@@ -35,11 +35,13 @@ else:
                     <input type="text" id="cook" name="cook" placeholder="Cooking Time" value="" class="radius mini" />
                 </p>
                 <p>
-                    <select id="diff" name="diff" style="color:#141823">
-                        <option value="easy">Easy</option>
-                        <option value="intermediate">Intermediate</option>
-                        <option value="hard">Hard</option>
-                    </select>
+                    <div class="styled_select">
+                        <select id="diff" name="diff">
+                            <option value="easy">Easy</option>
+                            <option value="intermediate">Intermediate</option>
+                            <option value="hard">Hard</option>
+                        </select>
+                    </div>
                 </p>
                 <p>
                     <input type="text" id="description" name="description" placeholder="Description" value="" class="radius" />
