@@ -330,9 +330,8 @@ EMAIL;
 			$sql = "SELECT * FROM user WHERE fname=:fn AND lname=:ln";
             if($stmt = $this->_db->prepare($sql)){
                 $stmt->bindParam(":fn", $pieces[0], PDO::PARAM_STR);
-                $stmt->bindParam(":f=ln", $pieces[1], PDO::PARAM_STR);
+                $stmt->bindParam(":ln", $pieces[1], PDO::PARAM_STR);
                 $stmt->execute();
-
 
             }
             else{
@@ -354,7 +353,7 @@ EMAIL;
 		}
 		if($stmt->rowCount()>0){
         	$row = $stmt->fetch();
-        	header("Location: /yumme/userprofile.php?u=".$row['uid']."&uname=".$row['uname']);
+        	header("Location: /yumme/userprofile.php?u=".$row['UID']."&uname=".$row['UName']);
 		}
 		else{
 			header("Location: /yumme/index.php");

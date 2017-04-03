@@ -1,5 +1,5 @@
 <?php
-
+    include_once "common/base.php";
 /*
 	RecipeManager:
 		create recipe
@@ -212,63 +212,8 @@ recipe.difficulty from recipe join user on recipe.authorID=user.uid where recipe
                 $count -= 1;
                 $row = $stmt->fetch();
 
-                $n = $row['title'];
-                $t = $row['time'];
-                $d = $row['difficulty'];
-                $desc = $row['description'];
-                $a = $row['uname'];
-                $u = $row['authorID'];
-                $rid = $row['rid'];
-                $img = $row['imagename'];
-                if(!$img){
-                    $img = "images/default.png";
-                }
-                $res .= "<div class=\"login_form\">
-                            <div class=\"loginbox radius\">
-                            <div class=\"loginboxinner radius\">
-                            <!--loginheader-->
-                            <div class=\"loginform\">
-                               
-            
-                                <div class=\"mini_recipe\">
-                                            <table>
-                                            
-                                            <tr>
-                                            <td><form id=\"recipe\" action=\"viewrecipe.php\" method=\"post\">
-                                                    <p>
-                                                        <h4 class=\"title\" style=\"font-size:150%\">$n</h4>
-                                                    </p>
-                                                    <p>
-                                                        <h4 class=\"title\">$desc</h4>
-                                                    </p>
-                                                    <p>
-                                                        <h4 class=\"title\">Total Time: $t    Difficulty: $d</h4>
-                                                        <h4 class=\"title\">Author: <a id='recipeLink' href='/yumme/userprofile.php?u=$u&uname=$a'>$a</a></h4>
-                                                    </p>
-                                                    
-                                                    <input name=\"rid\" type=\"hidden\" id=\"rid\" value=\"$rid\"  />
-                                                    
-                                                    <button type=\"submit\" class=\"radius mini\">View</button>
-                                            </form>
-                                            </td>
-                                            <td>
-                                           <img src=\"$img\" style=\"margin:auto; max-width:80%;max-height:80%; display:block\" >
-                                           </td>
-                                           </tr>
-                                           
-                                            </table>
-                                            </div>
-      
-    </div>
-    <!--loginform-->
+                $res .= $this->getRecipePanel($row);
 
-</div>
-</div>
-<?php endif;?>
-<!--loginboxinner-->
-
-                        
-";
             }
 
 		}
@@ -286,8 +231,11 @@ recipe.difficulty from recipe join user on recipe.authorID=user.uid where recipe
 
 	public function addRecipe(){
 
-        if(isset($_FILES['fileToUpload'])) {
+	    if(!isset($_POST['name']) or !isset($_POST['instructions']) or !isset($_POST['ingredients'])){
+	        return;
+        }
 
+        if(isset($_FILES['fileToUpload'])) {
 
             $targetDir = "images/";
             $target_file = $targetDir . basename($_FILES["fileToUpload"]["name"]);
@@ -435,9 +383,27 @@ recipe.difficulty from recipe join user on recipe.authorID=user.uid where recipe
 	/*
 	* Adds a new recipe 
 	*/
-	public function recipeSearch(){ 
+	public function recipeSearch(){
 		//this will be hard
-	
+        $query = $_POST['query'];
+
+	    $sql = "select * from recipe where title = :title or exists(select * from ingredient where name=:query and ingredient.rid=recipe.rid)";
+        $res = "";
+        if($stmt = $this->_db->prepare($sql)){
+            $stmt->bindParam(':query', $query);
+            $stmt->execute();
+
+            $count = $stmt->rowCount();
+            while(count > 0) {
+
+                $count--;
+                $recipe = $stmt->fetch();
+                $res .= $this->getRecipePanel($recipe);
+            }
+            }
+            else{
+                return "<li> Something went wrong.126 RID:". $_POST['rid'] .$this->_db->errorInfo()[0] . $this->_db->errorInfo()[1] .$this->_db->errorInfo()[2] . "</li>";
+            }
 	}
 	
 	/*
@@ -550,4 +516,70 @@ recipe.difficulty from recipe join user on recipe.authorID=user.uid where recipe
             exit;
         }
     }
+
+    public function getRecipePanel($row){
+
+	    $res = "";
+        $n = $row['title'];
+        $t = $row['time'];
+        $d = $row['difficulty'];
+        $desc = $row['description'];
+        $a = $row['uname'];
+        $u = $row['authorID'];
+        $rid = $row['rid'];
+        $img = $row['imagename'];
+        if(!$img){
+            $img = "images/default.png";
+        }
+        $res .= "<div class=\"login_form\">
+                            <div class=\"loginbox radius\">
+                            <div class=\"loginboxinner radius\">
+                            <!--loginheader-->
+                            <div class=\"loginform\">
+                               
+            
+                                <div class=\"mini_recipe\">
+                                            <table>
+                                            
+                                            <tr>
+                                            <td><form id=\"recipe\" action=\"viewrecipe.php\" method=\"post\">
+                                                    <p>
+                                                        <h4 class=\"title\" style=\"font-size:150%\">$n</h4>
+                                                    </p>
+                                                    <p>
+                                                        <h4 class=\"title\">$desc</h4>
+                                                    </p>
+                                                    <p>
+                                                        <h4 class=\"title\">Total Time: $t    Difficulty: $d</h4>
+                                                        <h4 class=\"title\">Author: <a id='recipeLink' href='/yumme/userprofile.php?u=$u&uname=$a'>$a</a></h4>
+                                                    </p>
+                                                    
+                                                    <input name=\"rid\" type=\"hidden\" id=\"rid\" value=\"$rid\"  />
+                                                    
+                                                    <button type=\"submit\" class=\"radius mini\">View</button>
+                                            </form>
+                                            </td>
+                                            <td>
+                                           <img src=\"$img\" style=\"margin:auto; max-width:80%;max-height:80%; display:block\" >
+                                           </td>
+                                           </tr>
+                                           
+                                            </table>
+                                            </div>
+      
+    </div>
+    <!--loginform-->
+
+</div>
+</div>
+<?php endif;?>
+<!--loginboxinner-->
+
+                        
+";
+
+
+	    return $res;
+    }
+
 }

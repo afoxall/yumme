@@ -5,10 +5,10 @@
 </head>
     <div id="viewsidebar" style="vertical-align: top">
         <div id="searchUsers">
-            <form action="/users.php" method="post">
+            <form action="users.php" method="post">
                 <input type="text" id="user" name="user" value="find user">
                 <input type="submit" value="search">
-                <input type="hidden" name="action" id="action" value="searchUsers">
+                <input type="hidden" name="action" id="action" value="searchusers">
             </form>
         </div>
         <br/>
