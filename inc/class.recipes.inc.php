@@ -134,7 +134,7 @@ class RecipeManager{
             return "tttt<li> Something went wrong 10. ". $this->_db->errorInfo(). "</li>n";
         }
 
-        $res .= "<img src=\"$img\" style=\"margin:auto; max-width:80%;max-height:80%; display:block\" >";
+        $res .= "<img src=\"$img\" style=\"margin:auto; margin-top: 4%; max-width:80%;max-height:80%; display:block\" >";
         $res .= "</p><p> <h3 style=\"color:#141823; text-align:center;\">Reviews:</h3> </p><p>";
 
 
