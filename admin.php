@@ -25,5 +25,10 @@ include_once 'common/base.php';
             echo $rec->deleteReview();
             header("Location: /yumme/index.php");
         }
+        if(isset($_GET['adda'])){
+            $user = new UserManager();
+            echo $user->addAdmin();
+            header("Location: /yumme/index.php");
+        }
     }
 ?>

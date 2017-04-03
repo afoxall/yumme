@@ -282,8 +282,39 @@ EMAIL;
 		else{
 			return "Something went wrong deleting the user.";
 		}
-		echo "hello";
+
 		return "done";
+	}
+
+	public function addAdmin(){
+        $sql = "SELECT COUNT(aid) AS theCount FROM administrator where uid=:uid";
+
+        if($stmt = $this->_db->prepare($sql)){
+            $stmt->bindParam(":uid", $_SESSION['UID'], PDO::PARAM_INT);
+            $stmt->execute();
+            $row = $stmt->fetch();
+            if($row['theCount']==0){
+                return "<h2> Error </h2>" .
+                    "<p> Only administrators can do this. </p>";
+            }
+            $stmt ->closeCursor();
+        }
+        else{
+            return "Something went wrong checking the admin table.";
+        }
+
+        //TODO: send the deleted user an email telling them they have been deleted
+
+        $sql = "INSERT INTO administrator SET  uid=:uid";
+        if($stmt = $this->_db->prepare($sql)){
+            $stmt->bindParam(":uid", $_GET['adda'], PDO::PARAM_INT);
+            $stmt->execute();
+        }
+        else{
+            return "Something went wrong deleting the user.";
+        }
+
+        return "done";
 	}
 	
 }
