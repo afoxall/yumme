@@ -40,7 +40,7 @@ include_once "common/sidebar.php";
         $recipes = new RecipeManager($db);
         $u = 1;//$_GET['u'];
         $name=$_GET['uname'];
-        $res = "<br><p align=\"center\" ><label style=\"font-size:500%\"align=\"center\" class=\"title\">$name</label></p>";
+        $res = "<br/><br/><p align=\"center\" ><label style=\"font-size:500%\"align=\"center\" class=\"title\">$name</label></p>";
         $res .= "<br><div align='center'><a href=\"/yumme/addfollows.php?u=$u\">Follow</a></div>";
         $res .= $recipes->getUsersRecipes(array($_GET['u']), 20);
         echo $res;
