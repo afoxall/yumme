@@ -256,7 +256,7 @@ EMAIL;
 	* Admin functoin to remove bad users. expects uid in post
 	*/
 	public function deleteUser(){
-		$sql = "SELECT COUNT(aid) AS theCount FROM adminstrator where uid=:uid";
+		$sql = "SELECT COUNT(aid) AS theCount FROM administrator where uid=:uid";
 
 		if($stmt = $this->_db->prepare($sql)){
 			$stmt->bindParam(":uid", $_SESSION['UID'], PDO::PARAM_INT);
@@ -282,6 +282,84 @@ EMAIL;
 		else{
 			return "Something went wrong deleting the user.";
 		}
+
+		return "done";
+	}
+
+	public function addAdmin(){
+        $sql = "SELECT COUNT(aid) AS theCount FROM administrator where uid=:uid";
+
+        if($stmt = $this->_db->prepare($sql)){
+            $stmt->bindParam(":uid", $_SESSION['UID'], PDO::PARAM_INT);
+            $stmt->execute();
+            $row = $stmt->fetch();
+            if($row['theCount']==0){
+                return "<h2> Error </h2>" .
+                    "<p> Only administrators can do this. </p>";
+            }
+            $stmt ->closeCursor();
+        }
+        else{
+            return "Something went wrong checking the admin table.";
+        }
+
+        //TODO: send the deleted user an email telling them they have been deleted
+
+        $sql = "INSERT INTO administrator SET  uid=:uid";
+        if($stmt = $this->_db->prepare($sql)){
+            $stmt->bindParam(":uid", $_GET['adda'], PDO::PARAM_INT);
+            $stmt->execute();
+        }
+        else{
+            return "Something went wrong deleting the user.";
+        }
+
+        return "done";
+	}
+
+	/*
+	 * This function is used to find users by "firstname lastname" or username
+	 *
+	 */
+	public function findUser(){
+		$val = $_POST['user'];
+
+        $pieces = explode(" ", $val);
+		if(count($pieces) > 1){
+
+			$sql = "SELECT * FROM user WHERE fname=:fn AND lname=:ln";
+            if($stmt = $this->_db->prepare($sql)){
+                $stmt->bindParam(":fn", $pieces[0], PDO::PARAM_STR);
+                $stmt->bindParam(":f=ln", $pieces[1], PDO::PARAM_STR);
+                $stmt->execute();
+
+
+            }
+            else{
+                return "Something went wrong deleting the user.";
+            }
+
+		}
+		else{
+			$sql = "SELECT * FROM user WHERE uname=:u";
+
+            if($stmt = $this->_db->prepare($sql)){
+                $stmt->bindParam(":u", $pieces[0], PDO::PARAM_STR);
+
+                $stmt->execute();
+            }
+            else{
+                return "Something went wrong deleting the user.";
+            }
+		}
+		if($stmt->rowCount()>0){
+        	$row = $stmt->fetch();
+        	header("Location: /yumme/userprofile.php?u=".$row['uid']."&uname=".$row['uname']);
+		}
+		else{
+			header("Location: /yumme/index.php");
+		}
+
 	}
 	
 }
