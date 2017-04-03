@@ -44,20 +44,29 @@ class RecipeManager{
 				//echo $recipe['title'];
                 $uid=$recipe['uid'];
                 $uname=$recipe['uname'];
-				$res = "
-                    <p>
+
+                $date = DateTime::createFromFormat('Y-m-d H:i:s', $recipe['date']);
+                $date = $date->format('F jS, Y');
+
+				$res = "<p>
                         <h2 style=\"color:#141823; text-align:center;\">". $recipe['title']."</h2>
                     </p>
                     <p>
-                        <h4 style=\"color:#141823; text-align:center;\"> Created by <a style=\"color:#141823\" href=\"/yumme/userprofile.php?u=$uid&uname=$uname\">". $recipe['uname']."</a> on " . $recipe['date']."</h4>
+                        <h4 style=\"color:#141823; text-align:center;\"> Created by <a style=\"color:#141823\" href=\"/yumme/userprofile.php?u=$uid&uname=$uname\">". $recipe['uname']."</a> on " . $date."</h4>
                     </p>
                     <p>
                         <h4 style=\"color:#141823; text-align:center;\" class=\"title\">".$recipe['description']."</h4>
-                    </p><br>
-                    <p>
-                        <h4 style=\"color:#141823; text-align:center;\">Prep Time: ". $recipe['prepTime']."    
-                        Cook Time: ". $recipe['cookTime']."    Difficulty: " . $recipe['difficulty']."</h4>
-                    </p><br>";
+                    </p>
+                    <div align=\"center\">
+                    
+                        <table>
+                        <tr>
+                        <td style=\"color:#141823; font-size:120%; text-align:center;\">Prep Time: </td><td style=\"color:#141820; font-size:85%;\";>". $recipe['prepTime']."    
+                        min </td><td style=\"color:#141823; font-size:120%; text-align:center;\"> Cook Time: </td><td style=\"color:#141820; font-size:85%;\">". $recipe['cookTime']." min </td></tr><tr></tr>
+                        </table>
+                        <p><div style=\"color:#141820; font-size: 120%;\">  Difficulty: <userLabel style=\"color:#141820; font-size:85%;\">" . $recipe['difficulty']."</userLabel></div>
+                        </p>
+                    </div><br>";
 
                 $img = $recipe['imagename'];
                 if(!$img){
@@ -146,11 +155,17 @@ class RecipeManager{
 			$stmt->bindParam(':rid', $_POST['rid']);
 			$stmt->execute();
 
-			while($row = $stmt->fetch()){
+            //$date = DateTime::createFromFormat('Y-M-D H:i:s', $row['Date']);
+            //$date = $row['Date'];
+			//$date = DateTime::createFromFormat('Y-m-d H:i:s', $row['date']);
+            //$date = $date->format('F jS, Y');
+            while($row = $stmt->fetch()){
+                $date = DateTime::createFromFormat('Y-m-d H:i:s', $row['Date']);
+                $date = $date->format('F jS, Y');
 			    $rev = $row['RevID'];
 				$res .= "<div>
 							<h4  style=\"color:#141823; text-align:center;\"> Rating: ".$row['rating']."
-							Date: ".$row['Date']. "</h4><p style=\"color:#141823; text-align:center;\">".$row['text']."</p>";
+							Date: ".$date. "</h4><p style=\"color:#141823; text-align:center;\">".$row['text']."</p>";
 
 				if($_SESSION['ISADMIN']==1){
 				    $res .= "<a style=\"color:#141823\" href=\"/yumme/admin.php?drev=$rev\">Delete Review</a>";
@@ -161,7 +176,7 @@ class RecipeManager{
 		}
 		else
         {
-            return "tttt<li> Something went wrong 6. ". $this->_db->errorInfo(). "</li>n";
+            return "<li> Something went wrong 6. ". $this->_db->errorInfo(). "</li>";
         }
         $rid=$_POST['rid'];
         $res .= "
