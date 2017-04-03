@@ -6,7 +6,7 @@
     <div id="viewsidebar" style="vertical-align: top">
         <div id="searchUsers">
             <form action="/users.php" method="post">
-                <input type="text" name="user" value="find user">
+                <input type="text" id="user" name="user" value="find user">
                 <input type="submit" value="search">
                 <input type="hidden" name="action" id="action" value="searchUsers">
             </form>
@@ -14,20 +14,7 @@
         <br/>
         <div id="foundusers">
             <?php
-            include_once "inc/class.follows.inc.php";
-            try {
-                $folObj = new FollowManager();
-                $usernames = $folObj->getFollows()[0];
-                $uids = $folObj->getFollows()[1];
 
-                for ($cnt = 0; $cnt < count($usernames); $cnt++) {
-                    echo "<div style='padding-left: 10px'><a href='/yumme/userprofile.php?u=$uids[$cnt]&uname=$usernames[$cnt]'>$usernames[$cnt]</a></div>";
-                }
-
-                unset($value);
-            } catch(Exception $e) {
-                echo 'Message: ' .$e->getMessage();
-            }
             ?>
         </div>
         <div id="followinfo">
