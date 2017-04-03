@@ -26,7 +26,7 @@ else:
         </div>
         <!--loginheader-->
         <div class="loginform">
-            <form id="login" action="recipes.php" method="post">
+            <form id="login" action="recipes.php" method="post" enctype="multipart/form-data">
                 <p>
                     <input type="text" id="name" name="name" placeholder="Recipe Name" value="" class="radius" />
                 </p>
@@ -78,7 +78,7 @@ else:
                 </div>
                 <button class="radius mini" name="addInst">Add a step +</button>
                 <p>
-                    <input type="file" name="imageFile" id="imageFile"><br>
+                    <input type="file" name="fileToUpload" id="fileToUpload"><br>
 
                     <button type="submit" name="save" id="save" class="radius title" name="signup">Submit!</button>
                     <input type="hidden" name="action" id="action" value="addRec"/>

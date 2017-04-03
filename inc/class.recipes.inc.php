@@ -30,7 +30,7 @@ class RecipeManager{
 	        header("Location: /yumme/home.php");
         }
 		//first get the recipe (we will get the author reviews, ingredients and utensils later)
-		$sql = "SELECT recipe.description, recipe.imagename, recipe.prepTime, recipe.cookTime, recipe.difficulty, recipe.date, recipe.title, user.uname
+		$sql = "SELECT recipe.description, recipe.imagename, recipe.prepTime, recipe.cookTime, recipe.difficulty, recipe.date, recipe.imagename, recipe.title, user.uname
               FROM recipe join user on recipe.authorID = user.UID WHERE recipe.rid=:rid";
 
 		if($stmt = $this->_db->prepare($sql)){
@@ -54,6 +54,11 @@ class RecipeManager{
                         <h4 style=\"color:#141823; text-align:center;\">Prep Time: ". $recipe['prepTime']."    
                         Cook Time: ". $recipe['cookTime']."    Difficulty: " . $recipe['difficulty']."</h4>
                     </p><br>";
+
+                $img = $recipe['imagename'];
+                if(!$img){
+                    $img = "images/default.png";
+                }
 
 			}
 			else{
@@ -124,6 +129,8 @@ class RecipeManager{
         {
             return "tttt<li> Something went wrong 10. ". $this->_db->errorInfo(). "</li>n";
         }
+
+        $res .= "<img src=\"$img\" style=\"margin:auto; max-width:80%;max-height:80%; display:block\" >";
         $res .= "</p><p> <h3 style=\"color:#141823; text-align:center;\">Reviews:</h3> </p><p>";
 
 
@@ -180,7 +187,7 @@ class RecipeManager{
 		$ids = join("','",$ar); //this is at risk of injection but ids are never seen or enterd by users so fine
 		//$sql = "SELECT title, prepTime + cookTime as time, difficulty FROM recipe WHERE authorID IN ('$ids') ORDER BY date LIMIT :n";
 
-        $sql = "SELECT recipe.rid, recipe.authorID, recipe.title, recipe.prepTime + recipe.cookTime as time, recipe.description, user.uname,
+        $sql = "SELECT recipe.rid, recipe.authorID, recipe.title, recipe.prepTime + recipe.cookTime as time, recipe.description, recipe.imagename, user.uname,
       recipe.difficulty from (recipe join reblog) join user on recipe.authorID=user.uid where recipe.authorID in ('$ids') or (reblog.rid = recipe.rid and reblog.UID in  ('$ids'))";
 		$res = "";
 
@@ -202,7 +209,10 @@ class RecipeManager{
                 $a = $row['uname'];
                 $u = $row['authorID'];
                 $rid = $row['rid'];
-
+                $img = $row['imagename'];
+                if(!$img){
+                    $img = "images/default.png";
+                }
                 $res .= "<div class=\"login_form\">
                             <div class=\"loginbox radius\">
                             <div class=\"loginboxinner radius\">
@@ -211,7 +221,10 @@ class RecipeManager{
                                
             
                                 <div class=\"mini_recipe\">
-                                            <form id=\"recipe\" action=\"viewrecipe.php\" method=\"post\">
+                                            <table>
+                                            
+                                            <tr>
+                                            <td><form id=\"recipe\" action=\"viewrecipe.php\" method=\"post\">
                                                     <p>
                                                         <h4 class=\"title\" style=\"font-size:150%\">$n</h4>
                                                     </p>
@@ -227,7 +240,13 @@ class RecipeManager{
                                                     
                                                     <button type=\"submit\" class=\"radius mini\">View</button>
                                             </form>
-                    
+                                            </td>
+                                            <td>
+                                           <img src=\"$img\" style=\"margin:auto; max-width:80%;max-height:80%; display:block\" >
+                                           </td>
+                                           </tr>
+                                           
+                                            </table>
                                             </div>
       
     </div>
@@ -256,8 +275,63 @@ class RecipeManager{
 	*/
 
 	public function addRecipe(){
-        $sql = "INSERT INTO recipe (authorID, title, prepTime, cookTime, Difficulty, description, date) VALUES
-				(:uid, :n, :prep, :cook, :diff, :description, now())";
+
+        if(isset($_FILES['fileToUpload'])) {
+
+
+            $targetDir = "images/";
+            $target_file = $targetDir . basename($_FILES["fileToUpload"]["name"]);
+            $uploadOk = 1;
+            $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
+
+            $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+            if ($check !== false) {
+                //echo "File is an image - " . $check["mime"] . ".";
+                $uploadOk = 1;
+            } else {
+                //echo "File is not an image.";
+                $uploadOk = 0;
+            }
+            $num = 0;
+            while (file_exists($targetDir . $num . basename($_FILES["fileToUpload"]["name"]))) {
+                $num += 1;
+
+            }
+            $target_file =$targetDir . $num . basename($_FILES["fileToUpload"]["name"]);
+            $uploadOk = 1;
+
+            if ($_FILES["fileToUpload"]["size"] > 500000) {
+                $tmp = "Sorry, your file is too large.";
+                $uploadOk = 0;
+            }
+            // Allow certain file formats
+            if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+                && $imageFileType != "gif"
+            ) {
+                $tmp = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+                $uploadOk = 0;
+            }
+
+            if ($uploadOk == 0) {
+                $tmp = "Sorry, your file was not uploaded.";
+                // if everything is ok, try to upload file
+            } else {
+                if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+                    $tmp = "The file " . basename($_FILES["fileToUpload"]["name"]) . " has been uploaded.";
+                } else {
+                    $tmp = "Sorry, there was an error uploading your file.";
+                }
+            }
+
+        }
+        if($uploadOk == 1){
+            $fileName = $target_file;
+        }
+        else{
+            $fileName = NULL;
+        }
+        $sql = "INSERT INTO recipe (authorID, title, prepTime, cookTime, Difficulty, description, imagename, date) VALUES
+				(:uid, :n, :prep, :cook, :diff, :description, :image, now())";
 
         if($stmt = $this->_db->prepare($sql)){
             $name = $_POST['name'];
@@ -272,6 +346,7 @@ class RecipeManager{
             $stmt->bindParam(':cook', $cook, PDO::PARAM_INT);
             $stmt->bindParam(':diff', $difficulty, PDO::PARAM_STR);
             $stmt->bindParam(':description', $description, PDO::PARAM_STR);
+            $stmt->bindParam(':image', $fileName, PDO::PARAM_STR);
             $stmt->execute();
         }
         else
@@ -323,47 +398,6 @@ class RecipeManager{
                 return "tttt<li> Something went wrong.364 " . $this->_db->errorInfo() . "</li>n";
             }
         }
-
-        $targetDir = "images/";
-        $target_file = $targetDir . basename($_FILES["imageFile"]["name"]);
-        $uploadOk = 1;
-        $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-
-        $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-        if($check !== false) {
-            echo "File is an image - " . $check["mime"] . ".";
-            $uploadOk = 1;
-        } else {
-            echo "File is not an image.";
-            $uploadOk = 0;
-        }
-        $num = 0;
-        while (file_exists($target_file . $num)) {
-            $num += 1;
-
-        }
-        $target_file .= $num;
-        if ($_FILES["fileToUpload"]["size"] > 500000) {
-            $tmp = "Sorry, your file is too large.";
-            $uploadOk = 0;
-        }
-        // Allow certain file formats
-        if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-            && $imageFileType != "gif" ) {
-            $tmp = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-            $uploadOk = 0;
-        }
-
-        if ($uploadOk == 0) {
-            $tmp = "Sorry, your file was not uploaded.";
-            // if everything is ok, try to upload file
-        } else {
-            if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-                $tmp = "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
-            } else {
-                $tmp = "Sorry, there was an error uploading your file.";
-            }
-        }
         return $tmp;
 
 	}
@@ -383,7 +417,7 @@ class RecipeManager{
 		}
 		else
 		{
-			return "tttt<li> Something went wrong.563 ". $this->_db->errorInfo(). "</li>n";
+			return "<li> Something went wrong.563 ". $this->_db->errorInfo(). "</li>n";
 		}
 
 	}
