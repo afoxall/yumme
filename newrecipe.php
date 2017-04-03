@@ -26,7 +26,7 @@ else:
         </div>
         <!--loginheader-->
         <div class="loginform">
-            <form id="login" action="recipes.php" method="post">
+            <form id="login" action="recipes.php" method="post" enctype="multipart/form-data">
                 <p>
                     <input type="text" id="name" name="name" placeholder="Recipe Name" value="" class="radius" />
                 </p>
@@ -78,6 +78,8 @@ else:
                 </div>
                 <button class="radius mini" name="addInst">Add a step +</button>
                 <p>
+                    <input type="file" name="fileToUpload" id="fileToUpload"><br>
+
                     <button type="submit" name="save" id="save" class="radius title" name="signup">Submit!</button>
                     <input type="hidden" name="action" id="action" value="addRec"/>
 
@@ -91,60 +93,11 @@ else:
 <!--loginbox-->
 </body>
 </html>
-<!--
-<h2>New Recipe</h2>
-<form method="post" action="recipes.php" id="recform">
-    <div class="recipeInput">
-        <label for="name">Recipe Name:</label>
-        <input type="text" name="name" id="name" /><br />
-        <label for="prep">Prep time:</label>
-        <input type="text" name="prep" id="prep" /><br />
-        <label for="cook">Cook Time:</label>
-        <input type="text" name="cook" id="cook" /><br />
-        <label for="diff">Difficulty:</label>
 
-        <select name="diff">
-            <option value="Easy">Easy</option>
-            <option value="Intermediate">Medium</option>
-            <option value="Hard">Hard</option>
-        </select>
-
-        <div class = "ingInput">
-            <label>Ingredients</label><br/>
-            <label for="ingredients[name][]">Name </label>
-            <input type="text" name="ingredients[name][]">
-            <label for="ingredients[state][]">State</label>
-            <input type = "text" name="ingredients[state][]">
-            <label for="ingredients[quant][]">Quantity</label>
-            <input type = "text" name="ingredients[quant][]"><a href="#" class="delete">Delete</a><br/>
-        </div>
-
-
-        <button type="button" class="add_ingredient">Add Ingredient &nbsp; <span style="font-size:16px; font-weight:bold;">+ </span></button>
-        <div class = "utensilInput">
-            <label>Utensils</label>
-            <div><input type="text" name="utensils[]"><a href="#" class="delete">Delete</a></div>
-
-        </div>
-        <button type="button" class="add_utensil">Add Utensil &nbsp; <span style="font-size:16px; font-weight:bold;">+ </span></button>
-
-        <div class = "instInput">
-            <label for="instructions[]">Instructions</label>
-            <div><input type="text" name="instructions[]"><a href="#" class="delete">Delete</a></div>
-
-        </div>
-        <button type="button" class="add_step">Add Step &nbsp; <span style="font-size:16px; font-weight:bold;">+ </span></button>
-
-
-        <input type="hidden" name="action" id="action" value="addRec"/>
-        <input type="submit" name="save" id="save" value="save" />
-    </div>
-
-</form>
--->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script>
+
     $(document).ready(function() {
         var max_fields      = 20;
         var ingWrapper        = $(".ingInput");

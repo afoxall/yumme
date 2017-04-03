@@ -13,8 +13,6 @@ include_once "common/base.php";
 </head>
 
 
-
-<div id="viewsidebar"></div>
 <body class="viewRecipe">
 <!-- header starts here -->
 <div class="loginbox radius">
