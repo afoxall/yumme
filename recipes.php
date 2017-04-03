@@ -27,7 +27,7 @@ if(!empty($_POST['action'])
             echo $recObj->addReview();
             header("Location: /yumme/viewrecipe.php?rid=".$_POST['rid']);
             break;
-        case 'search':
+        case 'searchRecipes':
             echo $recObj->recipeSearch();
             break;
 		case 'deleteRecipe':
@@ -36,8 +36,6 @@ if(!empty($_POST['action'])
 		case 'deleteReview':
 			echo $recObj->deleteReview();
 			break;
-        case 'searchRecipe':
-
         default:
             header("Location: /yumme/index.php");
             break;

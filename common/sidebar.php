@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="yummeStyle.css" type="text/css" />
 </head>
     <div id="viewsidebar" style="vertical-align: top">
+
         <br/>
         <div id="searchRecipe">
             <form action="search.php" method="post">
@@ -13,6 +14,7 @@
             </form>
         </div>
         <br/>
+
         <div id="searchUsers">
             <form action="users.php" method="post">
                 <input type="text" id="user" name="user" value="find user">
@@ -21,6 +23,11 @@
             </form>
         </div>
         <br/>
+        <div id="foundusers">
+            <?php
+
+            ?>
+        </div>
         <div id="followinfo">
             <div id="following">
                 <label style="vertical-align: top; padding-left: 5px">Following:</label><br/>

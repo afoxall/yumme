@@ -61,6 +61,15 @@ h2 {
     position: relative;
 }
 
+
+.titlebox {
+    background: transparent;
+    padding: 10px;
+    width: 490px;
+    margin: 4% auto 4% auto;
+    position: relative;
+}
+
 .loginboxinner {
     background: #FBFCFD;
     padding: 5px;
