@@ -6,8 +6,8 @@
     <div id="viewsidebar" style="vertical-align: top">
         <br/>
         <div id="searchRecipe">
-            <form action="recipes.php" method="post">
-                <input type="text" id="recipe" name="recipe" value="find recipe">
+            <form action="search.php" method="post">
+                <input type="text" id="query" name="query" value="find recipe">
                 <input type="submit" value="search">
                 <input type="hidden" name="action" id="action" value="searchrecipes">
             </form>

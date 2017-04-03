@@ -388,23 +388,32 @@ recipe.difficulty from recipe join user on recipe.authorID=user.uid where recipe
 		//this will be hard
         $query = $_POST['query'];
 
-	    $sql = "select * from recipe where title = :title or exists(select * from ingredient where name=:query and ingredient.rid=recipe.rid)";
+	    $sql = "select recipe.rid, recipe.authorID, recipe.title, recipe.prepTime + recipe.cookTime as time, recipe.description, recipe.imagename, user.uname, 
+recipe.difficulty from recipe join user on recipe.authorID=user.uid where recipe.title = :query or exists(select * from ingredient where name=:query and ingredient.rid=recipe.rid)";
+        //$sql = "SELECT recipe.rid, recipe.authorID, recipe.title, recipe.prepTime + recipe.cookTime as time, recipe.description, recipe.imagename, user.uname,
+//recipe.difficulty from recipe join user on recipe.authorID=user.uid where recipe.authorID in ('$ids') or exists(select * from reblog where uid in ('$ids')  and rid=recipe.rid)";
+
         $res = "";
         if($stmt = $this->_db->prepare($sql)){
             $stmt->bindParam(':query', $query);
             $stmt->execute();
 
             $count = $stmt->rowCount();
-            while(count > 0) {
+            if($count == 0){
+                return "<div style='font-size:200%' align='center'>No search results</div>";
+            }
+            while($count > 0) {
 
                 $count--;
                 $recipe = $stmt->fetch();
+
                 $res .= $this->getRecipePanel($recipe);
             }
             }
             else{
                 return "<li> Something went wrong.126 RID:". $_POST['rid'] .$this->_db->errorInfo()[0] . $this->_db->errorInfo()[1] .$this->_db->errorInfo()[2] . "</li>";
             }
+            return $res;
 	}
 	
 	/*
