@@ -7,9 +7,9 @@
         <br/>
         <div id="searchRecipe">
             <form action="recipes.php" method="post">
-                <input type="text" id="recipe" name="recipe" value="find recipe">
+                <input type="text" id="query" name="query" value="find recipe">
                 <input type="submit" value="search">
-                <input type="hidden" name="action" id="action" value="searchrecipes">
+                <input type="hidden" name="action" id="action" value="searchRecipes">
             </form>
         </div>
         <br/>
