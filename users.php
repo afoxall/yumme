@@ -2,8 +2,8 @@
  
 session_start();
  
-include_once "../inc/constants.inc.php";
-include_once "../inc/class.users.inc.php";
+include_once "inc/constants.inc.php";
+include_once "inc/class.users.inc.php";
 
 $userObj = new UserManager();
  
