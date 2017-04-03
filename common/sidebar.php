@@ -5,15 +5,14 @@
 </head>
     <div id="viewsidebar" style="vertical-align: top">
         <div id="searchUsers">
-            <label style="vertical-align: top; padding-left: 5px">Find User:</label><br/>
-            <form action="search.php" method="get">
-                <input type="text" name="user" value="name">
+            <form action="/users.php" method="post">
+                <input type="text" name="user" value="find user">
                 <input type="submit" value="search">
+                <input type="hidden" name="action" id="action" value="searchUsers">
             </form>
         </div>
         <br/>
-        <div id="following">
-            <label style="vertical-align: top; padding-left: 5px">Following:</label><br/>
+        <div id="foundusers">
             <?php
             include_once "inc/class.follows.inc.php";
             try {
@@ -30,27 +29,48 @@
                 echo 'Message: ' .$e->getMessage();
             }
             ?>
-            <br/>
         </div>
-        <div id="followers">
-            <label style="vertical-align: top; padding-left: 5px">Followers:</label><br/>
-            <?php
-            include_once "inc/class.follows.inc.php";
-            try {
-                $folObj = new FollowManager();
-                $usernames = $folObj->getFollowers()[0];
-                $uids = $folObj->getFollowers()[1];
+        <div id="followinfo">
+            <div id="following">
+                <label style="vertical-align: top; padding-left: 5px">Following:</label><br/>
+                <?php
+                include_once "inc/class.follows.inc.php";
+                try {
+                    $folObj = new FollowManager();
+                    $usernames = $folObj->getFollows()[0];
+                    $uids = $folObj->getFollows()[1];
 
-                for ($cnt = 0; $cnt < count($usernames); $cnt++) {
-                    echo "<div style='padding-left: 10px'><a href='/yumme/userprofile.php?u=$uids[$cnt]&uname=$usernames[$cnt]'>$usernames[$cnt]</a></div>";
+                    for ($cnt = 0; $cnt < count($usernames); $cnt++) {
+                        echo "<div style='padding-left: 10px'><a href='/yumme/userprofile.php?u=$uids[$cnt]&uname=$usernames[$cnt]'>$usernames[$cnt]</a></div>";
+                    }
+
+                    unset($value);
+                } catch(Exception $e) {
+                    echo 'Message: ' .$e->getMessage();
                 }
+                ?>
+                <br/>
+            </div>
+            <div id="followers">
+                <label style="vertical-align: top; padding-left: 5px">Followers:</label><br/>
+                <?php
+                include_once "inc/class.follows.inc.php";
+                try {
+                    $folObj = new FollowManager();
+                    $usernames = $folObj->getFollowers()[0];
+                    $uids = $folObj->getFollowers()[1];
 
-                unset($value);
-            } catch(Exception $e) {
-                echo 'Message: ' .$e->getMessage();
-            }
-            ?>
-            <br/>
+                    for ($cnt = 0; $cnt < count($usernames); $cnt++) {
+                        echo "<div style='padding-left: 10px'><a href='/yumme/userprofile.php?u=$uids[$cnt]&uname=$usernames[$cnt]'>$usernames[$cnt]</a></div>";
+                    }
+
+                    unset($value);
+                } catch(Exception $e) {
+                    echo 'Message: ' .$e->getMessage();
+                }
+                ?>
+                <br/>
+            </div>
         </div>
 
     </div>

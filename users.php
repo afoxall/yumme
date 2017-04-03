@@ -24,10 +24,12 @@ if(!empty($_POST['action'])
         case 'deleteaccount':
             $userObj->deleteAccount();
             break;
-			
 		case 'deleteuser':
 			$userObj->deleteUser();
 			break;
+        case 'searchusers':
+            $userObj->findUser();
+            break;
         default:
             header("Location: /yumme/index.php");
             break;
