@@ -30,7 +30,7 @@ class RecipeManager{
 	        header("Location: /yumme/home.php");
         }
 		//first get the recipe (we will get the author reviews, ingredients and utensils later)
-		$sql = "SELECT recipe.description, recipe.imagename, recipe.prepTime, recipe.cookTime, recipe.difficulty, recipe.date, recipe.imagename, recipe.title, user.uname
+		$sql = "SELECT recipe.description, recipe.imagename, recipe.prepTime, recipe.cookTime, recipe.difficulty, recipe.date, recipe.imagename, recipe.title, user.uname, user.uid
               FROM recipe join user on recipe.authorID = user.UID WHERE recipe.rid=:rid";
 
 		if($stmt = $this->_db->prepare($sql)){
@@ -40,12 +40,14 @@ class RecipeManager{
 			if($stmt->rowCount()==1){
 				$recipe = $stmt->fetch();
 				//echo $recipe['title'];
+                $uid=$recipe['uid'];
+                $uname=$recipe['uname'];
 				$res = "
                     <p>
                         <h2 style=\"color:#141823; text-align:center;\">". $recipe['title']."</h2>
                     </p>
                     <p>
-                        <h4 style=\"color:#141823; text-align:center;\"> Created by ". $recipe['uname']." on " . $recipe['date']."</h4>
+                        <h4 style=\"color:#141823; text-align:center;\"> Created by <a style=\"color:#141823\" href=\"/yumme/userprofile.php?u=$uid&uname=$uname\">". $recipe['uname']."</a> on " . $recipe['date']."</h4>
                     </p>
                     <p>
                         <h4 class=\"title\">".$recipe['description']."</h4>
