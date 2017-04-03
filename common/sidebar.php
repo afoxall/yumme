@@ -6,16 +6,46 @@
     <div id="viewsidebar" style="vertical-align: top">
         <div id="following">
             <label style="vertical-align: top">People I'm Following:</label><br/>
-            <p>This is a test</p><br/>
+            <?php
+            include_once "inc/class.follows.inc.php";
+            try {
+                $folObj = new FollowManager();
+                $usernames = $folObj->getFollowers()[0];
+                $uids = $folObj->getFollowers()[1];
+
+                for ($cnt = 0; $cnt < count($usernames); $cnt++) {
+                    echo "<div><a href='/yumme/userprofile.php?u=$uids[$cnt]&uname=$usernames[$cnt]'>$usernames[$cnt]</a></div>";
+                }
+
+                unset($value);
+            } catch(Exception $e) {
+                echo 'Message: ' .$e->getMessage();
+            }
+            ?>
+            <br/>
         </div>
         <div id="followers">
             <label style="vertical-align: top">People Following Me:</label><br/>
-            <p>This is another test</p><br/>
+            <?php
+            include_once "inc/class.follows.inc.php";
+            try {
+                $folObj = new FollowManager();
+                $usernames = $folObj->getFollows()[0];
+                $uids = $folObj->getFollows()[1];
+
+                for ($cnt = 0; $cnt < count($usernames); $cnt++) {
+                    echo "<div><a href='/yumme/userprofile.php?u=$uids[$cnt]&uname=$usernames[$cnt]'>$usernames[$cnt]</a></div>";
+                }
+
+                unset($value);
+            } catch(Exception $e) {
+                echo 'Message: ' .$e->getMessage();
+            }
+            ?>
+            <br/>
         </div>
     </div>
-    <?php
 
-    ?>
 
 
 

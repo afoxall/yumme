@@ -96,6 +96,7 @@ Thanks!
 EMAIL;
         $res = mail($to, $subject, $msg, $headers);
         echo "Email Sent";
+        echo $msg;
 		return $res;
 	}
 	
@@ -228,7 +229,7 @@ Thanks!
 EMAIL;
 
 
-	
+
 	return mail($to, $subject, $msg, $headers);
 	}
 	

@@ -44,7 +44,7 @@ if(isset($_SESSION['LoggedIn']) && isset($_SESSION['UID'])):
     $user = new UserManager($db);
     $follows = new FollowManager($db);
 
-    $followArray = $follows->getFollows();
+    $followArray = $follows->getFollows()[1];
     array_push($followArray, $_SESSION["UID"]);
 
     $res = $recipes->getUsersRecipes($followArray, 20);
