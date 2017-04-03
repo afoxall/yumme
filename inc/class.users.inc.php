@@ -180,7 +180,7 @@ EMAIL;
 					$_SESSION['LoggedIn'] = 1;
 					$_SESSION['UNAME'] = $row['uname'];
 
-					return TRUE;
+
 			}
 			else{
 				return FALSE;
@@ -189,6 +189,26 @@ EMAIL;
 		catch(PDOException $e){
 			return FALSE;
 		}
+		$sql = "SELECT * from administrator where uid=:uid";
+        try{
+            $stmt = $this->_db->prepare($sql);
+            $stmt->bindParam(":uid", $_SESSION['UID'], PDO::PARAM_STR);
+
+
+            $stmt->execute();
+
+            if($stmt->rowCount()==1){
+
+
+            }
+            else{
+                return FALSE;
+            }
+        }
+        catch(PDOException $e){
+            return FALSE;
+        }
+        return TRUE;
 	}
 	
 	//skipping modifying account information, not critical
