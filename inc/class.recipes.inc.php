@@ -1,5 +1,7 @@
 <?php
-    include_once "common/base.php";
+
+include_once "common/base.php";
+
 /*
 	RecipeManager:
 		create recipe
@@ -50,7 +52,7 @@ class RecipeManager{
                         <h4 style=\"color:#141823; text-align:center;\"> Created by <a style=\"color:#141823\" href=\"/yumme/userprofile.php?u=$uid&uname=$uname\">". $recipe['uname']."</a> on " . $recipe['date']."</h4>
                     </p>
                     <p>
-                        <h4 class=\"title\">".$recipe['description']."</h4>
+                        <h4 style=\"color:#141823; text-align:center;\" class=\"title\">".$recipe['description']."</h4>
                     </p><br>
                     <p>
                         <h4 style=\"color:#141823; text-align:center;\">Prep Time: ". $recipe['prepTime']."    
@@ -213,7 +215,6 @@ recipe.difficulty from recipe join user on recipe.authorID=user.uid where recipe
                 $row = $stmt->fetch();
 
                 $res .= $this->getRecipePanel($row);
-
             }
 
 		}

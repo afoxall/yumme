@@ -35,6 +35,9 @@ if(!empty($_POST['action'])
 			break;
 		case 'deleteReview':
 			echo $recObj->deleteReview();
+			break;
+        case 'searchRecipe':
+
         default:
             header("Location: /yumme/index.php");
             break;
