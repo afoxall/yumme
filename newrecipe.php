@@ -22,7 +22,7 @@ else:
     <h2 style="color:#141823; text-align:center;">Enter a recipe!</h2>
     <div class="loginboxinner radius">
         <div class="loginheader">
-            <h4 class="title">Enter a recipe and let's get cooking!</h4>
+            <h4 class="title" style="color:#141823">Enter a recipe and let's get cooking!</h4>
         </div>
         <!--loginheader-->
         <div class="loginform">
@@ -35,7 +35,7 @@ else:
                     <input type="text" id="cook" name="cook" placeholder="Cooking Time" value="" class="radius mini" />
                 </p>
                 <p>
-                    <select id="diff" name="diff">
+                    <select id="diff" name="diff" style="color:#141823">
                         <option value="easy">Easy</option>
                         <option value="intermediate">Intermediate</option>
                         <option value="hard">Hard</option>
@@ -46,7 +46,7 @@ else:
                 </p>
 
                 <p>
-                    <h4 class="title">Enter your ingredients below: </h4>
+                    <h4 class="title" style="color:#141823">Enter your ingredients below: </h4>
                     </p>
                     <div class = "ingInput">
                         <p>
@@ -58,7 +58,7 @@ else:
                     </div>
                     <button type="button" class="radius mini" name="addIng">Add an Ingredient +</button>
                 <p>
-                <h4 class="title">Enter your utensils below: </h4>
+                <h4 class="title" style="color:#141823">Enter your utensils below: </h4>
                 </p>
                 <div class="utensilInput">
                 <p>
@@ -68,7 +68,7 @@ else:
                 </div>
                 <button class="radius mini" name="addUt">Add a Utensil +</button>
                 <p>
-                <h4 class="title">Enter the recipe steps below: </h4>
+                <h4 class="title" style="color:#141823">Enter the recipe steps below: </h4>
                 </p>
                 <div class="instInput">
                 <p>
