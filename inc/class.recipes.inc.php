@@ -1,7 +1,5 @@
 <?php
-include_once "common/base.php";
-include_once "common/base.php";
-
+    include_once "common/base.php";
 /*
 	RecipeManager:
 		create recipe
@@ -52,7 +50,7 @@ class RecipeManager{
                         <h4 style=\"color:#141823; text-align:center;\"> Created by <a style=\"color:#141823\" href=\"/yumme/userprofile.php?u=$uid&uname=$uname\">". $recipe['uname']."</a> on " . $recipe['date']."</h4>
                     </p>
                     <p>
-                        <h4 style=\"color:#141823; text-align:center;\" class=\"title\">".$recipe['description']."</h4>
+                        <h4 class=\"title\">".$recipe['description']."</h4>
                     </p><br>
                     <p>
                         <h4 style=\"color:#141823; text-align:center;\">Prep Time: ". $recipe['prepTime']."    
@@ -214,62 +212,8 @@ recipe.difficulty from recipe join user on recipe.authorID=user.uid where recipe
                 $count -= 1;
                 $row = $stmt->fetch();
 
-                $n = $row['title'];
-                $t = $row['time'];
-                $d = $row['difficulty'];
-                $desc = $row['description'];
-                $a = $row['uname'];
-                $u = $row['authorID'];
-                $rid = $row['rid'];
-                $img = $row['imagename'];
-                if(!$img){
-                    $img = "images/default.png";
-                }
-                $res .= "<div class=\"login_form\">
-                            <div class=\"loginbox radius\">
-                            <div class=\"loginboxinner radius\">
-                            <!--loginheader-->
-                            <div class=\"loginform\">
-                               
-            
-                                <div class=\"mini_recipe\">
-                                            <table>
-                                            
-                                            <tr>
-                                            <td><form id=\"recipe\" action=\"viewrecipe.php\" method=\"post\">
-                                                    <p>
-                                                        <h4 style=\"color:#141823; text-align:center; font-size:150%\" class=\"title\" style=\"font-size:150%\">$n</h4>
-                                                    </p>
-                                                    <p>
-                                                        <h4 style=\"color:#141823; text-align:center;\" class=\"title\">$desc</h4>
-                                                    </p>
-                                                    <p>
-                                                        <h4 style=\"color:#141823; text-align:center;\" class=\"title\">Total Time: $t    Difficulty: $d</h4>
-                                                        <h4 style=\"color:#141823; text-align:center;\" class=\"title\">Author: <a id='recipeLink' href='/yumme/userprofile.php?u=$u&uname=$a'>$a</a></h4>
-                                                    </p>
-                                                    
-                                                    <input name=\"rid\" type=\"hidden\" id=\"rid\" value=\"$rid\"  />
-                                                    
-                                                    <button type=\"submit\" class=\"radius mini\">View</button>
-                                            </form>
-                                            </td>
-                                            <td>
-                                           <img src=\"$img\" style=\"margin:auto; max-width:80%;max-height:80%; display:block\" >
-                                           </td>
-                                           </tr>
-                                           
-                                            </table>
-                                            </div>
-      
-    </div>
-    <!--loginform-->
-
-</div>
-</div>
-<?php endif;?>
-<!--loginboxinner-->
                 $res .= $this->getRecipePanel($row);
-";
+
             }
 
 		}

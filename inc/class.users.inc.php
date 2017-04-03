@@ -353,11 +353,10 @@ EMAIL;
 		}
 		if($stmt->rowCount()>0){
         	$row = $stmt->fetch();
-        	//header("Location: /yumme/userprofile.php?u=".$row['uid']."&uname=".$row['uname']);
         	header("Location: /yumme/userprofile.php?u=".$row['UID']."&uname=".$row['UName']);
 		}
 		else{
-			//header("Location: /yumme/index.php");
+			header("Location: /yumme/index.php");
 		}
 
 	}
