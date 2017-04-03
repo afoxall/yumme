@@ -4,6 +4,14 @@
     <link rel="stylesheet" href="yummeStyle.css" type="text/css" />
 </head>
     <div id="viewsidebar" style="vertical-align: top">
+        <div id="searchUsers">
+            <label style="vertical-align: top; padding-left: 5px">Find User:</label><br/>
+            <form action="search.php" method="get">
+                <input type="text" name="user" value="name">
+                <input type="submit" value="search">
+            </form>
+        </div>
+        <br/>
         <div id="following">
             <label style="vertical-align: top; padding-left: 5px">Following:</label><br/>
             <?php
