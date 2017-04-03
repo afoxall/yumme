@@ -193,16 +193,14 @@ EMAIL;
         try{
             $stmt = $this->_db->prepare($sql);
             $stmt->bindParam(":uid", $_SESSION['UID'], PDO::PARAM_STR);
-
-
             $stmt->execute();
 
             if($stmt->rowCount()==1){
-
+				$_SESSION['ISADMIN'] = 1;
 
             }
             else{
-                return FALSE;
+                $_SESSION['ISADMIN'] = 0;
             }
         }
         catch(PDOException $e){
@@ -278,7 +276,7 @@ EMAIL;
 		
 		$sql = "DELETE FROM user WHERE uid=:uid";
 		if($stmt = $this->_db->prepare($sql)){
-			$stmt->bindParam(":uid", $_POST['uid'], PDO::PARAM_INT);
+			$stmt->bindParam(":uid", $_GET['u'], PDO::PARAM_INT);
 			$stmt->execute();
 		}
 		else{
