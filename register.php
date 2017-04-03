@@ -10,7 +10,7 @@ if(isset($_GET['v']) && isset($_GET['e']))
     include_once "inc/class.users.inc.php";
     $users = new UserManager($db);
     $ret = $users->verifyAccount();
-    echo "<div style=\"color:black; text-align:center;\">". $ret[0]."</div>";
+    //echo "<div style=\"color:black; text-align:center;\">". $ret[0]."</div>";
 }
 elseif(isset($_POST['v']))
 {
@@ -29,7 +29,7 @@ else
 
 if(isset($ret[0])):
 
-echo isset($ret[1]) ? $ret[1]  : NULL;
+//echo isset($ret[1]) ? $ret[1]  : NULL;
 
 if($ret[0]<3):
 ?>
@@ -57,7 +57,7 @@ if($ret[0]<3):
     <h2 style="color:#141823; text-align:center;">Welcome to Yumme!</h2>
     <div class="loginboxinner radius">
         <div class="loginheader">
-            <h4 class="title">Connect with the community to find fresh, free recipes!</h4>
+            <h4 style="color:#141823;" class="title">Connect with the community to find fresh, free recipes!</h4>
         </div>
         <!--loginheader-->
         <div class="loginform">

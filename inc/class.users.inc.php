@@ -95,8 +95,8 @@ http://localhost:8080/yumme/register.php?v=$ver&e=$e
 Thanks!
 EMAIL;
         $res = mail($to, $subject, $msg, $headers);
-        echo "Email Sent";
-        echo $msg;
+        echo "<h3 style=\"color:#141823;\">Email Sent</h3>";
+        //echo $msg;
 		return $res;
 	}
 	
@@ -119,6 +119,7 @@ EMAIL;
 				$_SESSION['UID'] = $row['UID'];
                 $_SESSION['UNAME'] = $row['UName'];
 				$_SESSION['LoggedIn'] = 1;
+				$_SESSION['ISADMIN'] = 0;
 			}
 			else{
 				return array(4, "<h2>Verification error. This account has already been verified.</h2>");
@@ -179,8 +180,6 @@ EMAIL;
 					$_SESSION['UID'] = $row['uid'];
 					$_SESSION['LoggedIn'] = 1;
 					$_SESSION['UNAME'] = $row['uname'];
-
-
 			}
 			else{
 				return FALSE;

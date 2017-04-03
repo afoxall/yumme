@@ -28,7 +28,7 @@
  
     if(isset($ret[0])):
 
-        echo isset($ret[1]) ? $ret[1]  : NULL;
+        //echo isset($ret[1]) ? $ret[1]  : NULL;
 
         if($ret[0]<3):
 ?>

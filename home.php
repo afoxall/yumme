@@ -73,10 +73,10 @@ endif;
         else:
     ?>
 
-    <h5 style="color:#141823; text-align:center;">Welcome to Yumme!</h5>
+    <h5 style="color:#141823; font-size:130%; text-align:center;">Welcome to Yumme!</h5>
     <div class="loginboxinner radius">
         <div class="loginheader">
-            <h4 class="title">Connect with the community to find fresh, free recipes!</h4>
+            <h4 style="color:#141823;" class="title">Connect with the community to find fresh, free recipes!</h4>
         </div>
         <!--loginheader-->
         <div class="loginform">
