@@ -1,5 +1,7 @@
 <?php
-    include_once "common/base.php";
+
+include_once "common/base.php";
+
 /*
 	RecipeManager:
 		create recipe
@@ -50,7 +52,7 @@ class RecipeManager{
                         <h4 style=\"color:#141823; text-align:center;\"> Created by <a style=\"color:#141823\" href=\"/yumme/userprofile.php?u=$uid&uname=$uname\">". $recipe['uname']."</a> on " . $recipe['date']."</h4>
                     </p>
                     <p>
-                        <h4 class=\"title\">".$recipe['description']."</h4>
+                        <h4 style=\"color:#141823; text-align:center;\" class=\"title\">".$recipe['description']."</h4>
                     </p><br>
                     <p>
                         <h4 style=\"color:#141823; text-align:center;\">Prep Time: ". $recipe['prepTime']."    
@@ -213,7 +215,6 @@ recipe.difficulty from recipe join user on recipe.authorID=user.uid where recipe
                 $row = $stmt->fetch();
 
                 $res .= $this->getRecipePanel($row);
-
             }
 
 		}
@@ -544,14 +545,14 @@ recipe.difficulty from recipe join user on recipe.authorID=user.uid where recipe
                                             <tr>
                                             <td><form id=\"recipe\" action=\"viewrecipe.php\" method=\"post\">
                                                     <p>
-                                                        <h4 class=\"title\" style=\"color:#141823; font-size:150%\">$n</h4>
+                                                        <h4 class=\"title\" style=\"font-size:150%\">$n</h4>
                                                     </p>
                                                     <p>
-                                                        <h4 class=\"title\" style=\"color:#141823\">$desc</h4>
+                                                        <h4 class=\"title\">$desc</h4>
                                                     </p>
                                                     <p>
-                                                        <h4 class=\"title\" style=\"color:#141823\">Total Time: $t    Difficulty: $d</h4>
-                                                        <h4 class=\"title\" style=\"color:#141823\">Author: <a id='recipeLink' href='/yumme/userprofile.php?u=$u&uname=$a'>$a</a></h4>
+                                                        <h4 class=\"title\">Total Time: $t    Difficulty: $d</h4>
+                                                        <h4 class=\"title\">Author: <a id='recipeLink' href='/yumme/userprofile.php?u=$u&uname=$a'>$a</a></h4>
                                                     </p>
                                                     
                                                     <input name=\"rid\" type=\"hidden\" id=\"rid\" value=\"$rid\"  />
