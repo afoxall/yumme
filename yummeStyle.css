@@ -11,7 +11,8 @@ fieldset, form, label, legend {
     font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-body.recipe { background: url(recipe-background.jpeg)no-repeat center center fixed;
+body.recipe {
+    background: url(recipe-background.jpeg)no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -19,7 +20,8 @@ body.recipe { background: url(recipe-background.jpeg)no-repeat center center fix
     color: white;
 }
 
-body.viewRecipe { background: url(recipe-view-background.jpeg)no-repeat center center fixed;
+body.viewRecipe {
+    background: url(recipe-view-background.jpeg)no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -182,7 +184,7 @@ h2 {
 
 .title {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    color:#8E989E;
+    color: #ffffff;
     line-height:28px;
     font-weight:normal;
     text-align:center;
@@ -355,4 +357,17 @@ a:hover {
 
 label {
     font-size:24px;
+}
+
+#recipeLink {
+    /*border:1px solid #14713d;*/
+    width:94px;
+    /*background-image:-webkit-linear-gradient(top, #44a446, #44a446);*/
+    font-size:18px;
+    line-height:30px;
+    font-weight:normal;
+    color: #0e8d32;
+    text-align: center;
+    text-decoration: none;
+    text-decoration-color: #0e8d32;
 }

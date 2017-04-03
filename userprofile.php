@@ -40,7 +40,7 @@ include_once "common/sidebar.php";
         $recipes = new RecipeManager($db);
         $u = $_GET['u'];
         $name=$_GET['uname'];
-        $res = "<br><p align=\"center\" ><label style=\"font-size:500%\"align=\"center\" class=\"title\">$name</label></p>";
+        $res = "<br/><br/><p align=\"center\" ><label style=\"font-size:500%\"align=\"center\" class=\"title\">$name</label></p>";
         $res .= "<br><div align='center'><a href=\"/yumme/addfollows.php?u=$u\">Follow</a></div>";
         if($_SESSION['ISADMIN'] == 1){
             $res .= "<div align='center'><a href=\"/yumme/admin.php?du=$u\">Delete user</a></div>";
