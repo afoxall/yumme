@@ -423,3 +423,18 @@ label {
     text-decoration: none;
     text-decoration-color: #0e8d32;
 }
+
+.styled_select select {
+    background: #FFFFFF;
+    width: 200px;
+    padding: 5px;
+    font-size: 16px;
+    line-height: 1;
+    height: 34px;
+    /*-webkit-appearance: none;*/
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    color: #666;
+    border-color: #8E989E;
+}

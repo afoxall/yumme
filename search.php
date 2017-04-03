@@ -46,6 +46,7 @@ include_once "common/sidebar.php";
 
         ?>
         <div class="loginbox radius">
+
                         <h2 style="color:#141823; text-align:center;">Search for recipes!</h2>
                         <div class="loginboxinner radius">
                             <div class="loginheader">
@@ -108,6 +109,7 @@ include_once "common/sidebar.php";
 
                                     </p>
                                 </form>
+
                 </div>
                 <!--loginform-->
             </div>
@@ -118,7 +120,33 @@ include_once "common/sidebar.php";
             <?php echo $res; ?>
         </div>
 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <script>
 
+            $(document).ready(function() {
+                var max_fields      = 20;
+                var ingWrapper        = $(".ingInput");
+                var add_ing         = document.getElementsByName("addIng")[0];
+
+                var x = 1;
+                $(add_ing).click(function(e){
+                    e.preventDefault();
+                    if(x < max_fields){
+                        x++;
+                        $(ingWrapper).append('<p><input type="text" id="ingName" name="ingredients[name][]" placeholder="Name" value="" class="radius third" /></p>'); //add input box
+                    }
+                    else
+                    {
+                        alert('You Reached the limits')
+                    }
+                });
+
+                //TODO this deletes all of the things, fix that
+                $(ingWrapper).on("click",".delete", function(e){
+                    e.preventDefault(); $(this).parent('div').remove(); x--;
+                })
+            });
+        </script>
 
 
 
