@@ -16,64 +16,178 @@ body.recipe { background: url(recipe-background.jpeg)no-repeat center center fix
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    color: white;}
+    color: white;
+}
 
 body.viewRecipe { background: url(recipe-view-background.jpeg)no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    color: white;}
+    color: white;
+}
 
 body.index { background: url(index-background.jpg)no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    color: white;}
+    color: white;
+}
 
-/* Need to get a new file for the background */body.login { background: url(food-kitchen-cutting-board-cooking.jpg)no-repeat center center fixed;
--webkit-background-size: cover;
--moz-background-size: cover;
--o-background-size: cover;
-background-size: cover;
-color: white;}
-h2 { font-size: 30px; line-height:38px; font-weight:normal; }
-.loginbox { background: #FBFCFD; padding: 10px; width: 490px; margin: 4% auto 4% auto; position: relative; }
+/* Need to get a new file for the background */
+body.login {
+    background: url(food-kitchen-cutting-board-cooking.jpg)no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    color: white;
+}
+
+h2 {
+    font-size: 30px;
+    line-height:38px;
+    font-weight:normal;
+}
+
+.loginbox {
+    background: #FBFCFD;
+    padding: 10px;
+    width: 490px;
+    margin: 4% auto 4% auto;
+    position: relative;
+}
+
 .loginboxinner {
-    background: #FBFCFD; padding: 5px; position: relative; border: 1px solid #FBFCFD;
-    -moz-box-shadow: inset 0 1px 0 #FBFCFD; -webkit-box-shadow: inset 0 1px 0 #FBFCFD; box-shadow: inset 0 1px 0 #FBFCFD;
+    background: #FBFCFD;
+    padding: 5px;
+    position: relative;
+    border: 1px solid #FBFCFD;
+    -moz-box-shadow: inset 0 1px 0 #FBFCFD;
+    -webkit-box-shadow: inset 0 1px 0 #FBFCFD;
+    box-shadow: inset 0 1px 0 #FBFCFD;
 }
-.loginheader { height: 20px; }
-.loginform { margin: 4px auto; text-align:center; }
 
-.loginbox h1 { font-size: 30px; letter-spacing: 1px; color: #555; font-weight: normal; padding-top: 10px; }
-.loginbox p { margin: 7px 0 5px 0; }
-.loginbox label { display: block; color: #666; letter-spacing: 1px; font-size: 18px; }
-.loginbox input.mini { width:195px; }
-.loginbox input.third { width:122px;}
+.loginheader {
+    height: 20px;
+}
+
+.loginform {
+    margin: 4px auto;
+    text-align:center;
+}
+
+.loginbox h1 {
+    font-size: 30px;
+    letter-spacing: 1px;
+    color: #555;
+    font-weight: normal;
+    padding-top: 10px;
+}
+
+.loginbox p {
+    margin: 7px 0 5px 0;
+}
+
+.loginbox label {
+    display: block;
+    color: #666;
+    letter-spacing: 1px;
+    font-size: 18px;
+}
+
+.loginbox input.mini {
+    width:195px;
+}
+
+.loginbox input.third {
+    width:122px;
+}
+
 .loginbox input {
-    padding: 12px 10px; color: #ccc;
-    font-family: Arial, Helvetica, sans-serif; margin-top: 8px; font-size: 15px; border: 1px solid #ccc; width: 420px;  outline: none;
+    padding: 12px 10px;
+    color: #ccc;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-top: 8px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    width: 420px;
+    outline: none;
 }
 
-.loginbox button.mini { background: #44a446; background-image:-webkit-linear-gradient(top, #4bad64, #44a446); padding: 10px 20px; font-size: 10px; border: 1px solid #44a446; letter-spacing: 1px; color: #fff; width: 155px; line-height:14px; font-family:    'Helvetica Neue', Helvetica, Arial, sans-serif;
-    -moz-box-shadow: 1px 1px 3px #710100; -webkit-box-shadow: 1px 1px 3px #44a446; box-shadow: 1px 1px 3px #44a446; cursor: pointer;
+.loginbox button.mini {
+    background: #44a446;
+    background-image: -webkit-linear-gradient(top, #4bad64, #44a446);
+    padding: 10px 20px;
+    font-size: 10px;
+    border: 1px solid #44a446;
+    letter-spacing: 1px;
+    color: #fff;
+    width: 155px;
+    line-height:14px;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    -moz-box-shadow: 1px 1px 3px #710100;
+    -webkit-box-shadow: 1px 1px 3px #44a446;
+    box-shadow: 1px 1px 3px #44a446;
+    cursor: pointer;
 }
 
-.loginbox button.tiny { background: #44a446; background-image:-webkit-linear-gradient(top, #4bad64, #44a446); padding: 10px 20px; font-size: 10px; border: 1px solid #44a446; letter-spacing: 1px; color: #fff; width: 155px; line-height:14px; font-family:    'Helvetica Neue', Helvetica, Arial, sans-serif;
-    -moz-box-shadow: 1px 1px 3px #710100; -webkit-box-shadow: 1px 1px 3px #44a446; box-shadow: 1px 1px 3px #44a446; cursor: pointer;
+.loginbox button.tiny {
+    background: #44a446;
+    background-image:-webkit-linear-gradient(top, #4bad64, #44a446);
+    padding: 10px 20px;
+    font-size: 10px;
+    border: 1px solid #44a446;
+    letter-spacing: 1px;
+    color: #fff;
+    width: 155px;
+    line-height:14px;
+    font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+    -moz-box-shadow: 1px 1px 3px #710100;
+    -webkit-box-shadow: 1px 1px 3px #44a446;
+    box-shadow: 1px 1px 3px #44a446;
+    cursor: pointer;
 }
 
 .loginbox button {
-    background: #44a446; background-image:-webkit-linear-gradient(top, #4bad64, #44a446); padding: 10px 20px; font-size: 18px; border: 1px solid #44a446; letter-spacing: 1px; color: #fff; width: 440px; line-height:30px; font-family:    'Helvetica Neue', Helvetica, Arial, sans-serif;
-    -moz-box-shadow: 1px 1px 3px #710100; -webkit-box-shadow: 1px 1px 3px #44a446; box-shadow: 1px 1px 3px #44a446; cursor: pointer;
+    background: #44a446;
+    background-image:-webkit-linear-gradient(top, #4bad64, #44a446);
+    padding: 10px 20px;
+    font-size: 18px;
+    border: 1px solid #44a446;
+    letter-spacing: 1px;
+    color: #fff;
+    width: 440px;
+    line-height:30px;
+    font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+    -moz-box-shadow: 1px 1px 3px #710100;
+    -webkit-box-shadow: 1px 1px 3px #44a446;
+    box-shadow: 1px 1px 3px #44a446;
+    cursor: pointer;
 }
 
 
-.radius { -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; }
-.radius1 { -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; }
-.title { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color:#8E989E; line-height:28px; font-weight:normal; text-align:center; font-size:16px; }
+.radius {
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.radius1 {
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.title {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color:#8E989E;
+    line-height:28px;
+    font-weight:normal;
+    text-align:center;
+    font-size:16px;
+}
 
 @media screen and (max-width: 430px) {
     body { font-size: 11px; }
@@ -111,7 +225,9 @@ h2 { font-size: 30px; line-height:38px; font-weight:normal; }
 #logo a {
     position: absolute;
     top: 20px;
-    font-size:23px; font-weight:bold; color:#FFF;
+    font-size:23px;
+    font-weight:bold;
+    color:#FFF;
     text-decoration:none;
     font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
@@ -130,11 +246,12 @@ h2 { font-size: 30px; line-height:38px; font-weight:normal; }
     position: absolute;
     right: 20%;
 }
+
 #header-main-right-nav {
     padding: 4px 0px 4px 4px;
     position: relative;
-
 }
+
 #login_form .inputtext {
     background-color: #FFFFFF;
     height:16px;
@@ -145,6 +262,7 @@ h2 { font-size: 30px; line-height:38px; font-weight:normal; }
     width: 166px;
     border:1px solid #44a446;
 }
+
 #login_form .inputtext:hover {
     border-color: #A0A0A0 #B9B9B9 #B9B9B9;
     border-image: none;
@@ -156,6 +274,7 @@ h2 { font-size: 30px; line-height:38px; font-weight:normal; }
 #login_form table tr td {
     padding: 0 0 0 5px;
 }
+
 #login_form table tr td label {
     color: #fff;
     cursor: pointer;
@@ -192,16 +311,11 @@ h2 { font-size: 30px; line-height:38px; font-weight:normal; }
     padding-bottom: 100%;
 }
 
-#viewsidebar .label {
-    display: table-cell;
-    vertical-align: top;
-    padding-top: 80%;
-}
-
-.userLabel { display: block;
-            color: #fff;
-            letter-spacing: 1px;
-            font-size: 20px;
+.userLabel {
+    display: block;
+    color: #fff;
+    letter-spacing: 1px;
+    font-size: 20px;
 }
 
 .aLabel{ display: block;
@@ -211,6 +325,34 @@ h2 { font-size: 30px; line-height:38px; font-weight:normal; }
     background: #ffffff
 }
 
-.fbbutton { border:1px solid #14713d; width:94px; background-image:-webkit-linear-gradient(top, #44a446, #44a446); font-size:14px; line-height:25px; font-weight:normal; color:#fff; }  e, a, b, u, i, center, dl, dt, u, i, center, dl, dt, dd, ol, ul, li
+.fbbutton e, a, b, u, i, center, dl, dt, u, i, center, dl, dt, dd, ol, ul, li {
+    /*border:1px solid #14713d;*/
+    width:94px;
+    /*background-image:-webkit-linear-gradient(top, #44a446, #44a446);*/
+    font-size:14px;
+    line-height:25px;
+    font-weight:normal;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+}
 
-.smallbutton { border:1px solid #14713d; width:94px; background-image:-webkit-linear-gradient(top, #44a446, #44a446); font-size:18px; line-height:30px; font-weight:normal; color:#fff; }  e, a, b, u, i, center, dl, dt, u, i, center, dl, dt, dd, ol, ul, li
+.smallbutton e, a, b, u, i, center, dl, dt, u, i, center, dl, dt, dd, ol, ul, li {
+    /*border:1px solid #14713d;*/
+    width:94px;
+    /*background-image:-webkit-linear-gradient(top, #44a446, #44a446);*/
+    font-size:18px;
+    line-height:30px;
+    font-weight:normal;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+   }
+
+a:hover {
+    text-decoration: underline;
+}
+
+label {
+    font-size:24px;
+}

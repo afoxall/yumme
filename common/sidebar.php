@@ -5,16 +5,16 @@
 </head>
     <div id="viewsidebar" style="vertical-align: top">
         <div id="following">
-            <label style="vertical-align: top">People I'm Following:</label><br/>
+            <label style="vertical-align: top; padding-left: 5px">Followers:</label><br/>
             <?php
             include_once "inc/class.follows.inc.php";
             try {
                 $folObj = new FollowManager();
-                $usernames = $folObj->getFollowers()[0];
-                $uids = $folObj->getFollowers()[1];
+                $usernames = $folObj->getFollows()[0];
+                $uids = $folObj->getFollows()[1];
 
                 for ($cnt = 0; $cnt < count($usernames); $cnt++) {
-                    echo "<div><a href='/yumme/userprofile.php?u=$uids[$cnt]&uname=$usernames[$cnt]'>$usernames[$cnt]</a></div>";
+                    echo "<div style='padding-left: 10px'><a href='/yumme/userprofile.php?u=$uids[$cnt]&uname=$usernames[$cnt]'>$usernames[$cnt]</a></div>";
                 }
 
                 unset($value);
@@ -25,16 +25,16 @@
             <br/>
         </div>
         <div id="followers">
-            <label style="vertical-align: top">People Following Me:</label><br/>
+            <label style="vertical-align: top; padding-left: 5px">Following:</label><br/>
             <?php
             include_once "inc/class.follows.inc.php";
             try {
                 $folObj = new FollowManager();
-                $usernames = $folObj->getFollows()[0];
-                $uids = $folObj->getFollows()[1];
+                $usernames = $folObj->getFollowers()[0];
+                $uids = $folObj->getFollowers()[1];
 
                 for ($cnt = 0; $cnt < count($usernames); $cnt++) {
-                    echo "<div><a href='/yumme/userprofile.php?u=$uids[$cnt]&uname=$usernames[$cnt]'>$usernames[$cnt]</a></div>";
+                    echo "<div style='padding-left: 10px'><a href='/yumme/userprofile.php?u=$uids[$cnt]&uname=$usernames[$cnt]'>$usernames[$cnt]</a></div>";
                 }
 
                 unset($value);
@@ -44,6 +44,7 @@
             ?>
             <br/>
         </div>
+
     </div>
 
 
