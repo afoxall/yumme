@@ -1,5 +1,5 @@
 <?php
-
+include_once "common/base.php";
 /*
 	RecipeManager:
 		create recipe
