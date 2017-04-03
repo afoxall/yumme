@@ -28,16 +28,24 @@ class FollowManager{
 	public function addFollow(){ 
 		
 		if(isset($_GET['u'])){
+
 			$uid = $_GET['u'];
 		}
 		else{
 		    header("Location: /yumme/index.php");
         }
 
+        if($uid == $_SESSION['UID']){
+
+            header("Location: /yumme/index.php");
+
+            return;
+        }
 		
 		$sql = "INSERT IGNORE INTO follow SET follower = :follower, followee = :followee";
-		
+
 		if($stmt = $this->_db->prepare($sql)){
+
 			$stmt->bindParam(':follower', $_SESSION['UID']);
 			$stmt->bindParam(':followee', $uid);
 			$stmt->execute();
@@ -53,18 +61,7 @@ class FollowManager{
 		if(isset($_POST['uid'])){
 			$uid = $_POST['uid'];	
 		}
-		/*else if(isset($_POST['uname'])){
-			$sql = "select uid FROM user WHERE uname = :uname";
-		
-			if($stmt = $this->_db->prepare($sql)){
-				$stmt->bindParam(':uname', $_SESSION['uname']);
-				$stmt->execute();
-			}
-			else
-			{
-				return "tttt<li> Something went wrong getting the uid. ", $db->errorInfo, "</li>n";
-			}
-		}*/
+
 		else{
 			return "tttt<li> I need either the uid or uname. " . $this->_db->errorInfo . "</li>n";
 			return;
@@ -87,18 +84,7 @@ class FollowManager{
 		if(isset($_POST['uid'])){
 			$uid = $_POST['uid'];	
 		}
-		/*else if(isset($_POST['uname'])){
-			$sql = "select uid FROM user WHERE uname = :uname";
-		
-			if($stmt = $this->_db->prepare($sql)){
-				$stmt->bindParam(':uname', $_SESSION['uname']);
-				$stmt->execute();
-			}
-			else
-			{
-				return "tttt<li> Something went wrong getting the uid. ", $db->errorInfo, "</li>n";
-			}
-		}*/
+
 		else{
 			return "tttt<li> I need the uid. " . $this->_db->errorInfo . "</li>n";
 			return;

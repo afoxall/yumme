@@ -197,7 +197,9 @@ CREATE TABLE Follow(
 	follower int,
 	FOREIGN KEY (follower) REFERENCES User(UID) ON DELETE CASCADE,
 	followee int,
-	FOREIGN KEY (followee) REFERENCES User(UID) ON DELETE CASCADE
+	FOREIGN KEY (followee) REFERENCES User(UID) ON DELETE CASCADE,
+	
+	CONSTRAINT UC_Follow UNIQUE (follower,followee)
 	)";
 
 if ($conn->query($sql) === TRUE) {

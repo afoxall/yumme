@@ -5,7 +5,7 @@
 </head>
     <div id="viewsidebar" style="vertical-align: top">
         <div id="following">
-            <label style="vertical-align: top; padding-left: 5px">Followers:</label><br/>
+            <label style="vertical-align: top; padding-left: 5px">Following:</label><br/>
             <?php
             include_once "inc/class.follows.inc.php";
             try {
@@ -25,7 +25,7 @@
             <br/>
         </div>
         <div id="followers">
-            <label style="vertical-align: top; padding-left: 5px">Following:</label><br/>
+            <label style="vertical-align: top; padding-left: 5px">Followers:</label><br/>
             <?php
             include_once "inc/class.follows.inc.php";
             try {

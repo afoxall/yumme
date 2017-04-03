@@ -38,10 +38,11 @@ include_once "common/sidebar.php";
         include_once 'inc/class.follows.inc.php';
 
         $recipes = new RecipeManager($db);
-        $u = 1;//$_GET['u'];
+        $u = $_GET['u'];
         $name=$_GET['uname'];
         $res = "<br><p align=\"center\" ><label style=\"font-size:500%\"align=\"center\" class=\"title\">$name</label></p>";
         $res .= "<br><div align='center'><a href=\"/yumme/addfollows.php?u=$u\">Follow</a></div>";
+        if($_SESSION[''])
         $res .= $recipes->getUsersRecipes(array($_GET['u']), 20);
         echo $res;
 
