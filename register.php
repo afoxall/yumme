@@ -3,7 +3,7 @@ include_once "common/base.php";
 $pageTitle = "Verify Your Account";
 
 
-echo "<div style=\"color:black; text-align:center;\">". $_POST['v']."</div>";
+//echo "<div style=\"color:black; text-align:center;\">". $_POST['v']."</div>";
 
 if(isset($_GET['v']) && isset($_GET['e']))
 {

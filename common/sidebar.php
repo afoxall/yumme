@@ -6,16 +6,44 @@
     <div id="viewsidebar" style="vertical-align: top">
         <div id="following">
             <label style="vertical-align: top">People I'm Following:</label><br/>
-            <p>This is a test</p><br/>
+            <?php
+            include_once "inc/class.follows.inc.php";
+            try {
+                $folObj = new FollowManager();
+                $res = $folObj->getFollowers()[0];
+
+                foreach ($res as &$value) {
+                    echo "<div><label>$value</label></div>";
+                }
+
+                unset($value);
+            } catch(Exception $e) {
+                echo 'Message: ' .$e->getMessage();
+            }
+            ?>
+            <br/>
         </div>
         <div id="followers">
             <label style="vertical-align: top">People Following Me:</label><br/>
-            <p>This is another test</p><br/>
+            <?php
+            include_once "inc/class.follows.inc.php";
+            try {
+                $folObj = new FollowManager();
+                $res = $folObj->getFollows()[0];
+
+                foreach ($res as &$value) {
+                    echo "<div><label>$value</label></div>";
+                }
+
+                unset($value);
+            } catch(Exception $e) {
+                echo 'Message: ' .$e->getMessage();
+            }
+            ?>
+            <br/>
         </div>
     </div>
-    <?php
 
-    ?>
 
 
 

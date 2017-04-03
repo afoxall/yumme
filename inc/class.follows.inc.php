@@ -124,16 +124,19 @@ class FollowManager{
 	public function getFollowers(){
 		
 		//get current user's uid
-		$sql = "SELECT uid FROM follows WHERE followee = :uid";
+		$sql = "SELECT uname, uid FROM follow join user on follow.follower = user.uid  WHERE follow.followee = :uid";
 		
-		$res = array();
+		$usernames = array();
+		$uids = array();
+
 		if($stmt = $this->_db->prepare($sql)){
 			$stmt->bindParam(':uid', $_SESSION['UID']);
 			$stmt->execute();
 			
 			$count = 0;
 			while($row = $stmt->fetch()){
-				$res[$count] = $row['uid'];
+				$usernames[$count] = $row['uname'];
+				$uids[$count] = $row['uid'];
 				$count++;
 			}
 			$stmt->closeCursor();
@@ -142,7 +145,7 @@ class FollowManager{
         {
             return "tttt<li> Something went wrong. " . $this->_db->errorInfo. "</li>n";
         }
-		return $res;
+		return [$usernames, $uids];
 	}
 	/*
 	* return back xml containing all of the current user's follows (uname, uid for now)
@@ -152,8 +155,10 @@ class FollowManager{
 		//$sql = "SELECT uid, uname FROM  user, follows
 		//where follows.follower = :uid and follows.followee = user.uid"; // TODO sketchy, defs test
 
-        $sql = "SELECT followee from follow where follower=:uid";
-		$res = array();
+        $sql = "SELECT uname, uid FROM follow join user on follow.followee = user.uid  WHERE follow.follower = :uid";
+		$usernames = array();
+		$uids = array();
+
 		if($stmt = $this->_db->prepare($sql)){
 			$stmt->bindParam(':uid', $_SESSION['UID']);
 			$stmt->execute();
@@ -164,8 +169,8 @@ class FollowManager{
 							<uname>".$row['uname']."</uname>
 							<uid>".$row['uid']."</uid>
 						</user>";*/
-                array_push($res, $row['followee']);
-
+                array_push($usernames, $row['uname']);
+                array_push($uids, $row['uid']);
 			}
 			$stmt->closeCursor();
 		}
@@ -173,7 +178,7 @@ class FollowManager{
         {
             return "tttt<li> Something went wrong. ". $this->_db->errorInfo. "</li>n";
         }
-		return $res;
+		return [$usernames, $uids];
 	}
 	}
 	?>
