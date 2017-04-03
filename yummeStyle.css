@@ -1,9 +1,49 @@
 html, body, div, span,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, b, u, i, center,
+ b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend {
     background: transparent;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+    font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+a.two:link {
+    background: transparent;
+    color: #ffffff;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+    font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+a.two:visited {
+    background: transparent;
+    color: #ffffff;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+    font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+a:link {
+    background: transparent;
+    color: #8E989E;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+    font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+a:visited {
+    background: transparent;
+    color: #8E989E;
     border: 0;
     margin: 0;
     padding: 0;
@@ -201,7 +241,7 @@ h2 { font-size: 30px; line-height:38px; font-weight:normal; }
             font-size: 20px;
 }
 
-.aLabel{ display: block;
+.c{ display: block;
     color: #8E989E;
     letter-spacing: 1px;
     font-size: 20px;
