@@ -59,12 +59,14 @@ include_once "common/sidebar.php";
                         </p>
 
                         <p>
-                            <h4 class="title" style="color:#141823">Select Difficulty:</h4>
+                            <h4 class="title" style="color:#141823">Select Difficulty:</h4><br/>
+                        <div class="styled_select">
                             <select id="diff" name="diff">
                                 <option value="easy">Easy</option>
                                 <option value="intermediate">Intermediate</option>
                                 <option value="hard">Hard</option>
                             </select>
+                        </div>
                         </p>
 
                         <h4 class="title" style="color:#141823">Enter the ingredients below: </h4>
