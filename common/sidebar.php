@@ -10,10 +10,11 @@
             include_once "inc/class.follows.inc.php";
             try {
                 $folObj = new FollowManager();
-                $res = $folObj->getFollowers()[0];
+                $usernames = $folObj->getFollowers()[0];
+                $uids = $folObj->getFollowers()[1];
 
-                foreach ($res as &$value) {
-                    echo "<div><label>$value</label></div>";
+                for ($cnt = 0; $cnt < count($usernames); $cnt++) {
+                    echo "<div><a href='/yumme/userprofile.php?u=$uids[$cnt]&uname=$usernames[$cnt]'>$usernames[$cnt]</a></div>";
                 }
 
                 unset($value);
@@ -29,10 +30,11 @@
             include_once "inc/class.follows.inc.php";
             try {
                 $folObj = new FollowManager();
-                $res = $folObj->getFollows()[0];
+                $usernames = $folObj->getFollows()[0];
+                $uids = $folObj->getFollows()[1];
 
-                foreach ($res as &$value) {
-                    echo "<div><label>$value</label></div>";
+                for ($cnt = 0; $cnt < count($usernames); $cnt++) {
+                    echo "<div><a href='/yumme/userprofile.php?u=$uids[$cnt]&uname=$usernames[$cnt]'>$usernames[$cnt]</a></div>";
                 }
 
                 unset($value);
