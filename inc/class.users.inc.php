@@ -256,7 +256,7 @@ EMAIL;
 	* Admin functoin to remove bad users. expects uid in post
 	*/
 	public function deleteUser(){
-		$sql = "SELECT COUNT(aid) AS theCount FROM adminstrator where uid=:uid";
+		$sql = "SELECT COUNT(aid) AS theCount FROM administrator where uid=:uid";
 
 		if($stmt = $this->_db->prepare($sql)){
 			$stmt->bindParam(":uid", $_SESSION['UID'], PDO::PARAM_INT);
@@ -282,6 +282,8 @@ EMAIL;
 		else{
 			return "Something went wrong deleting the user.";
 		}
+		echo "hello";
+		return "done";
 	}
 	
 }

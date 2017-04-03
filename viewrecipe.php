@@ -29,6 +29,7 @@ include_once "common/base.php";
             $pageTitle = "Welcome to Yumme";
 
             $recObj = new RecipeManager();
+
             echo $recObj->getFullRecipe();?>
 
         </form>

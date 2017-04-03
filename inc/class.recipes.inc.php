@@ -143,11 +143,15 @@ class RecipeManager{
 			$stmt->execute();
 
 			while($row = $stmt->fetch()){
+			    $rev = $row['RevID'];
 				$res .= "<div>
-							<h4  style=\"color:#141823; text-align:center;\"> Rating:".$row['rating']."
-							Date: ".$row['Date']."</text>
-							</h4><p style=\"color:#141823; text-align:center;\">".$row['text']."</p>
-						</div>";
+							<h4  style=\"color:#141823; text-align:center;\"> Rating: ".$row['rating']."
+							Date: ".$row['Date']. "</h4><p style=\"color:#141823; text-align:center;\">".$row['text']."</p>";
+
+				if($_SESSION['ISADMIN']==1){
+				    $res .= "<a style=\"color:#141823\" href=\"/yumme/admin.php?drev=$rev\">Delete Review</a>";
+                }
+                $res .= "</div>";
 			}
 
 		}
@@ -168,8 +172,12 @@ class RecipeManager{
                         <option value=\"5\">5</option>
                     </select>
                     </td>
-                    <td><a href=\"/yumme/reblog.php?r=$rid\"> Reblog</a></a></td>
-                </tr>
+                    <td><a href=\"/yumme/reblog.php?r=$rid\" style=\"color:#141823\"> Reblog</a></a></td>";
+
+        if($_SESSION['ISADMIN']==1){
+            $res .= "<td><a href=\"/yumme/admin.php?dr=$rid\" style=\"color:#141823\"> Delete Recipe</a></a></td>";
+        }
+        $res .= "</tr>
                 </table>
             ";
 
@@ -188,7 +196,7 @@ class RecipeManager{
 		//$sql = "SELECT title, prepTime + cookTime as time, difficulty FROM recipe WHERE authorID IN ('$ids') ORDER BY date LIMIT :n";
 
         $sql = "SELECT recipe.rid, recipe.authorID, recipe.title, recipe.prepTime + recipe.cookTime as time, recipe.description, recipe.imagename, user.uname, 
-recipe.difficulty from recipe join user on recipe.authorID=user.uid where recipe.authorID in ('$ids') or exists(select * from reblog where uid in ('$ids'))";
+recipe.difficulty from recipe join user on recipe.authorID=user.uid where recipe.authorID in ('$ids') or exists(select * from reblog where uid in ('$ids')  and rid=recipe.rid)";
 		$res = "";
 
 
@@ -439,7 +447,7 @@ recipe.difficulty from recipe join user on recipe.authorID=user.uid where recipe
 	//expects a field 'rid' in the POST
 	public function deleteRecipe(){
 		
-		$sql = "SELECT COUNT(aid) AS theCount FROM adminstrator where uid=:uid";
+		$sql = "SELECT COUNT(aid) AS theCount FROM administrator where uid=:uid";
 
 		if($stmt = $this->_db->prepare($sql)){
 			$stmt->bindParam(":uid", $_SESSION['UID'], PDO::PARAM_INT);
@@ -457,7 +465,7 @@ recipe.difficulty from recipe join user on recipe.authorID=user.uid where recipe
 		
 		$sql = "DELETE FROM recipe WHERE rid=:rid";
 		if($stmt = $this->_db->prepare($sql)){
-			$stmt->bindParam(":rid", $_POST['rid'], PDO::PARAM_INT);
+			$stmt->bindParam(":rid", $_GET['dr'], PDO::PARAM_INT);
 			$stmt->execute();
 		}
 		else{
@@ -466,7 +474,7 @@ recipe.difficulty from recipe join user on recipe.authorID=user.uid where recipe
 	}
 	//expects post field revid
 	public function deleteReview(){
-		$sql = "SELECT COUNT(aid) AS theCount FROM adminstrator where uid=:uid";
+		$sql = "SELECT COUNT(aid) AS theCount FROM administrator where uid=:uid";
 
 		if($stmt = $this->_db->prepare($sql)){
 			$stmt->bindParam(":uid", $_SESSION['UID'], PDO::PARAM_INT);
@@ -484,7 +492,7 @@ recipe.difficulty from recipe join user on recipe.authorID=user.uid where recipe
 		
 		$sql = "DELETE FROM review WHERE revid=:revid";
 		if($stmt = $this->_db->prepare($sql)){
-			$stmt->bindParam(":revid", $_POST['revid'], PDO::PARAM_INT);
+			$stmt->bindParam(":revid", $_GET['drev'], PDO::PARAM_INT);
 			$stmt->execute();
 		}
 		else{

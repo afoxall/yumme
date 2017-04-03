@@ -62,7 +62,7 @@ else:
                 </p>
                 <div class="utensilInput">
                 <p>
-                    <input type="text" id="utensil" name="utensils[]" placeholder="Utensils (separated by commas)" value="" class="radius" />
+                    <input type="text" id="utensil" name="utensils[]" placeholder="Utensils" value="" class="radius" />
                 </p>
 
                 </div>
