@@ -80,7 +80,7 @@ else:
                 <p>
                     <input type="file" name="fileToUpload" id="fileToUpload"><br>
 
-                    <button type="submit" name="save" id="save" class="radius title" name="signup">Submit!</button>
+                    <button type="submit" name="save" id="save" style="margin-top:10px"class="radius title" name="signup">Submit!</button>
                     <input type="hidden" name="action" id="action" value="addRec"/>
 
                 </p>

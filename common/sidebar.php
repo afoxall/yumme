@@ -6,19 +6,21 @@
     <div id="viewsidebar" style="vertical-align: top">
 
         <br/>
-        <div id="searchRecipe">
+        <div id="searchRecipe"  class="searchBar">
+
             <form action="search.php" method="post">
-                <input type="text" id="query" name="query" value="find recipe">
-                <input type="submit" value="search">
+                <input type="text" id="query" name="query" placeholder="find recipe">
+                <input type="submit" id="searchButton" value="Search"/>
                 <input type="hidden" name="action" id="action" value="searchrecipes">
             </form>
+
         </div>
         <br/>
 
-        <div id="searchUsers">
+        <div id="searchUsers" class="searchBar" >
             <form action="users.php" method="post">
-                <input type="text" id="user" name="user" value="find user">
-                <input type="submit" value="search">
+                <input type="text" id="user" name="user" placeholder="find user">
+                <input type="submit" id="searchButton"  value="Search"/>
                 <input type="hidden" name="action" id="action" value="searchusers">
             </form>
         </div>

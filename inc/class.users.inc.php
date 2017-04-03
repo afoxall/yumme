@@ -358,7 +358,7 @@ EMAIL;
 
 		}
 		else{
-			//header("Location: /yumme/index.php");
+			header("Location: /yumme/index.php");
 		}
 
 	}

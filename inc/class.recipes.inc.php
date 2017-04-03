@@ -186,7 +186,7 @@ class RecipeManager{
             ";
 
         $res .= "<p><input type=\"text\" id=\"review\" name=\"review\" placeholder=\"Review this Recipe!\" class=\"radius\" />
-             <button type=\"submit\" class=\"radius title\" name=\"signup\">Submit</button></p>";
+             <button type=\"submit\" class=\"radius title\" style=\"margin-top:10px\" name=\"signup\">Submit</button></p>";
 		return $res . "</div>";
 	}
 	
