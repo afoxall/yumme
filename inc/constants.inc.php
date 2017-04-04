@@ -12,5 +12,5 @@ else{
     define('DB_NAME', 'yumme_db');
 }
 define('DB_PORT', '3306');
-
+define('S3_URL', "http://yumme-images.s3.amazonaws.com/");
 ?>

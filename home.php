@@ -4,14 +4,15 @@ $pageTitle = "Home";
 include_once "inc/constants.inc.php";
 
 if(!empty($_SESSION['LoggedIn']) && !empty($_SESSION['UID'])):
-    header("Location: /".BASE_URL . "/index.php");
+    header("Location: /index.php");
 
 
 elseif(!empty($_POST['email']) && !empty($_POST['password'])):
     include_once 'inc/class.users.inc.php';
     $users = new UserManager($db);
     if($users->accountLogin()==TRUE):
-        header("Location: /".BASE_URL . "/index.php");
+
+        header("Location: /index.php");
         exit;
 
     else:

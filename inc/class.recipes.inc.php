@@ -22,6 +22,10 @@ class RecipeManager{
 			$dsn = "mysql:host=".DB_HOST.";dbname=".DB_NAME;
 			$this->_db = new PDO($dsn, DB_USER, DB_PASSWORD);
 		}
+        $this->whitelist = array(
+            '127.0.0.1',
+            '::1'
+        );
 	}
 	/*
 		Returns XML containing the entire recipe and its reviews (maybe limit reviews # to n most recent)?
@@ -42,17 +46,17 @@ class RecipeManager{
 			if($stmt->rowCount()==1){
 				$recipe = $stmt->fetch();
 				//echo $recipe['title'];
-                $uid=$recipe['uid'];
-                $uname=$recipe['uname'];
+                $uid=$recipe['UID'];
+                $uname=$recipe['UName'];
 
-                $date = DateTime::createFromFormat('Y-m-d H:i:s', $recipe['date']);
+                $date = DateTime::createFromFormat('Y-m-d H:i:s', $recipe['Date']);
                 $date = $date->format('F jS, Y');
 
 				$res = "<p>
                         <h2 style=\"color:#141823; text-align:center;\">". $recipe['title']."</h2>
                     </p>
                     <p>
-                        <h4 style=\"color:#141823; text-align:center;\"> Created by <a style=\"color:#141823\" href=\"/userprofile.php?u=$uid&uname=$uname\">". $recipe['uname']."</a> on " . $date."</h4>
+                        <h4 style=\"color:#141823; text-align:center;\"> Created by <a style=\"color:#141823\" href=\"/userprofile.php?u=$uid&uname=$uname\">". $recipe['UName']."</a> on " . $date."</h4>
                     </p>
                     <p>
                         <h4 style=\"color:#141823; text-align:center;\" class=\"title\">".$recipe['description']."</h4>
@@ -72,10 +76,13 @@ class RecipeManager{
                 if(!$img){
                     $img = "images/default.png";
                 }
+                if(!in_array($_SERVER['REMOTE_ADDR'], $this->whitelist)){
+                    $img = S3_URL . $img;
+                }
 
 			}
 			else{
-				return "<li> Something went wrong.126 RID:". $_POST['rid'] .$this->_db->errorInfo()[0] . $this->_db->errorInfo()[1] .$this->_db->errorInfo()[2] . "</li>";
+				return "<li> Something went wrong.126 RID:". $_POST['RID'] .$this->_db->errorInfo()[0] . $this->_db->errorInfo()[1] .$this->_db->errorInfo()[2] . "</li>";
 			}
 		}
 		else{
@@ -167,7 +174,8 @@ class RecipeManager{
 							<h4  style=\"color:#141823; text-align:center;\"> Rating: ".$row['rating']."
 							Date: ".$date. "</h4><p style=\"color:#141823; text-align:center;\">".$row['text']."</p>";
 
-				if($_SESSION['ISADMIN']==1){
+
+				if($_SESSION['ISADMIN']==1 ){
 				    $res .= "<a style=\"color:#141823\" href=\"/admin.php?drev=$rev\">Delete Review</a>";
                 }
                 $res .= "</div>";
@@ -193,8 +201,8 @@ class RecipeManager{
                     </td>
                     <td><a href=\"/reblog.php?r=$rid\" style=\"color:#141823\"> Reblog</a></a></td>";
 
-        if($_SESSION['ISADMIN']==1){
-            $res .= "<td><a href=\"/admin.php?dr=$rid\" style=\"color:#141823\"> Delete Recipe</a></a></td>";
+        if($_SESSION['ISADMIN']==1 or $_SESSION['UID']==$uid){
+            $res .= "<td><a href=\"/admin.php?dr=$rid&uid=$uid\" style=\"color:#141823\"> Delete Recipe</a></a></td>";
         }
         $res .= "</tr>
                 </table>
@@ -266,12 +274,15 @@ Recipe.difficulty from Recipe join User on Recipe.authorID=User.UID where Recipe
                 //echo "File is not an image.";
                 $uploadOk = 0;
             }
+
             $num = 0;
-            while (file_exists($targetDir . $num . basename($_FILES["fileToUpload"]["name"]))) {
+            /*while (file_exists($targetDir . $num . basename($_FILES["fileToUpload"]["name"]))) {
                 $num += 1;
 
-            }
-            $target_file =$targetDir . $num . basename($_FILES["fileToUpload"]["name"]);
+            }*/
+            $target_file =$targetDir . date('Ymdms').basename($_FILES["fileToUpload"]["name"]);
+
+
             $uploadOk = 1;
 
             if ($_FILES["fileToUpload"]["size"] > 500000) {
@@ -290,15 +301,38 @@ Recipe.difficulty from Recipe join User on Recipe.authorID=User.UID where Recipe
                 $tmp = "Sorry, your file was not uploaded.";
                 // if everything is ok, try to upload file
             } else {
-                if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-                    $tmp = "The file " . basename($_FILES["fileToUpload"]["name"]) . " has been uploaded.";
-                } else {
-                    $tmp = "Sorry, there was an error uploading your file.";
+
+
+
+                if(in_array($_SERVER['REMOTE_ADDR'], $this->whitelist)){
+                    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+                        $tmp = "The file " . basename($_FILES["fileToUpload"]["name"]) . " has been uploaded.";
+                    } else {
+                        $tmp = "Sorry, there was an error uploading your file.";
+                    }
                 }
+                else{
+
+                $s3 = new Aws\S3\S3Client([
+                    'version' => 'latest',
+                    'region'  => 'us-east-1'
+                ]);
+
+                $result = $s3->putObject([
+                    'Bucket' => 'yumme-images',
+                    'Key'    => $target_file,
+                    'SourceFile' => $_FILES["fileToUpload"]["tmp_name"],
+                    'ACL' => "public-read-write"
+                ]);
+                echo $result;
+                }
+
             }
 
         }
         if($uploadOk == 1){
+
+
             $fileName = $target_file;
         }
         else{
@@ -434,25 +468,28 @@ Recipe.difficulty from Recipe join User on Recipe.authorID=User.UID where Recipe
 	*/
 	
 	//expects a field 'rid' in the POST
-	public function deleteRecipe(){
-		
-		$sql = "SELECT COUNT(AID) AS theCount FROM Administrator where UID=:uid";
+	public function deleteRecipe()
+    {
 
-		if($stmt = $this->_db->prepare($sql)){
-			$stmt->bindParam(":uid", $_SESSION['UID'], PDO::PARAM_INT);
-			$stmt->execute();
-			$row = $stmt->fetch();
-			if($row['theCount']==0){
-				return "<h2> Error </h2>" . 
-					"<p> Only administrators can do this. </p>";
-			}
-			$stmt ->closeCursor();
-		}
-		else{
-			return "Something went wrong checking the admin table.";
-		}
+        if ($_GET['uid'] != $_SESSION['UID']) {
+            $sql = "SELECT COUNT(AID) AS theCount FROM Administrator where UID=:uid";
+
+            if ($stmt = $this->_db->prepare($sql)) {
+                $stmt->bindParam(":uid", $_SESSION['UID'], PDO::PARAM_INT);
+                $stmt->execute();
+                $row = $stmt->fetch();
+                if ($row['theCount'] == 0) {
+                    return "<h2> Error </h2>" .
+                        "<p> Only administrators can do this. </p>";
+                }
+                $stmt->closeCursor();
+            } else {
+                return "Something went wrong checking the admin table.";
+            }
+        }
+
 		
-		$sql = "DELETE FROM recipe WHERE rid=:rid";
+		$sql = "DELETE FROM Recipe WHERE RID=:rid";
 		if($stmt = $this->_db->prepare($sql)){
 			$stmt->bindParam(":rid", $_GET['dr'], PDO::PARAM_INT);
 			$stmt->execute();
@@ -540,6 +577,13 @@ Recipe.difficulty from Recipe join User on Recipe.authorID=User.UID where Recipe
 
     public function getRecipePanel($row){
 
+        $s3 = new Aws\S3\S3Client([
+            'version' => 'latest',
+            'region'  => 'us-east-1'
+        ]);
+
+
+
 	    $res = "";
         $n = $row['title'];
         $t = $row['time'];
@@ -552,6 +596,11 @@ Recipe.difficulty from Recipe join User on Recipe.authorID=User.UID where Recipe
         if(!$img){
             $img = "images/default.png";
         }
+
+        if(!in_array($_SERVER['REMOTE_ADDR'], $this->whitelist)){
+            $img = S3_URL . $img;
+        }
+
         $res .= "<div class=\"login_form\">
                             <div class=\"loginbox radius\">
                             <div class=\"loginboxinner radius\">
@@ -563,7 +612,7 @@ Recipe.difficulty from Recipe join User on Recipe.authorID=User.UID where Recipe
                                             <table>
                                             
                                             <tr>
-                                            <td><form id=\"recipe\" action=\"viewRecipe.php\" method=\"post\">
+                                            <td><form id=\"recipe\" action=\"viewrecipe.php\" method=\"post\">
                                                     <p>
                                                         <h4 class=\"title\" style=\"color:#141823; font-size:150%\">$n</h4>
                                                     </p>

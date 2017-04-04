@@ -11,7 +11,8 @@
  
     // Include site constants
     include_once "inc/constants.inc.php";
- 
+    include_once "resources/aws.phar";
+
     // Create a database object
     try {
         $dsn = "mysql:host=".DB_HOST.";dbname=".DB_NAME;
@@ -20,4 +21,7 @@
         echo 'Connection failed: ' . $e->getMessage();
         exit;
     }
+
+
+
 ?>

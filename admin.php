@@ -9,7 +9,7 @@ include_once 'common/base.php';
  * Date: 2017-04-02
  * Time: 10:29 PM
  */
-    if(isset($_SESSION['LoggedIn']) && isset($_SESSION['UID']) &&$_SESSION['ISADMIN']==1){
+    if(isset($_SESSION['LoggedIn']) && isset($_SESSION['UID'])){
         if(isset($_GET['du'])){
             $user = new UserManager();
             echo $user->deleteUser();

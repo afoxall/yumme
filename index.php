@@ -48,6 +48,8 @@ if(isset($_SESSION['LoggedIn']) && isset($_SESSION['UID'])):
     array_push($followArray, $_SESSION["UID"]);
 
     $res = $recipes->getUsersRecipes($followArray, 20);
+
+
     ?>
     <div id="login_form">
         <?php echo $res; ?>

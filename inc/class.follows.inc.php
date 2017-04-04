@@ -110,8 +110,9 @@ class FollowManager{
 	public function getFollowers(){
 		
 		//get current user's uid
-		$sql = "SELECT UName, UID FROM Follow join User on follow.follower = user.UID  WHERE follow.followee = :uid";
-		
+		//$sql = "SELECT UName, UID FROM Follow join User on follow.follower = user.UID  WHERE follow.followee = :uid";
+		$sql="SELECT UName, UID FROM User where exists (select * from Follow where follower=User.UID and Follow.followee=:uid)";
+
 		$usernames = array();
 		$uids = array();
 
@@ -121,8 +122,8 @@ class FollowManager{
 			
 			$count = 0;
 			while($row = $stmt->fetch()){
-				$usernames[$count] = $row['uname'];
-				$uids[$count] = $row['uid'];
+				$usernames[$count] = $row['UName'];
+				$uids[$count] = $row['UID'];
 				$count++;
 			}
 			$stmt->closeCursor();
@@ -141,8 +142,10 @@ class FollowManager{
 		//$sql = "SELECT uid, uname FROM  user, follows
 		//where follows.follower = :uid and follows.followee = user.uid"; // TODO sketchy, defs test
 
-        $sql = "SELECT UName, UID FROM Follow join User on follow.followee = user.UID  WHERE follow.follower = :uid";
-		$usernames = array();
+        //$sql = "SELECT UName, UID FROM Follow join User on follow.followee = user.UID  WHERE follow.follower = :uid";
+        $sql="SELECT UName, UID FROM User where exists (select * from Follow where followee=User.UID and Follow.follower=:uid)";
+        
+        $usernames = array();
 		$uids = array();
 
 		if($stmt = $this->_db->prepare($sql)){
@@ -151,12 +154,9 @@ class FollowManager{
 			
 			$count = 0;
 			while($row = $stmt->fetch()){
-				/*$res.= "<user>
-							<uname>".$row['uname']."</uname>
-							<uid>".$row['uid']."</uid>
-						</user>";*/
-                array_push($usernames, $row['uname']);
-                array_push($uids, $row['uid']);
+
+                array_push($usernames, $row['UName']);
+                array_push($uids, $row['UID']);
 			}
 			$stmt->closeCursor();
 		}

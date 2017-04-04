@@ -178,9 +178,9 @@ EMAIL;
 			
 			if($stmt->rowCount()==1){
 					$row = $stmt->fetch();
-					$_SESSION['UID'] = $row['uid'];
+					$_SESSION['UID'] = $row['UID'];
 					$_SESSION['LoggedIn'] = 1;
-					$_SESSION['UNAME'] = $row['uname'];
+					$_SESSION['UNAME'] = $row['UName'];
 			}
 			else{
 				return FALSE;
