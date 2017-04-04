@@ -41,10 +41,10 @@ include_once "common/sidebar.php";
         $u = $_GET['u'];
         $name=$_GET['uname'];
         $res = "<div class='titlebox'> <p align=\"center\" ><label style=\"font-size:500%\"align=\"center\" class=\"title\">$name</label></p>";
-        $res .= "<br><div align='center'><a href=\"/yumme/addfollows.php?u=$u\">Follow</a></div>";
+        $res .= "<br><div align='center'><a href=\"/addfollows.php?u=$u\">Follow</a></div>";
         if($_SESSION['ISADMIN'] == 1){
-            $res .= "<div align='center'><a href=\"/yumme/admin.php?du=$u\">Delete user</a></div>";
-            $res .= "<div align='center'><a href=\"/yumme/admin.php?adda=$u\">Make Admin</a></div>";
+            $res .= "<div align='center'><a href=\"/admin.php?du=$u\">Delete user</a></div>";
+            $res .= "<div align='center'><a href=\"/admin.php?adda=$u\">Make Admin</a></div>";
         }
         $res .= "</div>";
 
@@ -58,7 +58,7 @@ include_once "common/sidebar.php";
 
 
 
-    <?php else: header("Location: /yumme/login.php");
+    <?php else: header("Location: /home.php");
 
 
     endif; ?>

@@ -8,6 +8,6 @@ include_once "inc/class.recipes.inc.php";
 
 $recObj = new RecipeManager();
 $recObj->reblog();
-header("Location: /yumme/index.php");
+header("Location: /index.php");
 
 ?>

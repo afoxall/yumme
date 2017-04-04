@@ -15,17 +15,17 @@ if(!empty($_POST['action'])
     {
         case 'addRec':
             echo $recObj->addRecipe();
-            header("Location: /yumme/index.php"); //change this to take you to the apge for that recipe if successful
+            header("Location: /index.php"); //change this to take you to the apge for that recipe if successful
             break;
         case 'getFull':
-            header("Location: /yumme/viewrecipe.php");
+            header("Location: /viewrecipe.php");
             break;
         case 'getUsers':
             $recObj->getUsersRecipes();
             break;
         case 'addReview':
             echo $recObj->addReview();
-            header("Location: /yumme/viewrecipe.php?rid=".$_POST['rid']);
+            header("Location: /viewrecipe.php?rid=".$_POST['rid']);
             break;
         case 'searchRecipes':
             echo $recObj->recipeSearch();
@@ -37,13 +37,13 @@ if(!empty($_POST['action'])
 			echo $recObj->deleteReview();
 			break;
         default:
-            header("Location: /yumme/index.php");
+            header("Location: /index.php");
             break;
     }
 }
 else{
 
-    header("Location: /yumme/index.php");
+    header("Location: /index.php");
     exit;
 }
  

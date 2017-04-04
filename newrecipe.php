@@ -4,7 +4,7 @@ $pageTitle = "New Recipe";
 include_once "common/header.php";
 
 if($_SESSION['LoggedIn'] == 0):
-    header("Location: /yumme/login.php");
+    header("Location: /home.php");
 else:
 //need to figure out how to structure the form (or maybe use something other than a form?) and generate the xml the recipe class expects
 ?>

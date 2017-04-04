@@ -41,7 +41,7 @@
                     $uids = $folObj->getFollows()[1];
 
                     for ($cnt = 0; $cnt < count($usernames); $cnt++) {
-                        echo "<div style='padding-left: 10px'><a href='/yumme/userprofile.php?u=$uids[$cnt]&uname=$usernames[$cnt]'>$usernames[$cnt]</a></div>";
+                        echo "<div style='padding-left: 10px'><a href='/userprofile.php?u=$uids[$cnt]&uname=$usernames[$cnt]'>$usernames[$cnt]</a></div>";
                     }
 
                     unset($value);
@@ -61,7 +61,7 @@
                     $uids = $folObj->getFollowers()[1];
 
                     for ($cnt = 0; $cnt < count($usernames); $cnt++) {
-                        echo "<div style='padding-left: 10px'><a href='/yumme/userprofile.php?u=$uids[$cnt]&uname=$usernames[$cnt]'>$usernames[$cnt]</a></div>";
+                        echo "<div style='padding-left: 10px'><a href='/userprofile.php?u=$uids[$cnt]&uname=$usernames[$cnt]'>$usernames[$cnt]</a></div>";
                     }
 
                     unset($value);

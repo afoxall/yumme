@@ -1,11 +1,8 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "yumme_db";
 
+include_once "inc/constants.inc.php";
 // Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT);;
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
@@ -73,7 +70,7 @@ if ($conn->query($sql) === TRUE) {
 
 $sql = 	"
 	CREATE TRIGGER recipe_before_insert 
-	BEFORE INSERT ON RECIPE
+	BEFORE INSERT ON recipe
 	FOR EACH ROW
 	BEGIN
     IF NOT NEW.difficulty IN ('Easy', 'Intermediate', 'Hard') THEN
@@ -138,15 +135,15 @@ $sql = "CREATE TABLE Review(
 	
 
 if ($conn->query($sql) === TRUE) {
-    echo "Table Review created successfully";
+    echo "Table Review created successfully\n";
 } else {
-    echo "Error creating table Review: " . $conn->error;
+    echo "\nError creating table Review: " . $conn->error;
 }
 
 
 $sql = 	"
 	CREATE TRIGGER review_before_insert 
-	BEFORE INSERT ON REVIEW
+	BEFORE INSERT ON review
 	FOR EACH ROW
 	BEGIN
     IF NEW.rating < 0 OR NEW.rating > 5 THEN
@@ -172,9 +169,9 @@ CREATE TABLE Ingredient(
 	)";
 
 if ($conn->query($sql) === TRUE) {
-    echo "Table Ingredient created successfully";
+    echo "\nTable Ingredient created successfully\n";
 } else {
-    echo "Error creating table Ingredient: " . $conn->error;
+    echo "\nError creating table Ingredient: " . $conn->error;
 }
 
 // sql to create table
@@ -188,7 +185,7 @@ CREATE TABLE Reblog(
 	)";
 
 if ($conn->query($sql) === TRUE) {
-    echo "Table Reblog created successfully";
+    echo "Table Reblog created successfully\n";
 } else {
     echo "Error creating table Reblog: " . $conn->error;
 }
@@ -203,7 +200,7 @@ CREATE TABLE Follow(
 	)";
 
 if ($conn->query($sql) === TRUE) {
-    echo "Table Follow created successfully";
+    echo "Table Follow created successfully\n";
 } else {
     echo "Error creating table Follow: " . $conn->error;
 }

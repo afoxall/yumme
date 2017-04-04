@@ -15,11 +15,11 @@ if(!empty($_POST['action'])
     {
         case 'changeemail':
             $status = $userObj->updateEmail() ? "changed" : "failed";
-            header("Location: /yumme/account.php?email=$status");
+            header("Location: /account.php?email=$status");
             break;
         case 'changepassword':
             $status = $userObj->updateInfo() ? "changed" : "nomatch";
-            header("Location: /yumme/account.php?password=$status");
+            header("Location: /account.php?password=$status");
             break;
         case 'deleteaccount':
             $userObj->deleteAccount();
@@ -31,7 +31,7 @@ if(!empty($_POST['action'])
             $userObj->findUser();
             break;
         default:
-            header("Location: /yumme/index.php");
+            header("Location: /index.php");
             break;
     }
 }
@@ -39,7 +39,7 @@ elseif($_POST['action']=="resetpassword")
 {
     if($resp=$userObj->resetPassword()===TRUE)
     {
-        header("Location: /yumme/resetpending.php");
+        header("Location: /resetpending.php");
     }
     else
     {

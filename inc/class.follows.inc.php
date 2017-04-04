@@ -17,12 +17,12 @@ class FollowManager{
             $this->_db = $db;
         } else {
             $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME;
-            $this->_db = new PDO($dsn, DB_USER, DB_PASS);
+            $this->_db = new PDO($dsn, DB_USER, DB_PASSWORD);
         }
     }
 	
 	/*
-	* Adds a new follow to the current user
+	* Adds a new Follow to the current user
 	* POST contains the uid desired followee 
 	*/
 	public function addFollow(){ 
@@ -32,17 +32,17 @@ class FollowManager{
 			$uid = $_GET['u'];
 		}
 		else{
-		    header("Location: /yumme/index.php");
+		    header("Location: /index.php");
         }
 
         if($uid == $_SESSION['UID']){
 
-            header("Location: /yumme/index.php");
+            header("Location: /index.php");
 
             return;
         }
 		
-		$sql = "INSERT IGNORE INTO follow SET follower = :follower, followee = :followee";
+		$sql = "INSERT IGNORE INTO Follow SET follower = :follower, followee = :followee";
 
 		if($stmt = $this->_db->prepare($sql)){
 
@@ -67,7 +67,7 @@ class FollowManager{
 			return;
 		}
 		
-		$sql = "DELETE FROM follows WHERE follower = :follower, followee = :followee";
+		$sql = "DELETE FROM Follow WHERE follower = :follower, followee = :followee";
 		
 		if($stmt = $this->_db->prepare($sql)){
 			$stmt->bindParam(':follower', $_SESSION['UID']);
@@ -90,7 +90,7 @@ class FollowManager{
 			return;
 		}
 		
-		$sql = "DELETE FROM follows WHERE follower = :follower, followee = :followee";
+		$sql = "DELETE FROM Follow WHERE follower = :follower, followee = :followee";
 		
 		if($stmt = $this->_db->prepare($sql)){
 			$stmt->bindParam(':followee', $_SESSION['UID']);
@@ -110,7 +110,7 @@ class FollowManager{
 	public function getFollowers(){
 		
 		//get current user's uid
-		$sql = "SELECT uname, uid FROM follow join user on follow.follower = user.uid  WHERE follow.followee = :uid";
+		$sql = "SELECT UName, UID FROM Follow join User on follow.follower = user.UID  WHERE follow.followee = :uid";
 		
 		$usernames = array();
 		$uids = array();
@@ -141,7 +141,7 @@ class FollowManager{
 		//$sql = "SELECT uid, uname FROM  user, follows
 		//where follows.follower = :uid and follows.followee = user.uid"; // TODO sketchy, defs test
 
-        $sql = "SELECT uname, uid FROM follow join user on follow.followee = user.uid  WHERE follow.follower = :uid";
+        $sql = "SELECT UName, UID FROM Follow join User on follow.followee = user.UID  WHERE follow.follower = :uid";
 		$usernames = array();
 		$uids = array();
 

@@ -129,7 +129,7 @@ include_once "common/sidebar.php";
 
 
 
-    <?php else: header("Location: /yumme/login.php");
+    <?php else: header("Location: /home.php");
 
 
     endif; ?>

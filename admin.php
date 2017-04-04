@@ -13,22 +13,22 @@ include_once 'common/base.php';
         if(isset($_GET['du'])){
             $user = new UserManager();
             echo $user->deleteUser();
-            header("Location: /yumme/index.php");
+            header("Location: /index.php");
         }
         if(isset($_GET['dr'])){
             $rec = new RecipeManager();
             echo $rec->deleteRecipe();
-            header("Location: /yumme/index.php");
+            header("Location: /index.php");
         }
         if(isset($_GET['drev'])){
             $rec = new RecipeManager();
             echo $rec->deleteReview();
-            header("Location: /yumme/index.php");
+            header("Location: /index.php");
         }
         if(isset($_GET['adda'])){
             $user = new UserManager();
             echo $user->addAdmin();
-            header("Location: /yumme/index.php");
+            header("Location: /index.php");
         }
     }
 ?>

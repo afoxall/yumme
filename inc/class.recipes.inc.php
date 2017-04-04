@@ -20,7 +20,7 @@ class RecipeManager{
 		}
 		else{
 			$dsn = "mysql:host=".DB_HOST.";dbname=".DB_NAME;
-			$this->_db = new PDO($dsn, DB_USER, DB_PASS);
+			$this->_db = new PDO($dsn, DB_USER, DB_PASSWORD);
 		}
 	}
 	/*
@@ -29,11 +29,11 @@ class RecipeManager{
 	public function getFullRecipe(){
 
 	    if(!isset($_POST['rid'])){
-	        header("Location: /yumme/home.php");
+	        header("Location: /home.php");
         }
 		//first get the recipe (we will get the author reviews, ingredients and utensils later)
-		$sql = "SELECT recipe.description, recipe.imagename, recipe.prepTime, recipe.cookTime, recipe.difficulty, recipe.date, recipe.imagename, recipe.title, user.uname, user.uid
-              FROM recipe join user on recipe.authorID = user.UID WHERE recipe.rid=:rid";
+		$sql = "SELECT Recipe.description, Recipe.imagename, Recipe.prepTime, Recipe.cookTime, Recipe.difficulty, Recipe.Date, Recipe.imagename, Recipe.title, User.UName, User.UID
+              FROM Recipe join User on Recipe.authorID = User.UID WHERE Recipe.RID=:rid";
 
 		if($stmt = $this->_db->prepare($sql)){
 			$stmt->bindParam(':rid', $_POST['rid']);
@@ -52,7 +52,7 @@ class RecipeManager{
                         <h2 style=\"color:#141823; text-align:center;\">". $recipe['title']."</h2>
                     </p>
                     <p>
-                        <h4 style=\"color:#141823; text-align:center;\"> Created by <a style=\"color:#141823\" href=\"/yumme/userprofile.php?u=$uid&uname=$uname\">". $recipe['uname']."</a> on " . $date."</h4>
+                        <h4 style=\"color:#141823; text-align:center;\"> Created by <a style=\"color:#141823\" href=\"/userprofile.php?u=$uid&uname=$uname\">". $recipe['uname']."</a> on " . $date."</h4>
                     </p>
                     <p>
                         <h4 style=\"color:#141823; text-align:center;\" class=\"title\">".$recipe['description']."</h4>
@@ -84,7 +84,7 @@ class RecipeManager{
 
         $res .= "<p><h3 style=\"color:#141823; text-align:center;\">Ingredients:</h3></p>";
 		//now get ingredients
-		$sql = "SELECT * FROM ingredient WHERE rid=:rid";	
+		$sql = "SELECT * FROM Ingredient WHERE RID=:rid";
 		
 		if($stmt = $this->_db->prepare($sql)) {
             $stmt->bindParam(':rid', $_POST['rid']);
@@ -107,7 +107,7 @@ class RecipeManager{
         }
         $res .= "<p><h3 style=\"color:#141823; text-align:center;\">Utensils:</h3></p><p  style=\"color:#141823; text-align:center;\">";
         //now get utensils
-        $sql = "SELECT * FROM utensil WHERE rid=:rid";
+        $sql = "SELECT * FROM Utensil WHERE RID=:rid";
 
         if($stmt = $this->_db->prepare($sql)){
             $stmt->bindParam(':rid', $_POST['rid']);
@@ -126,7 +126,7 @@ class RecipeManager{
 
         $res .= "</p><p> <h3 style=\"color:#141823; text-align:center;\">Steps:</h3> </p><p>";
 		//now get instructions
-		$sql = "SELECT * FROM instruction WHERE rid=:rid";	
+		$sql = "SELECT * FROM Instruction WHERE RID=:rid";
 		
 		if($stmt = $this->_db->prepare($sql)){
 			$stmt->bindParam(':rid', $_POST['rid']);
@@ -149,7 +149,7 @@ class RecipeManager{
 
 
 		//now get reviews
-		$sql = "SELECT * FROM review WHERE recId=:rid ORDER BY date LIMIT 10"; //10 is arbitrary for now
+		$sql = "SELECT * FROM Review WHERE RecId=:rid ORDER BY Date LIMIT 10"; //10 is arbitrary for now
 		
 		if($stmt = $this->_db->prepare($sql)){
 			$stmt->bindParam(':rid', $_POST['rid']);
@@ -168,7 +168,7 @@ class RecipeManager{
 							Date: ".$date. "</h4><p style=\"color:#141823; text-align:center;\">".$row['text']."</p>";
 
 				if($_SESSION['ISADMIN']==1){
-				    $res .= "<a style=\"color:#141823\" href=\"/yumme/admin.php?drev=$rev\">Delete Review</a>";
+				    $res .= "<a style=\"color:#141823\" href=\"/admin.php?drev=$rev\">Delete Review</a>";
                 }
                 $res .= "</div>";
 			}
@@ -191,10 +191,10 @@ class RecipeManager{
                         <option value=\"5\">5</option>
                     </select>
                     </td>
-                    <td><a href=\"/yumme/reblog.php?r=$rid\" style=\"color:#141823\"> Reblog</a></a></td>";
+                    <td><a href=\"/reblog.php?r=$rid\" style=\"color:#141823\"> Reblog</a></a></td>";
 
         if($_SESSION['ISADMIN']==1){
-            $res .= "<td><a href=\"/yumme/admin.php?dr=$rid\" style=\"color:#141823\"> Delete Recipe</a></a></td>";
+            $res .= "<td><a href=\"/admin.php?dr=$rid\" style=\"color:#141823\"> Delete Recipe</a></a></td>";
         }
         $res .= "</tr>
                 </table>
@@ -214,8 +214,8 @@ class RecipeManager{
 		$ids = join("','",$ar); //this is at risk of injection but ids are never seen or enterd by users so fine
 		//$sql = "SELECT title, prepTime + cookTime as time, difficulty FROM recipe WHERE authorID IN ('$ids') ORDER BY date LIMIT :n";
 
-        $sql = "SELECT recipe.rid, recipe.authorID, recipe.title, recipe.prepTime + recipe.cookTime as time, recipe.description, recipe.imagename, user.uname, 
-recipe.difficulty from recipe join user on recipe.authorID=user.uid where recipe.authorID in ('$ids') or exists(select * from reblog where uid in ('$ids')  and rid=recipe.rid)";
+        $sql = "SELECT Recipe.rid, Recipe.authorID, Recipe.title, Recipe.prepTime + Recipe.cookTime as time, Recipe.description, Recipe.imagename, User.uname, 
+Recipe.difficulty from Recipe join User on Recipe.authorID=User.UID where Recipe.authorID in ('$ids') or exists(select * from Reblog where UID in ('$ids')  and RID=Recipe.RID)";
 		$res = "";
 
 
@@ -304,7 +304,7 @@ recipe.difficulty from recipe join user on recipe.authorID=user.uid where recipe
         else{
             $fileName = NULL;
         }
-        $sql = "INSERT INTO recipe (authorID, title, prepTime, cookTime, Difficulty, description, imagename, date) VALUES
+        $sql = "INSERT INTO Recipe (authorID, title, prepTime, cookTime, Difficulty, description, imagename, Date) VALUES
 				(:uid, :n, :prep, :cook, :diff, :description, :image, now())";
 
         if($stmt = $this->_db->prepare($sql)){
@@ -334,7 +334,7 @@ recipe.difficulty from recipe join user on recipe.authorID=user.uid where recipe
         //wonder if this can be done in one statement to go faster, but not sure how to bind a variable number of things
         $i = 1;
         foreach($_POST['instructions'] as $key => $n) {
-            $sql = "INSERT INTO instruction (rid, stepNum, Text) VALUES ($rid, $i, :text) ";
+            $sql = "INSERT INTO Instruction (RID, stepNum, Text) VALUES ($rid, $i, :text) ";
             $i += 1;
             if ($stmt = $this->_db->prepare($sql)) {
                 $stmt->bindParam(':text', $n, PDO::PARAM_STR);
@@ -345,7 +345,7 @@ recipe.difficulty from recipe join user on recipe.authorID=user.uid where recipe
         }
 
         foreach($_POST['utensils'] as $key => $n) {
-            $sql = "INSERT INTO utensil (rid,  name) VALUES ($rid, :name) ";
+            $sql = "INSERT INTO Utensil (RID,  name) VALUES ($rid, :name) ";
 
             if ($stmt = $this->_db->prepare($sql)) {
                 $stmt->bindParam(':name', $n, PDO::PARAM_STR);
@@ -358,9 +358,7 @@ recipe.difficulty from recipe join user on recipe.authorID=user.uid where recipe
         $tmp = "";
 
         for($j = 0; $j < sizeof($_POST['ingredients']['state']); $j++){
-            $sql = "INSERT INTO ingredient (rid, name, state, quantity) VALUES ($rid, :n, :state, :quantity) ";
-
-            //$tmp .= $_POST['ingredients']['name'][$j] . "  ";
+            $sql = "INSERT INTO Ingredient (RID, name, state, quantity) VALUES ($rid, :n, :state, :quantity) ";
 
             if ($stmt = $this->_db->prepare($sql)) {
                 $stmt->bindParam(':n', $_POST['ingredients']['name'][$j], PDO::PARAM_STR);
@@ -379,7 +377,7 @@ recipe.difficulty from recipe join user on recipe.authorID=user.uid where recipe
 	* Adds a new recipe 
 	*/
 	public function addReview(){ 
-		$sql = "INSERT INTO review (recId, authorID, rating, text, date) VALUES (:rid, :author, :rating, :text, now())";
+		$sql = "INSERT INTO Review (recId, authorID, rating, text, date) VALUES (:rid, :author, :rating, :text, now())";
 
 
 		if($stmt = $this->_db->prepare($sql)){
@@ -403,10 +401,8 @@ recipe.difficulty from recipe join user on recipe.authorID=user.uid where recipe
 		//this will be hard
         $query = $_POST['query'];
 
-	    $sql = "select recipe.rid, recipe.authorID, recipe.title, recipe.prepTime + recipe.cookTime as time, recipe.description, recipe.imagename, user.uname, 
-recipe.difficulty from recipe join user on recipe.authorID=user.uid where recipe.title = :query or exists(select * from ingredient where name=:query and ingredient.rid=recipe.rid)";
-        //$sql = "SELECT recipe.rid, recipe.authorID, recipe.title, recipe.prepTime + recipe.cookTime as time, recipe.description, recipe.imagename, user.uname,
-//recipe.difficulty from recipe join user on recipe.authorID=user.uid where recipe.authorID in ('$ids') or exists(select * from reblog where uid in ('$ids')  and rid=recipe.rid)";
+	    $sql = "select Recipe.rid, Recipe.authorID, Recipe.title, Recipe.prepTime + Recipe.cookTime as time, Recipe.description, Recipe.imagename, User.uname, 
+Recipe.difficulty from Recipe join User on Recipe.authorID=User.UID where Recipe.title = :query or exists(select * from Ingredient where name=:query and Ingredient.RID=Recipe.RID)";
 
         $res = "";
         if($stmt = $this->_db->prepare($sql)){
@@ -440,7 +436,7 @@ recipe.difficulty from recipe join user on recipe.authorID=user.uid where recipe
 	//expects a field 'rid' in the POST
 	public function deleteRecipe(){
 		
-		$sql = "SELECT COUNT(aid) AS theCount FROM administrator where uid=:uid";
+		$sql = "SELECT COUNT(AID) AS theCount FROM Administrator where UID=:uid";
 
 		if($stmt = $this->_db->prepare($sql)){
 			$stmt->bindParam(":uid", $_SESSION['UID'], PDO::PARAM_INT);
@@ -462,12 +458,12 @@ recipe.difficulty from recipe join user on recipe.authorID=user.uid where recipe
 			$stmt->execute();
 		}
 		else{
-			return "Something went wrong deleting a recipe.";
+			return "Something went wrong deleting a Recipe.";
 		}
 	}
 	//expects post field revid
 	public function deleteReview(){
-		$sql = "SELECT COUNT(aid) AS theCount FROM administrator where uid=:uid";
+		$sql = "SELECT COUNT(AID) AS theCount FROM Administrator where UID=:uid";
 
 		if($stmt = $this->_db->prepare($sql)){
 			$stmt->bindParam(":uid", $_SESSION['UID'], PDO::PARAM_INT);
@@ -483,7 +479,7 @@ recipe.difficulty from recipe join user on recipe.authorID=user.uid where recipe
 			return "Something went wrong checking the admin table.";
 		}
 		
-		$sql = "DELETE FROM review WHERE revid=:revid";
+		$sql = "DELETE FROM Review WHERE RevID=:revid";
 		if($stmt = $this->_db->prepare($sql)){
 			$stmt->bindParam(":revid", $_GET['drev'], PDO::PARAM_INT);
 			$stmt->execute();
@@ -499,7 +495,7 @@ recipe.difficulty from recipe join user on recipe.authorID=user.uid where recipe
             && $_SESSION['LoggedIn']==1)
         {
 
-            $sql = "SELECT * from recipe where RID=:rid and authorID = :uid";
+            $sql = "SELECT * from Recipe where RID=:rid and authorID = :uid";
 
 
             if($stmt = $this->_db->prepare($sql)){
@@ -520,7 +516,7 @@ recipe.difficulty from recipe join user on recipe.authorID=user.uid where recipe
 
 
 
-            $sql = "INSERT INTO reblog (rid, uid, date) VALUES (:rid, :uid, now())";
+            $sql = "INSERT INTO Reblog (RID, UID, Date) VALUES (:rid, :uid, now())";
             echo  $_GET['r'];
 
             if($stmt = $this->_db->prepare($sql)){
@@ -537,7 +533,7 @@ recipe.difficulty from recipe join user on recipe.authorID=user.uid where recipe
         }
         else{
 
-            header("Location: /yumme/index.php");
+            header("Location: /index.php");
             exit;
         }
     }
@@ -567,7 +563,7 @@ recipe.difficulty from recipe join user on recipe.authorID=user.uid where recipe
                                             <table>
                                             
                                             <tr>
-                                            <td><form id=\"recipe\" action=\"viewrecipe.php\" method=\"post\">
+                                            <td><form id=\"recipe\" action=\"viewRecipe.php\" method=\"post\">
                                                     <p>
                                                         <h4 class=\"title\" style=\"color:#141823; font-size:150%\">$n</h4>
                                                     </p>
@@ -576,7 +572,7 @@ recipe.difficulty from recipe join user on recipe.authorID=user.uid where recipe
                                                     </p>
                                                     <p>
                                                         <h4 class=\"title\" style=\"color:#141823\">Total Time: $t    Difficulty: $d</h4>
-                                                        <h4 class=\"title\" style=\"color:#141823\">Author: <a id='recipeLink' href='/yumme/userprofile.php?u=$u&uname=$a'>$a</a></h4>
+                                                        <h4 class=\"title\" style=\"color:#141823\">Author: <a id='recipeLink' href='/userprofile.php?u=$u&uname=$a'>$a</a></h4>
                                                     </p>
                                                     
                                                     <input name=\"rid\" type=\"hidden\" id=\"rid\" value=\"$rid\"  />

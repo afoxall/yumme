@@ -14,6 +14,6 @@ include_once "inc/class.follows.inc.php";
 
 $f = new followManager();
 $f->addFollow();
-header("Location: /yumme/index.php");
+header("Location: /index.php");
 
 ?>

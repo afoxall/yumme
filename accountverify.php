@@ -22,7 +22,7 @@
     else
     {
 
-        header("Location: /yumme/signup.php");
+        header("Location: /signup.php");
         exit;
     }
  
@@ -54,7 +54,7 @@
         endif;
     else:
 
-        header("Location: /yumme/index.php");
+        header("Location: /index.php");
 
     //echo '<meta http-equiv="refresh" content="0;/">';
     endif;

@@ -20,10 +20,10 @@ $name = $_SESSION['UNAME'];
         <div id="logo"> <img src="logo.png" style="margin:auto; width:140px; height:70px; display:block" ></> </div>
         <div id="header-main-centre">
             <form>
-            <a class="smallbutton" href="/yumme/newrecipe.php">Add a Recipe!</>
+            <a class="smallbutton" href="/newrecipe.php">Add a Recipe!</>
             </form>
             <form>
-                <a class="smallbutton" href="/yumme/logout.php">Logout</a>
+                <a class="smallbutton" href="/logout.php">Logout</a>
             </form>
         </div>
         <div id="header-main-right">
@@ -32,7 +32,7 @@ $name = $_SESSION['UNAME'];
                 <table border="0" style="border:none">
                     <tr>
                         <?php
-                            $try = "<a class=\"userLabel\" href=\"/yumme/home.php\">".$name."</a>";
+                            $try = "<a class=\"userLabel\" href=\"/home.php\">".$name."</a>";
                             echo $try;
                         ?>
                     </tr>

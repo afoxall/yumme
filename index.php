@@ -57,7 +57,7 @@ if(isset($_SESSION['LoggedIn']) && isset($_SESSION['UID'])):
 
 
  
-<?php else: header("Location: /yumme/login.php");
+<?php else: header("Location: /home.php");
 
 
 endif; ?>
