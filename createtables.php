@@ -14,7 +14,6 @@ $sql = "CREATE TABLE Administrator(
 	UID int NOT NULL,
 	PRIMARY KEY (AID),
 	FOREIGN KEY (UID) REFERENCES User(UID)
-	ON DELETE CASCADE
 	)";
 
 if ($conn->query($sql) === TRUE) {

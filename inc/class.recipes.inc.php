@@ -223,7 +223,8 @@ class RecipeManager{
 		//$sql = "SELECT title, prepTime + cookTime as time, difficulty FROM recipe WHERE authorID IN ('$ids') ORDER BY date LIMIT :n";
 
         $sql = "SELECT Recipe.rid, Recipe.authorID, Recipe.title, Recipe.prepTime + Recipe.cookTime as time, Recipe.description, Recipe.imagename, User.uname, 
-Recipe.difficulty from Recipe join User on Recipe.authorID=User.UID where Recipe.authorID in ('$ids') or exists(select * from Reblog where UID in ('$ids')  and RID=Recipe.RID)";
+Recipe.difficulty from Recipe join User on Recipe.authorID=User.UID where Recipe.authorID in ('$ids') or exists(select * from Reblog where UID in ('$ids')  and RID=Recipe.RID) 
+order by Recipe.Date DESC";
 		$res = "";
 
 
@@ -275,11 +276,6 @@ Recipe.difficulty from Recipe join User on Recipe.authorID=User.UID where Recipe
                 $uploadOk = 0;
             }
 
-            $num = 0;
-            /*while (file_exists($targetDir . $num . basename($_FILES["fileToUpload"]["name"]))) {
-                $num += 1;
-
-            }*/
             $target_file =$targetDir . date('Ymdms').basename($_FILES["fileToUpload"]["name"]);
 
 
@@ -436,9 +432,10 @@ Recipe.difficulty from Recipe join User on Recipe.authorID=User.UID where Recipe
         $query = $_POST['query'];
 
 	    $sql = "select Recipe.rid, Recipe.authorID, Recipe.title, Recipe.prepTime + Recipe.cookTime as time, Recipe.description, Recipe.imagename, User.uname, 
-Recipe.difficulty from Recipe join User on Recipe.authorID=User.UID where Recipe.title = :query or exists(select * from Ingredient where name=:query and Ingredient.RID=Recipe.RID)";
+Recipe.difficulty from Recipe join User on Recipe.authorID=User.UID where Recipe.title LIKE :query or exists(select * from Ingredient where name LIKE :query and Ingredient.RID=Recipe.RID)";
 
         $res = "";
+        $query = '%'.$query.'%';
         if($stmt = $this->_db->prepare($sql)){
             $stmt->bindParam(':query', $query);
             $stmt->execute();
@@ -542,7 +539,7 @@ Recipe.difficulty from Recipe join User on Recipe.authorID=User.UID where Recipe
                 $stmt->execute();
 
                 if($stmt->rowCount > 0){
-                    sleep(50);
+
                     return;
                 }
             }
@@ -581,8 +578,6 @@ Recipe.difficulty from Recipe join User on Recipe.authorID=User.UID where Recipe
             'version' => 'latest',
             'region'  => 'us-east-1'
         ]);
-
-
 
 	    $res = "";
         $n = $row['title'];
